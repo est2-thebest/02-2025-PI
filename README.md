@@ -187,7 +187,7 @@ usuarios (id, login, senha_hash, perfil)
 ## Backend — Primeiros Passos
 
 ```bash
-cd sosrota-backend
+cd backend
 
 # Configurar application.properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/sosrota_db
@@ -201,7 +201,7 @@ spring.datasource.password=sua_senha
 ## Frontend — Primeiros Passos
 
 ```bash
-cd sosrota-frontend
+cd frontend
 
 npm install
 npm run dev
