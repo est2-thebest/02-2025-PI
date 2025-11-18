@@ -29,28 +29,97 @@ Automatizar e agilizar o despacho de ambulâncias, calculando a melhor rota por 
 ## 🔧 Backend — Spring Boot
 
 ```
-📁 sosrota-backend/
+backend/
 ├── src/main/java/com/sosrota/
-│   ├── config/          # Configurações (Security, CORS)
-│   ├── controller/      # APIs REST
-│   ├── service/         # Regras de negócio
-│   ├── repository/      # Acesso ao banco – JPA
+│   ├── config/
+│   │   ├── SecurityConfig.java
+│   │   └── WebConfig.java (CORS)
+│   ├── controller/
+│   │   ├── AuthController.java
+│   │   ├── OcorrenciaController.java
+│   │   ├── AmbulanciaController.java
+│   │   ├── DespachoController.java
+│   │   └── RelatorioController.java
+│   ├── service/
+│   │   ├── OcorrenciaService.java
+│   │   ├── AmbulanciaService.java
+│   │   ├── DespachoService.java
+│   │   ├── DijkstraService.java       ← Algoritmo de rota
+│   │   └── AuthService.java
+│   ├── repository/
+│   │   ├── OcorrenciaRepository.java
+│   │   ├── AmbulanciaRepository.java
+│   │   ├── BairroRepository.java
+│   │   └── UsuarioRepository.java
 │   ├── model/
-│   │   ├── entity/      # Entidades
-│   │   └── dto/         # Data Transfer Objects
-│   └── exception/       # Tratamento de erros
+│   │   ├── entity/
+│   │   │   ├── Ocorrencia.java
+│   │   │   ├── Ambulancia.java
+│   │   │   ├── Bairro.java
+│   │   │   ├── Profissional.java
+│   │   │   └── Usuario.java
+│   │   └── dto/
+│   │       ├── OcorrenciaDTO.java
+│   │       ├── DespachoRequestDTO.java
+│   │       └── LoginDTO.java
+│   └── exception/
+│       └── GlobalExceptionHandler.java
+├── src/main/resources/
+│   ├── application.properties
+│   └── import.sql (dados iniciais)
+└── pom.xml
 ```
 
 ## 🎨 Frontend — React
 
 ```
-📁 sosrota-frontend/
+frontend/
+├── public/
+│   └── index.html
 ├── src/
-│   ├── components/      # Componentes reutilizáveis
-│   ├── pages/           # Telas da aplicação
-│   ├── services/        # Comunicação com a API
-│   ├── context/         # Estado global
-│   └── utils/           # Funções auxiliares
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Header.jsx
+│   │   │   ├── Sidebar.jsx
+│   │   │   └── LoadingSpinner.jsx
+│   │   ├── ocorrencias/
+│   │   │   ├── OcorrenciaList.jsx
+│   │   │   ├── OcorrenciaForm.jsx
+│   │   │   └── OcorrenciaDetails.jsx
+│   │   ├── ambulancias/
+│   │   │   ├── AmbulanciaList.jsx
+│   │   │   └── AmbulanciaForm.jsx
+│   │   ├── despacho/
+│   │   │   └── DespachoPanel.jsx
+│   │   └── relatorios/
+│   │       └── Dashboard.jsx
+│   ├── pages/
+│   │   ├── Login.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── OcorrenciasPage.jsx
+│   │   ├── AmbulanciasPage.jsx
+│   │   └── RelatoriosPage.jsx
+│   ├── services/
+│   │   ├── api.js (config axios)
+│   │   ├── authService.js
+│   │   ├── ocorrenciaService.js
+│   │   └── ambulanciaService.js
+│   ├── context/
+│   │   ├── AuthContext.jsx
+│   │   └── AppContext.jsx
+│   ├── hooks/
+│   │   ├── useAuth.js
+│   │   └── useOcorrencias.js
+│   ├── utils/
+│   │   ├── constants.js
+│   │   └── helpers.js
+│   ├── styles/
+│   │   └── global.css
+│   ├── App.jsx
+│   ├── App.css
+│   └── main.jsx
+├── package.json
+└── vite.config.js (ou webpack)
 ```
 
 ---
