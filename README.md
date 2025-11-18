@@ -1,96 +1,129 @@
-# 🚑 SOS-Rota - Sistema Inteligente de Gestão de Emergências
+# 🚑 SOS-Rota — Sistema Inteligente de Gestão de Emergências
 
 ## 📋 Sobre o Projeto
 
-Sistema desenvolvido para a **Vitalis Tech** (empresa fictícia) em parceria com a Secretaria Municipal de Saúde de Cidália. O **SOS-Rota** é uma solução tecnológica para otimizar o atendimento pré-hospitalar através de roteamento inteligente de ambulâncias.
+O **SOS-Rota** é um sistema desenvolvido para a empresa fictícia **Vitalis Tech**, em parceria com a Secretaria Municipal de Saúde de Cidália, com o objetivo de **otimizar o atendimento pré-hospitalar** por meio de despacho inteligente de ambulâncias.
 
-**Período:** 2025-2 | **Entrega:** 08/12/2025
+Projeto do período **2025-2**
+📅 **Entrega:** 08/12/2025
 
-## 🎯 Objetivo
+---
 
-Automatizar e otimizar o processo de despacho de ambulâncias em emergências médicas, calculando a melhor rota usando o algoritmo de Dijkstra e respeitando SLAs baseados na gravidade dos casos.
+## 🎯 Objetivo do Sistema
 
-## 🏗️ Arquitetura do Sistema
+Automatizar e agilizar o despacho de ambulâncias, calculando a melhor rota por meio do **Algoritmo de Dijkstra**, garantindo que cada ocorrência seja atendida dentro do **SLA definido pela gravidade**.
 
-### **Backend** - Spring Boot (REST API)
+---
+
+# 🏗️ Arquitetura do Sistema
+
+## 🧩 Visão Geral
+
+* **Backend:** Spring Boot (REST API)
+* **Frontend:** React
+* **Banco de Dados:** PostgreSQL
+* **Linguagem Principal:** Java
+
+---
+
+## 🔧 Backend — Spring Boot
+
 ```
 📁 sosrota-backend/
-├── 📂 src/main/java/com/sosrota/
+├── src/main/java/com/sosrota/
 │   ├── config/          # Configurações (Security, CORS)
-│   ├── controller/      # APIs REST (@RestController)
-│   ├── service/         # Lógica de negócio
-│   ├── repository/      # Acesso a dados (JPA)
+│   ├── controller/      # APIs REST
+│   ├── service/         # Regras de negócio
+│   ├── repository/      # Acesso ao banco – JPA
 │   ├── model/
-│   │   ├── entity/      # Entidades JPA
-│   │   └── dto/         # Objetos de transferência
+│   │   ├── entity/      # Entidades
+│   │   └── dto/         # Data Transfer Objects
 │   └── exception/       # Tratamento de erros
 ```
 
-### **Frontend** - React
+## 🎨 Frontend — React
+
 ```
 📁 sosrota-frontend/
-├── 📂 src/
-│   ├── components/      # Componentes React
-│   ├── pages/           # Páginas da aplicação
-│   ├── services/        # Comunicação com API
-│   ├── context/         # Gerenciamento de estado
+├── src/
+│   ├── components/      # Componentes reutilizáveis
+│   ├── pages/           # Telas da aplicação
+│   ├── services/        # Comunicação com a API
+│   ├── context/         # Estado global
 │   └── utils/           # Funções auxiliares
 ```
 
-## 🚀 Stack Tecnológica
+---
 
-### **Backend**
-- **Java 17+** com Spring Boot
-- **Spring Data JPA** para persistência
-- **Spring Security** para autenticação
-- **PostgreSQL** banco de dados
-- **Maven** para gerenciamento de dependências
+# 🚀 Stack Tecnológica
 
-### **Frontend**
-- **React 18** com JavaScript/TypeScript
-- **React Router** para navegação
-- **Axios** para chamadas HTTP
-- **Material-UI** para componentes visuais
-- **Context API** para gerenciamento de estado
+## **Backend**
 
-## 📊 Funcionalidades Principais
+* Java 17+
+* Spring Boot
+* Spring Data JPA
+* Spring Security + JWT
+* PostgreSQL
+* Maven
 
-### ✅ Cadastros (CRUD)
-- [ ] **Ocorrências** - Emergências e acidentes
-- [ ] **Ambulâncias** - Frota veicular (Básica/UTI)
-- [ ] **Profissionais** - Equipes de saúde
-- [ ] **Bases** - Pontos de partida das ambulâncias
+## **Frontend**
 
-### 🧠 Lógica Inteligente
-- [ ] **Algoritmo de Dijkstra** - Cálculo de rotas ótimas
-- [ ] **Despacho Automático** - Seleção de ambulância mais adequada
-- [ ] **Validação de SLA** - Tempo máximo por gravidade
-- [ ] **Gestão de Equipes** - Alocação de profissionais
+* React 18 (JS/TS)
+* React Router
+* Axios
+* Material-UI (MUI)
+* Context API
 
-### 📈 Relatórios
-- [ ] Dashboard com métricas
-- [ ] Histórico de atendimentos
-- [ ] Tempo médio de resposta
-- [ ] Mapa de ocorrências por bairro
+---
 
-## 🔐 Regras de Negócio
+# 📊 Funcionalidades
 
-### **SLAs por Gravidade**
-- **Alta**: 8 minutos → Ambulância UTI
-- **Média**: 15 minutos → Ambulância Básica
-- **Baixa**: 30 minutos → Ambulância Básica
+## 🔄 Cadastros (CRUD)
 
-### **Validações**
-- Ambulância só despachada se estiver **Disponível** e com **equipe completa**
-- Profissional não pode estar em duas equipes simultaneamente
-- Não é permitido excluir registros com histórico
+* [ ] Ocorrências
+* [ ] Ambulâncias
+* [ ] Profissionais
+* [ ] Bases
 
-## 🗃️ Modelo de Dados
+## 🧠 Inteligência do Sistema
+
+* [ ] Cálculo de rota mínima (Dijkstra)
+* [ ] Despacho automático
+* [ ] Validação de SLA por gravidade
+* [ ] Controle de equipes
+
+## 📈 Relatórios
+
+* [ ] Dashboard geral
+* [ ] Histórico de atendimentos
+* [ ] Tempo médio de resposta
+* [ ] Mapa de ocorrências por bairro
+
+---
+
+# 🔐 Regras de Negócio
+
+## ⏱️ SLAs por Gravidade
+
+| Gravidade | SLA    | Tipo de Ambulância |
+| --------- | ------ | ------------------ |
+| **Alta**  | 8 min  | UTI                |
+| **Média** | 15 min | Básica             |
+| **Baixa** | 30 min | Básica             |
+
+## ✔️ Validações Principais
+
+* Ambulância só pode ser despachada se estiver **Disponível** e com **equipe completa**.
+* Profissional não pode estar em duas equipes ao mesmo tempo.
+* Registros vinculados a histórico **não podem ser excluídos**.
+
+---
+
+# 🗃️ Modelo de Dados (Resumo)
 
 ```sql
--- Entidades principais:
 bairros (id, nome)
-bases (id, nome, bairro_id)  
+bases (id, nome, bairro_id)
 ambulancias (id, placa, tipo, status, base_id)
 profissionais (id, nome, função, contato)
 equipes (id, descrição, ambulancia_id)
@@ -99,84 +132,61 @@ atendimentos (id, ocorrencia_id, ambulancia_id, data_despacho)
 usuarios (id, login, senha_hash, perfil)
 ```
 
-👥 DIVISÃO DE TAREFAS - EQUIPE 4 PESSOAS
-🔧 BACKEND TEAM (2 PESSOAS)
-Backend Developer 1 - "Core & Segurança"
+---
 
-    Configuração Spring Boot (projeto, dependências, CORS)
+# 👥 Divisão de Tarefas — Equipe (4 integrantes)
 
-    Spring Security (autenticação JWT, hash de senhas BCrypt)
+## 🔧 Backend Team (2 pessoas)
 
-    Entidades JPA (mapeamento completo do banco)
+### **Backend Developer 1 – “Core & Segurança”**
 
-    Repositories (JPA queries básicas)
+* Configuração do projeto (dependências, CORS)
+* Autenticação e JWT
+* Entidades JPA
+* Repositórios
+* Tratamento global de erros
 
-    Validações e Exceptions (tratamento de erros global)
+### **Backend Developer 2 – “Business Logic & Algoritmos”**
 
-Backend Developer 2 - "Lógica de Negócio & Algoritmos"
+* Implementação do algoritmo de **Dijkstra**
+* Lógica de despacho
+* Regras de negócio (SLA, equipes, compatibilidade)
+* Controllers REST
+* Consultas complexas com JPA/@Query
 
-    Algoritmo de Dijkstra (cálculo de rotas - CORE do projeto)
+---
 
-    Serviços de Despacho (lógica de seleção de ambulâncias)
+## 🎨 Frontend Team (2 pessoas)
 
-    Regras de Negócio (SLA, validações de equipes, compatibilidade)
+### **Frontend Developer 1 – “Estrutura & Navegação”**
 
-    Controllers REST (endpoints da API)
+* Setup do projeto React
+* Fluxo de autenticação
+* Gerenciamento de estado (Context API)
+* Layout base (Header/Sidebar)
+* Configuração de serviços e interceptors
 
-    Consultas Complexas (@Query, joins, relatórios)
+### **Frontend Developer 2 – “CRUDs & UI/UX”**
 
-🎨 FRONTEND TEAM (2 PESSOAS)
-Frontend Developer 1 - "Estrutura & Navegação"
+* Formulários e componentes de entrada
+* Listas, tabelas, paginação e filtros
+* Telas de relatório e dashboards
+* Responsividade e refinamento visual
 
-    Configuração React (projeto, router, estrutura)
+---
 
-    Sistema de Autenticação (login, proteção de rotas)
+# 🛠️ Configuração do Ambiente
 
-    Context/State Management (AuthContext, AppContext)
+## Pré-requisitos
 
-    Layout Principal (Header, Sidebar, Dashboard)
+* Java 17+
+* Node.js 16+
+* PostgreSQL 12+
+* Git
 
-    Configuração API (axios, interceptors, services)
+## Backend — Primeiros Passos
 
-Frontend Developer 2 - "CRUDs & Interface"
-
-    Componentes de Formulário (todos os CRUDs)
-
-    Listas e Tabelas (data grids, filtros, paginação)
-
-    UI/UX e Estilização (Material-UI, CSS, temas)
-
-    Telas de Relatório (gráficos, dashboards, métricas)
-
-    Responsividade (mobile friendly)
-
-🗃️ Modelo de Dados
-sql
-
--- Entidades principais:
-bairros (id, nome)
-bases (id, nome, bairro_id)  
-ambulancias (id, placa, tipo, status, base_id)
-profissionais (id, nome, função, contato)
-equipes (id, descrição, ambulancia_id)
-ocorrencias (id, tipo, gravidade, local, data_hora, status)
-atendimentos (id, ocorrencia_id, ambulancia_id, data_despacho)
-usuarios (id, login, senha_hash, perfil)
-
-🛠️ Configuração do Ambiente
-Pré-requisitos
-
-    Java 17 ou superior
-
-    Node.js 16+ e npm
-
-    PostgreSQL 12+
-
-    Git
-
-Backend - Primeiros Passos
-bash
-
+```bash
 cd sosrota-backend
 
 # Configurar application.properties
@@ -184,109 +194,106 @@ spring.datasource.url=jdbc:postgresql://localhost:5432/sosrota_db
 spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
 
-# Executar
+# Executar backend
 ./mvnw spring-boot:run
+```
 
-Frontend - Primeiros Passos
-bash
+## Frontend — Primeiros Passos
 
+```bash
 cd sosrota-frontend
 
-# Instalar dependências
 npm install
-
-# Executar
 npm run dev
+```
 
-📅 Cronograma de Desenvolvimento
-Semana 1 (17-21/11) - Setup & Base
-Backend Team	Frontend Team
-✅ Setup Spring Boot + BD	✅ Setup React + Router
-✅ Entidades JPA	✅ Componentes base
-✅ Autenticação JWT	✅ Sistema de login
-Semana 2 (24-28/11) - Funcionalidades Core
-Backend Team	Frontend Team
-✅ Algoritmo Dijkstra	✅ CRUD Ocorrências
-✅ Serviços de Despacho	✅ CRUD Ambulâncias
-✅ Endpoints REST	✅ Dashboard principal
-Semana 3 (01-05/12) - Polimento & Relatórios
-Backend Team	Frontend Team
-✅ Relatórios + Consultas	✅ Telas de relatório
-✅ Validações finais	✅ Integração completa
-✅ Testes de performance	✅ Polimento UI/UX
-Semana 4 (08/12) - Entrega
+---
 
-| ✅ Apresentação final | ✅ Documentação | ✅ Deploy |
-🔄 Fluxo de Integração
-text
+# 📅 Cronograma de Desenvolvimento
 
-BACKEND TEAM (2) ────────────────────── FRONTEND TEAM (2)
-     ↓                                        ↓
-Spring Boot API                       React Components
-     ↓                                        ↓
-DTOs + Endpoints                      Services + Hooks
-     ↓                                        ↓
-Swagger Documentation                 Mock Data → Real API
+| Semana           | Backend                        | Frontend                       |
+| ---------------- | ------------------------------ | ------------------------------ |
+| **1 (17–21/11)** | Setup, entidades, autenticação | Setup, layout base, login      |
+| **2 (24–28/11)** | Dijkstra, despacho, endpoints  | CRUDs principais, dashboard    |
+| **3 (01–05/12)** | Relatórios, validações, testes | Telas de relatório, integração |
+| **4 (08/12)**    | **Entrega final**              | **Entrega final**              |
 
-📚 Documentação e Recursos
+---
 
-    📄 Documento do Projeto Integrador
+# 🔄 Fluxo de Integração
 
-    🗃️ Dados dos Bairros (CSV)
+```
+BACKEND TEAM ──────────── FRONTEND TEAM
+  ↓                              ↓
+Spring Boot API          React Components
+  ↓                              ↓
+DTOs & Endpoints         Services + Hooks
+  ↓                              ↓
+Swagger/OpenAPI          Mock → Real API
+```
 
-    🛣️ Conexões entre Bairros (CSV)
+---
 
-    🎨 Material-UI Documentation
+# 📚 Documentação e Recursos
 
-👨‍💼 Contatos
+* Documento oficial do Projeto Integrador
+* Arquivo CSV — Bairros
+* Arquivo CSV — Conexões entre bairros
+* Material-UI Documentation
 
-Professor Líder: Luiz Mário Lustosa Pascoal
-Email: luizpascoal.senai@fieg.com.br
+---
 
-💡 Guia de Desenvolvimento
-Para o BACKEND:
+# 👨‍💼 Contato
 
-    Use @RestController para todos os endpoints
+**Professor Líder:** Luiz Mário Lustosa Pascoal
+📧 [luizpascoal.senai@fieg.com.br](mailto:luizpascoal.senai@fieg.com.br)
 
-    Implemente DTOs para transferência de dados
+---
 
-    Documente APIs com Swagger/OpenAPI
+# 💡 Guia de Desenvolvimento
 
-    Teste o algoritmo de Dijkstra com dados reais dos CSV
+## Backend
 
-Para o FRONTEND:
+* Utilize `@RestController`
+* Use DTOs para comunicação
+* Documente com Swagger
+* Teste Dijkstra com os CSV reais
 
-    Siga componentização e reutilização
+## Frontend
 
-    Use Context API para estado global
+* Componentize tudo o que puder
+* Use Context API estrategicamente
+* Implemente loading e tratamento de erros
+* Mantenha padrão visual (MUI)
 
-    Implemente loading states e tratamento de erros
+## Ambas as equipes
 
-    Mantenha consistência visual com Material-UI
+* Comunicação diária
+* Commits frequentes e descritivos
+* Testes de integração desde a segunda semana
+* Documentem decisões importantes
 
-Para AMBAS EQUIPES:
+---
 
-    Comunique-se diariamente sobre progresso e bloqueios
+# 🚀 Como Contribuir
 
-    Faça commits frequentes com mensagens descritivas
+```bash
+# Criar branch da feature
+git checkout -b feature/nova-funcionalidade
 
-    Testem integração front/back desde a semana 2
+# Commit
+git commit -m "feat: adiciona CRUD de ocorrências"
 
-    Documentem decisões técnicas importantes
+# Enviar branch
+git push origin feature/nova-funcionalidade
+```
 
-🚀 Como Contribuir
+Abra um Pull Request e aguarde revisão.
 
-    Faça fork do repositório
+---
 
-    Crie branch para sua feature: git checkout -b feature/nova-funcionalidade
+📌 **Última atualização:** 17/11/2025
 
-    Commit suas mudanças: git commit -m 'feat: adiciona CRUD de ocorrências'
+👥 **Equipe:** Caio de Paula, Eduarda Corazza, Gabriella Pio, Luiz Gustavo
 
-    Push para a branch: git push origin feature/nova-funcionalidade
-
-    Abra um Pull Request
-
-📞 Vamos construir um sistema incrível juntos!
-
-Última atualização: 17/11/25
-Equipe: Caio de Paula, Eduarda Corazza, Gabriella Pio, Luiz Gustavo
+---
