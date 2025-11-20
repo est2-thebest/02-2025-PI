@@ -209,6 +209,77 @@ usuarios (id, login, senha_hash, perfil)
 
 ### **Backend Developer 1 – “Core & Segurança”**
 
+## 🛠️ Configurar banco local com Docker (recomendado)
+
+Para desenvolvimento em equipe recomendamos usar Docker Compose com PostgreSQL. Isso garante que todos usem a mesma versão do banco e um ambiente reprodutível.
+
+Passos rápidos:
+
+1. Copie variáveis se quiser customizar e crie um `.env` a partir de `.env.example` (opcional).
+2. Suba o container do banco:
+
+```bash
+docker-compose up -d
+```
+
+3. Rode a aplicação (o Spring aplicará as migrations Flyway automaticamente). Se você tiver um `.env` ele fornecerá as variáveis utilizadas pelo Docker e pela aplicação:
+
+```bash
+cd backend
+./mvnw spring-boot:run
+```
+
+Nota: copie `.env.example` para `.env` e ajuste se necessário. O `docker-compose` carrega automaticamente as variáveis do `.env` na raiz do repositório.
+
+4. Acesse a API em `http://localhost:8081`.
+
+Observações:
+- Para recriar o banco e remover dados locais execute `docker-compose down -v` (cuidado: apaga o volume).
+- As migrations estão em `backend/src/main/resources/db/migration`.
+
+### ✅ Resolver mismatch de nome do banco (ex.: `sosrota` vs `sosrota_db`)
+
+Se ao subir o container você vir mensagens como "FATAL: database \"sosrota\" does not exist", siga uma destas opções:
+
+Opção A — alinhar a aplicação para usar o banco existente `sosrota_db` (recomendado):
+
+1. Garanta que `.env` contém `DB_NAME=sosrota_db` (padrão do projeto).
+2. Exporte variáveis do `.env` para seu shell e rode a app:
+
+```bash
+set -a; source .env; set +a
+cd backend
+./mvnw spring-boot:run
+```
+
+3. Se precisar recriar o container para aplicar mudanças no `docker-compose` (sem perder o volume de dados):
+
+```bash
+docker compose up -d --force-recreate --no-deps db
+```
+
+Opção B — criar o banco `sosrota` dentro do container (rápido, se preferir):
+
+```bash
+docker compose exec db psql -U ${DB_USER:-sosrota} -d postgres -c "CREATE DATABASE sosrota;"
+```
+
+Verificações úteis:
+
+```bash
+# listar databases no container
+docker compose exec db psql -U ${DB_USER:-sosrota} -d postgres -c "\l"
+
+# ver logs do container
+docker compose logs -f db
+
+# testar endpoint do backend
+curl http://localhost:8081/api/test
+```
+
+Observação: alterar `.env` após o container ter sido criado exige recriar o serviço para que o Compose passe as novas variáveis ao container.
+
+
 * Configuração do projeto (dependências, CORS)
 * Autenticação e JWT
 * Entidades JPA
@@ -322,6 +393,59 @@ Swagger/OpenAPI          Mock → Real API
 # 💡 Guia de Desenvolvimento
 
 ## Backend
+
+## Dev: run everything with Docker Compose (recommended)
+
+There's a helper script that builds the backend JAR, starts the database, applies Flyway migrations and starts the frontend in Vite dev-mode and the backend container.
+
+Usage:
+
+```bash
+# Make script executable once
+chmod +x dev/run-dev.sh
+
+# Run the whole dev stack (this will build the backend jar locally)
+./dev/run-dev.sh
+```
+
+This script will:
+- build backend (`./mvnw -DskipTests package`)
+- `docker compose up -d db`
+- `docker compose run --rm flyway migrate` (applies migrations)
+- `docker compose up --build -d backend frontend_dev`
+
+If your user needs sudo for docker, the script will retry the Flyway step with sudo.
+
+## Full Docker deployment (build images inside compose)
+
+If you prefer the Docker images to be built entirely by Docker (multi-stage build), you can run:
+
+```bash
+# build and start all services (db, flyway, backend, frontend)
+docker compose up --build -d
+```
+
+Notes:
+- The `backend` Dockerfile supports multi-stage builds in the repo; the compose build will execute a Maven build inside the builder image. This requires network access to download Maven base images and dependencies and may take longer on first run.
+- If you already built the backend JAR locally (`./mvnw -DskipTests package`), the `backend` service can also copy that JAR into the image (faster). See the Dockerfile comment.
+
+## Troubleshooting
+
+- If you see `permission denied` when running `docker` or `docker compose`, add your user to the docker group:
+
+```bash
+sudo usermod -aG docker $USER
+# then logout/login
+```
+
+- To reset the DB and run migrations from scratch:
+
+```bash
+docker compose down -v
+docker compose up -d db
+docker compose run --rm flyway migrate
+```
+
 
 * Utilize `@RestController`
 * Use DTOs para comunicação

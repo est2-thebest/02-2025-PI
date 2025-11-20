@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${DB_USER:-sosrota}
+      POSTGRES_PASSWORD: ${DB_PASS:-sosrota_pass}
+      POSTGRES_DB: ${DB_NAME:-sosrota_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - sosrota_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  flyway:
+    image: flyway/flyway:11
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend/src/main/resources/db/migration:/flyway/sql
+    environment:
+      FLYWAY_URL: jdbc:postgresql://db:5432/${DB_NAME:-sosrota_db}
+      FLYWAY_USER: ${DB_USER:-sosrota}
+      FLYWAY_PASSWORD: ${DB_PASS:-sosrota_pass}
+      FLYWAY_LOCATIONS: filesystem:/flyway/sql
+    command: ["migrate"]
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME:-sosrota_db}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-sosrota}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASS:-sosrota_pass}
+      SPRING_FLYWAY_ENABLED: "false"
+    ports:
+      - "8081:8081"
+
+  frontend:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: ["sh", "-c", "npm ci && npm run dev -- --host 0.0.0.0"]
+    ports:
+      - "5173:5173"
+
+volumes:
+  sosrota_db_data:
