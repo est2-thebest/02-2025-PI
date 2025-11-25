@@ -1,0 +1,64 @@
+.sidebar {
+  width: 250px;
+  background: #fff;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+  height: calc(100vh - 80px);
+  position: sticky;
+  top: 80px;
+  overflow-y: auto;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 0.875rem 1.5rem;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.sidebar-item:hover {
+  background: #f5f5f5;
+  border-left-color: #2196f3;
+}
+
+.sidebar-item.active {
+  background: #e3f2fd;
+  border-left-color: #2196f3;
+  color: #2196f3;
+  font-weight: 500;
+}
+
+.sidebar-icon {
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+}
+
+.sidebar-label {
+  font-size: 0.95rem;
+}
+
+/* Scrollbar personalizada */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
