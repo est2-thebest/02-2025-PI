@@ -11,6 +11,8 @@ import Dashboard from './pages/Dashboard';
 import Ocorrencias from './pages/Ocorrencias';
 import Ambulancias from './pages/Ambulancias';
 import Profissionais from './pages/Profissionais';
+import Bases from './pages/Bases';
+import Relatorios from './pages/Relatorios';
 import Despacho from './pages/Despacho';
 
 import './App.css';
@@ -101,21 +103,7 @@ function AppRoutes() {
         path="/bases"
         element={
           <MainLayout>
-            <div className="page-container">
-              <div className="page-header">
-                <h1>Bases de Atendimento</h1>
-                <p>Gerenciamento de bases e localizações</p>
-              </div>
-              <div className="card">
-                <div className="card-body">
-                  <p>Página em desenvolvimento...</p>
-                  <p>
-                    Esta página permitirá o cadastro e gerenciamento das bases
-                    de atendimento da cidade.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <Bases />
           </MainLayout>
           // <PrivateRoute>
           // </PrivateRoute>
@@ -137,24 +125,7 @@ function AppRoutes() {
         path="/relatorios"
         element={
           <MainLayout>
-            <div className="page-container">
-              <div className="page-header">
-                <h1>Relatórios</h1>
-                <p>Análises e estatísticas do sistema</p>
-              </div>
-              <div className="card">
-                <div className="card-body">
-                  <p>Página em desenvolvimento...</p>
-                  <p>Esta página exibirá relatórios como:</p>
-                  <ul>
-                    <li>Histórico de atendimentos</li>
-                    <li>Tempo médio de resposta por gravidade</li>
-                    <li>Mapa de ocorrências por bairro</li>
-                    <li>Performance de ambulâncias</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            <Relatorios />
           </MainLayout>
           // <PrivateRoute>
           // </PrivateRoute>

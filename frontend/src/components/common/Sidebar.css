@@ -1,4 +1,4 @@
-/* SIDEBAR BASE */
+/* BASE */
 .app-sidebar {
   width: 250px;
   background: #fff;
@@ -9,7 +9,7 @@
   left: 0;
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, transform 0.3s ease;
   overflow: hidden;
   z-index: 1000;
 }
@@ -18,41 +18,58 @@
   width: 80px;
 }
 
-/* TOP SECTION */
+/* ANIMAÇÃO IOS-LIKE */
+.app-sidebar.open {
+  transform: translateX(0);
+}
+.app-sidebar.closed {
+  transform: translateX(0);
+}
+
+/* TOP */
 .sidebar-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem;
   border-bottom: 1px solid #eee;
+  position: relative;
 }
 
 /* LOGO */
 .sidebar-logo-img {
   width: 160px;
   height: auto;
-  display: block;
+  transition: opacity 0.3s ease;
 }
 
 .app-sidebar.closed .sidebar-logo-img {
-  display: none; /* tamanho reduzido quando fechado */
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* TOGGLE BUTTON */
+/* TOGGLE BUTTON SEMPRE VISÍVEL */
 .sidebar-toggle {
   background: transparent;
   border: none;
   cursor: pointer;
   color: #2196f3;
-  padding: 4px;
-  transition: transform 0.3s ease;
+  padding: 6px;
+  transition: transform 0.3s ease, right 0.3s ease;
+  z-index: 10;
+  position: absolute;
+  right: 16px; /* SEMPRE MOSTRADO */
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.sidebar-toggle:hover {
-  transform: scale(1.1);
+/* Quando fechado, centraliza melhor */
+.app-sidebar.closed .sidebar-toggle {
+  right: 50%;
+  transform: translate(50%, -50%);
 }
 
-/* NAVIGATION AREA */
+/* NAVIGATION */
 .sidebar-nav {
   display: flex;
   flex-direction: column;
@@ -68,7 +85,7 @@
   text-decoration: none;
   color: #333;
   border-left: 3px solid transparent;
-  transition: background 0.25s ease, border-left-color 0.25s ease;
+  transition: background 0.25s ease, border-left-color 0.25s ease, padding 0.3s ease;
 }
 
 .sidebar-item:hover {
@@ -80,17 +97,44 @@
   background: #e3f2fd;
   border-left-color: #2196f3;
   color: #2196f3;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-/* ICONS */
-.sidebar-icon {
-  min-width: 20px;
-}
-
+/* HIDE LABEL WHEN CLOSED */
 .app-sidebar.closed .sidebar-label {
-  display: none;
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
 }
+
+/* ÍCONES SEMPRE DO MESMO TAMANHO */
+.sidebar-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0; /* impede reduzir o tamanho */
+}
+
+/* No modo fechado, centraliza sem reduzir padding */
+.app-sidebar.closed .sidebar-item {
+  justify-content: center;
+  padding: 1rem 0; /* iguala o espaço em cima e embaixo */
+}
+
+/* No modo fechado, mantém ícones perfeitamente no centro */
+.app-sidebar.closed .sidebar-icon {
+  margin: 0;
+}
+
+/* ICON COLORS */
+.icon-dashboard { color: #1976d2; }
+.icon-ocorrencias { color: #d84315; }
+.icon-ambulancias { color: #c62828; }
+.icon-profissionais { color: #2e7d32; }
+.icon-bases { color: #6a1b9a; }
+.icon-despacho { color: #00838f; }
+.icon-relatorios { color: #1565c0; }
+.icon-logout { color: #c62828; }
 
 /* LOGOUT BUTTON */
 .sidebar-logout {
@@ -115,22 +159,4 @@
 
 .app-sidebar.closed .sidebar-logout {
   justify-content: center;
-}
-
-/* SCROLLBAR */
-.app-sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.app-sidebar::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.app-sidebar::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 3px;
-}
-
-.app-sidebar::-webkit-scrollbar-thumb:hover {
-  background: #555;
 }
