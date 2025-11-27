@@ -1,7 +1,0 @@
-target
-.git
-**/src/test
-**/*.log
-*.jar
-*.class
-*.class
