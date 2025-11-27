@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -16,16 +16,20 @@ import {
 import logo from '../../assets/logo.png';
 import './Sidebar.css';
 
-const Sidebar = ({ onToggle }) => {
-  const [isOpen, setIsOpen] = useState(true);
+interface SidebarProps {
+  onToggle: (isOpen: boolean) => void;
+}
 
-  const handleToggle = () => {
+const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+
+  const handleToggle = (): void => {
     const novoEstado = !isOpen;
     setIsOpen(novoEstado);
     onToggle(novoEstado);
   };
 
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     console.log('logout');
   };
 

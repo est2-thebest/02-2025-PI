@@ -1,16 +1,40 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import { Calendar, Activity, MapPin, Clock, BarChart3 } from 'lucide-react';
+import { Activity, MapPin, Clock, BarChart3 } from 'lucide-react';
 import './Relatorios.css';
 
-const Relatorios = () => {
-  const [carregando, setCarregando] = useState(true);
-  const [filtroData, setFiltroData] = useState({
+interface FiltroData {
+  inicio: string;
+  fim: string;
+}
+
+interface OcorrenciaPorBairro {
+  bairro: string;
+  qtd: number;
+}
+
+interface HistoricoItem {
+  id: number;
+  bairro: string;
+  gravidade: string;
+  tempoResposta: number;
+}
+
+interface Dados {
+  totalAtendimentos: number;
+  tempoMedio: number;
+  ocorrenciasPorBairro: OcorrenciaPorBairro[];
+  historico: HistoricoItem[];
+}
+
+const Relatorios: React.FC = () => {
+  const [carregando, setCarregando] = useState<boolean>(true);
+  const [filtroData, setFiltroData] = useState<FiltroData>({
     inicio: '',
     fim: '',
   });
 
-  const [dados, setDados] = useState({
+  const [dados, setDados] = useState<Dados>({
     totalAtendimentos: 0,
     tempoMedio: 0,
     ocorrenciasPorBairro: [],
@@ -21,7 +45,7 @@ const Relatorios = () => {
     carregarDados();
   }, []);
 
-  const carregarDados = async () => {
+  const carregarDados = async (): Promise<void> => {
     try {
       setCarregando(true);
 
@@ -50,7 +74,7 @@ const Relatorios = () => {
     }
   };
 
-  const atualizarFiltro = (campo, valor) => {
+  const atualizarFiltro = (campo: keyof FiltroData, valor: string): void => {
     setFiltroData({ ...filtroData, [campo]: valor });
   };
 

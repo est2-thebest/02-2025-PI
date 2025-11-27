@@ -1,16 +1,23 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import { Plus, MapPin, Building2, Pencil, Trash } from 'lucide-react';
+import { Plus, Pencil, Trash } from 'lucide-react';
 import baseService from '../services/base';
 import './Bases.css';
 
-const Bases = () => {
-  const [bases, setBases] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [modalAberto, setModalAberto] = useState(false);
-  const [editandoBase, setEditandoBase] = useState(null);
+interface BaseForm {
+  nome: string;
+  endereco: string;
+  cidade: string;
+  responsavel: string;
+}
 
-  const [form, setForm] = useState({
+const Bases: React.FC = () => {
+  const [bases, setBases] = useState<any[]>([]);
+  const [carregando, setCarregando] = useState<boolean>(true);
+  const [modalAberto, setModalAberto] = useState<boolean>(false);
+  const [editandoBase, setEditandoBase] = useState<number | null>(null);
+
+  const [form, setForm] = useState<BaseForm>({
     nome: '',
     endereco: '',
     cidade: '',
@@ -21,7 +28,7 @@ const Bases = () => {
     carregarBases();
   }, []);
 
-  const carregarBases = async () => {
+  const carregarBases = async (): Promise<void> => {
     try {
       setCarregando(true);
       const dados = await baseService.listar();
@@ -33,7 +40,7 @@ const Bases = () => {
     }
   };
 
-  const abrirModalCriar = () => {
+  const abrirModalCriar = (): void => {
     setEditandoBase(null);
     setForm({
       nome: '',
@@ -44,7 +51,7 @@ const Bases = () => {
     setModalAberto(true);
   };
 
-  const abrirModalEditar = (base) => {
+  const abrirModalEditar = (base: any): void => {
     setEditandoBase(base.id);
     setForm({
       nome: base.nome,
@@ -55,7 +62,7 @@ const Bases = () => {
     setModalAberto(true);
   };
 
-  const salvarBase = async () => {
+  const salvarBase = async (): Promise<void> => {
     try {
       if (editandoBase) {
         await baseService.atualizar(editandoBase, form);
@@ -69,7 +76,7 @@ const Bases = () => {
     }
   };
 
-  const excluirBase = async (id) => {
+  const excluirBase = async (id: number): Promise<void> => {
     if (!confirm('Tem certeza que deseja excluir esta base?')) return;
 
     try {
@@ -120,7 +127,7 @@ const Bases = () => {
                 </thead>
 
                 <tbody>
-                  {bases.map((base) => (
+                  {bases.map((base: any) => (
                     <tr key={base.id}>
                       <td>
                         <strong>{base.nome}</strong>

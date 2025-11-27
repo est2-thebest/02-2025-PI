@@ -1,19 +1,19 @@
-import { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import './Login.css';
 
-const Login = () => {
-  const [login, setLogin] = useState('');
-  const [senha, setSenha] = useState('');
-  const [erro, setErro] = useState('');
-  const [carregando, setCarregando] = useState(false);
+const Login: React.FC = () => {
+  const [login, setLogin] = React.useState<string>('');
+  const [senha, setSenha] = React.useState<string>('');
+  const [erro, setErro] = React.useState<string>('');
+  const [carregando, setCarregando] = React.useState<boolean>(false);
   
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setErro('');
     

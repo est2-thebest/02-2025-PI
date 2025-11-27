@@ -1,15 +1,21 @@
-import { useState, useEffect } from 'react';
-import ambulanciaService from '../services/ambulancia';
+import React, { useState, useEffect } from 'react';
+import ambulanciaService, { Ambulancia } from '../services/ambulancia';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import AmbulanciaForm from '../components/ambulancias/AmbulanciaForm';
 import './Ambulancias.css';
 
-const Ambulancias = () => {
-  const [ambulancias, setAmbulancias] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [mostrarForm, setMostrarForm] = useState(false);
-  const [ambulanciaEdit, setAmbulanciaEdit] = useState(null);
-  const [filtros, setFiltros] = useState({
+interface FiltrosAmbulancias {
+  status: string;
+  tipo: string;
+  busca: string;
+}
+
+const Ambulancias: React.FC = () => {
+  const [ambulancias, setAmbulancias] = useState<Ambulancia[]>([]);
+  const [carregando, setCarregando] = useState<boolean>(true);
+  const [mostrarForm, setMostrarForm] = useState<boolean>(false);
+  const [ambulanciaEdit, setAmbulanciaEdit] = useState<Ambulancia | null>(null);
+  const [filtros, setFiltros] = useState<FiltrosAmbulancias>({
     status: '',
     tipo: '',
     busca: ''
@@ -19,7 +25,7 @@ const Ambulancias = () => {
     carregarAmbulancias();
   }, []);
 
-  const carregarAmbulancias = async () => {
+  const carregarAmbulancias = async (): Promise<void> => {
     try {
       setCarregando(true);
       const dados = await ambulanciaService.listarTodas();
@@ -31,28 +37,28 @@ const Ambulancias = () => {
     }
   };
 
-  const handleNovo = () => {
+  const handleNovo = (): void => {
     setAmbulanciaEdit(null);
     setMostrarForm(true);
   };
 
-  const handleEditar = (ambulancia) => {
+  const handleEditar = (ambulancia: Ambulancia): void => {
     setAmbulanciaEdit(ambulancia);
     setMostrarForm(true);
   };
 
-  const handleSalvar = async () => {
+  const handleSalvar = async (): Promise<void> => {
     setMostrarForm(false);
     await carregarAmbulancias();
   };
 
-  const handleCancelar = () => {
+  const handleCancelar = (): void => {
     setMostrarForm(false);
     setAmbulanciaEdit(null);
   };
 
-  const getCorStatus = (status) => {
-    const cores = {
+  const getCorStatus = (status: string): string => {
+    const cores: Record<string, string> = {
       DISPONIVEL: '#4caf50',
       EM_ATENDIMENTO: '#ff9800',
       EM_MANUTENCAO: '#f44336'
@@ -60,7 +66,7 @@ const Ambulancias = () => {
     return cores[status] || '#999';
   };
 
-  const getCorTipo = (tipo) => {
+  const getCorTipo = (tipo: string): string => {
     return tipo === 'UTI' ? '#e91e63' : '#2196f3';
   };
 
@@ -78,7 +84,7 @@ const Ambulancias = () => {
     return (
       <div className="page-container">
         <AmbulanciaForm
-          ambulancia={ambulanciaEdit}
+          ambulancia={ambulanciaEdit || undefined}
           onSalvar={handleSalvar}
           onCancelar={handleCancelar}
         />
@@ -171,13 +177,6 @@ const Ambulancias = () => {
                       {ambulancia.status?.replace('_', ' ')}
                     </span>
                   </div>
-
-                  {ambulancia.equipe && (
-                    <div className="info-item">
-                      <span className="info-label">Equipe:</span>
-                      <span className="info-value">{ambulancia.equipe}</span>
-                    </div>
-                  )}
                 </div>
 
                 <div className="ambulancia-actions">

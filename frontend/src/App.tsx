@@ -1,10 +1,8 @@
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useState } from 'react';
 import { AuthProvider } from './context/Auth';
-import { useAuth } from './hooks/useAuth';
 
 import Sidebar from './components/common/Sidebar';
-import LoadingSpinner from './components/common/LoadingSpinner';
 
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -17,24 +15,13 @@ import Despacho from './pages/Despacho';
 
 import './App.css';
 
-// Componente para proteger rotas privadas
-const PrivateRoute = ({ children }) => {
-  const { signed, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="page-container">
-        <LoadingSpinner message="Verificando autenticação..." />
-      </div>
-    );
-  }
-
-  return signed ? children : <Navigate to="/login" />;
-};
+interface MainLayoutProps {
+  children: React.ReactNode;
+}
 
 // Layout principal com Header e Sidebar
-const MainLayout = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
   return (
     <div
@@ -50,7 +37,7 @@ const MainLayout = ({ children }) => {
 };
 
 // Lembrar de envolver rotas privadas com <PrivateRoute>
-function AppRoutes() {
+function AppRoutes(): React.ReactElement {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
@@ -61,8 +48,6 @@ function AppRoutes() {
           <MainLayout>
             <Dashboard />
           </MainLayout>
-          // <PrivateRoute>
-          // </PrivateRoute>
         }
       />
 
@@ -72,8 +57,6 @@ function AppRoutes() {
           <MainLayout>
             <Ocorrencias />
           </MainLayout>
-          // <PrivateRoute>
-          // </PrivateRoute>
         }
       />
 
@@ -83,8 +66,6 @@ function AppRoutes() {
           <MainLayout>
             <Ambulancias />
           </MainLayout>
-          // <PrivateRoute>
-          // </PrivateRoute>
         }
       />
 
@@ -94,8 +75,6 @@ function AppRoutes() {
           <MainLayout>
             <Profissionais />
           </MainLayout>
-          // <PrivateRoute>
-          // </PrivateRoute>
         }
       />
 
@@ -105,8 +84,6 @@ function AppRoutes() {
           <MainLayout>
             <Bases />
           </MainLayout>
-          // <PrivateRoute>
-          // </PrivateRoute>
         }
       />
 
@@ -116,8 +93,6 @@ function AppRoutes() {
           <MainLayout>
             <Despacho />
           </MainLayout>
-          // <PrivateRoute>
-          // </PrivateRoute>
         }
       />
 
@@ -127,8 +102,6 @@ function AppRoutes() {
           <MainLayout>
             <Relatorios />
           </MainLayout>
-          // <PrivateRoute>
-          // </PrivateRoute>
         }
       />
 
@@ -138,7 +111,7 @@ function AppRoutes() {
   );
 }
 
-function App() {
+function App(): React.ReactElement {
   return (
     <BrowserRouter>
       <AuthProvider>

@@ -1,17 +1,23 @@
-import { useState, useEffect } from 'react';
-import ocorrenciaService from '../../services/ocorrencia';
+import React, { useState, useEffect } from 'react';
+import ocorrenciaService, { Ocorrencia } from '../../services/ocorrencia';
 import './OcorrenciaForm.css';
 
-const OcorrenciaForm = ({ ocorrencia, onSalvar, onCancelar }) => {
-  const [formData, setFormData] = useState({
+interface OcorrenciaFormProps {
+  ocorrencia?: Ocorrencia;
+  onSalvar: () => void;
+  onCancelar: () => void;
+}
+
+const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ ocorrencia, onSalvar, onCancelar }) => {
+  const [formData, setFormData] = useState<Ocorrencia>({
     local: '',
     tipo: '',
     gravidade: 'MEDIA',
     status: 'ABERTA',
     observacao: '',
   });
-  const [salvando, setSalvando] = useState(false);
-  const [erro, setErro] = useState('');
+  const [salvando, setSalvando] = useState<boolean>(false);
+  const [erro, setErro] = useState<string>('');
 
   useEffect(() => {
     if (ocorrencia) {
@@ -25,15 +31,15 @@ const OcorrenciaForm = ({ ocorrencia, onSalvar, onCancelar }) => {
     }
   }, [ocorrencia]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
+    const { name, value } = e.currentTarget;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setErro('');
 
@@ -50,7 +56,7 @@ const OcorrenciaForm = ({ ocorrencia, onSalvar, onCancelar }) => {
         await ocorrenciaService.criar(formData);
       }
       onSalvar();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao salvar ocorrência:', error);
       setErro(error.response?.data?.message || 'Erro ao salvar ocorrência');
     } finally {
@@ -111,52 +117,50 @@ const OcorrenciaForm = ({ ocorrencia, onSalvar, onCancelar }) => {
               onChange={handleChange}
               required
             >
-              <option value="ALTA">Alta (SLA: 8 min - UTI)</option>
-              <option value="MEDIA">Média (SLA: 15 min - Básica)</option>
-              <option value="BAIXA">Baixa (SLA: 30 min - Básica)</option>
+              <option value="ALTA">Alta</option>
+              <option value="MEDIA">Média</option>
+              <option value="BAIXA">Baixa</option>
             </select>
           </div>
 
           <div className="form-group">
-            <label htmlFor="status">Status</label>
+            <label htmlFor="status">Status *</label>
             <select
               id="status"
               name="status"
               value={formData.status}
               onChange={handleChange}
+              required
             >
               <option value="ABERTA">Aberta</option>
               <option value="DESPACHADA">Despachada</option>
-              <option value="EM_ATENDIMENTO">Em Atendimento</option>
+              <option value="ATENDENDO">Atendendo</option>
               <option value="CONCLUIDA">Concluída</option>
               <option value="CANCELADA">Cancelada</option>
             </select>
           </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="observacao">Observações</label>
-          <textarea
-            id="observacao"
-            name="observacao"
-            value={formData.observacao}
-            onChange={handleChange}
-            placeholder="Informações adicionais sobre a ocorrência..."
-            rows="4"
-          />
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="observacao">Observações</label>
+            <textarea
+              id="observacao"
+              name="observacao"
+              value={formData.observacao}
+              onChange={handleChange}
+              placeholder="Digite observações relevantes..."
+              rows={4}
+            />
+          </div>
         </div>
 
         <div className="form-actions">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={onCancelar}
-            disabled={salvando}
-          >
-            Cancelar
-          </button>
           <button type="submit" className="btn btn-primary" disabled={salvando}>
             {salvando ? 'Salvando...' : 'Salvar'}
+          </button>
+          <button type="button" className="btn btn-secondary" onClick={onCancelar}>
+            Cancelar
           </button>
         </div>
       </form>

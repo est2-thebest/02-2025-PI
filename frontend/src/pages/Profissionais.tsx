@@ -1,24 +1,33 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import ProfissionalForm from '../components/profissionais/ProfissionalForm';
 import './Profissionais.css';
 
-const Profissionais = () => {
-  const [profissionais, setProfissionais] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [mostrarForm, setMostrarForm] = useState(false);
-  const [profissionalEdit, setProfissionalEdit] = useState(null);
-  const [filtroFuncao, setFiltroFuncao] = useState('');
+interface Profissional {
+  id: number;
+  nome: string;
+  funcao: 'MEDICO' | 'ENFERMEIRO' | 'CONDUTOR';
+  cref?: string;
+  contato?: string;
+  ativo: boolean;
+}
+
+const Profissionais: React.FC = () => {
+  const [profissionais, setProfissionais] = useState<Profissional[]>([]);
+  const [carregando, setCarregando] = useState<boolean>(true);
+  const [mostrarForm, setMostrarForm] = useState<boolean>(false);
+  const [profissionalEdit, setProfissionalEdit] = useState<Profissional | null>(null);
+  const [filtroFuncao, setFiltroFuncao] = useState<string>('');
 
   useEffect(() => {
     carregarProfissionais();
   }, []);
 
-  const carregarProfissionais = async () => {
+  const carregarProfissionais = async (): Promise<void> => {
     try {
       setCarregando(true);
-      const response = await api.get('/profissionais');
+      const response = await api.get<Profissional[]>('/profissionais');
       setProfissionais(response.data);
     } catch (error) {
       console.error('Erro ao carregar profissionais:', error);
@@ -27,28 +36,28 @@ const Profissionais = () => {
     }
   };
 
-  const handleNovo = () => {
+  const handleNovo = (): void => {
     setProfissionalEdit(null);
     setMostrarForm(true);
   };
 
-  const handleEditar = (profissional) => {
+  const handleEditar = (profissional: Profissional): void => {
     setProfissionalEdit(profissional);
     setMostrarForm(true);
   };
 
-  const handleSalvar = async () => {
+  const handleSalvar = async (): Promise<void> => {
     setMostrarForm(false);
     await carregarProfissionais();
   };
 
-  const handleCancelar = () => {
+  const handleCancelar = (): void => {
     setMostrarForm(false);
     setProfissionalEdit(null);
   };
 
-  const getIconeFuncao = (funcao) => {
-    const icones = {
+  const getIconeFuncao = (funcao: string): string => {
+    const icones: Record<string, string> = {
       MEDICO: '👨‍⚕️',
       ENFERMEIRO: '👩‍⚕️',
       CONDUTOR: '👨‍✈️',
@@ -56,8 +65,8 @@ const Profissionais = () => {
     return icones[funcao] || '👤';
   };
 
-  const getCorFuncao = (funcao) => {
-    const cores = {
+  const getCorFuncao = (funcao: string): string => {
+    const cores: Record<string, string> = {
       MEDICO: '#e91e63',
       ENFERMEIRO: '#2196f3',
       CONDUTOR: '#ff9800',

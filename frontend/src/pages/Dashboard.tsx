@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import ocorrenciaService from '../services/ocorrencia';
+import React, { useState, useEffect } from 'react';
+import ocorrenciaService, { Ocorrencia } from '../services/ocorrencia';
 import ambulanciaService from '../services/ambulancia';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import { getCorGravidade, getCorStatus } from '../utils/helpers';
@@ -8,22 +8,29 @@ import { Siren, Ambulance, CheckCircle, Timer } from 'lucide-react';
 
 import './Dashboard.css';
 
-const Dashboard = () => {
-  const [stats, setStats] = useState({
+interface Stats {
+  ocorrenciasAbertas: number;
+  ambulanciasDisponiveis: number;
+  atendimentosHoje: number;
+  tempoMedioResposta: number;
+}
+
+const Dashboard: React.FC = () => {
+  const [stats, setStats] = useState<Stats>({
     ocorrenciasAbertas: 0,
     ambulanciasDisponiveis: 0,
     atendimentosHoje: 0,
     tempoMedioResposta: 0,
   });
 
-  const [ocorrenciasRecentes, setOcorrenciasRecentes] = useState([]);
-  const [carregando, setCarregando] = useState(true);
+  const [ocorrenciasRecentes, setOcorrenciasRecentes] = useState<Ocorrencia[]>([]);
+  const [carregando, setCarregando] = useState<boolean>(true);
 
   useEffect(() => {
     carregarDados();
   }, []);
 
-  const carregarDados = async () => {
+  const carregarDados = async (): Promise<void> => {
     try {
       setCarregando(true);
 
@@ -100,63 +107,35 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="dashboard-content">
-        <div className="card">
-          <div className="card-header">
-            <h2>Ocorrências Recentes</h2>
-          </div>
-
-          <div className="card-body">
-            {ocorrenciasRecentes.length === 0 ? (
-              <p className="empty-message">Nenhuma ocorrência recente</p>
-            ) : (
-              <div className="table-container">
-                <table className="data-table">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Local</th>
-                      <th>Tipo</th>
-                      <th>Gravidade</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {ocorrenciasRecentes.map((ocorrencia) => (
-                      <tr key={ocorrencia.id}>
-                        <td>#{ocorrencia.id}</td>
-                        <td>{ocorrencia.local}</td>
-                        <td>{ocorrencia.tipo}</td>
-                        <td>
-                          <span
-                            className="badge"
-                            style={{
-                              backgroundColor: getCorGravidade(
-                                ocorrencia.gravidade,
-                              ),
-                            }}
-                          >
-                            {ocorrencia.gravidade}
-                          </span>
-                        </td>
-                        <td>
-                          <span
-                            className="badge"
-                            style={{
-                              backgroundColor: getCorStatus(ocorrencia.status),
-                            }}
-                          >
-                            {ocorrencia.status}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
+      <div className="card mt-4">
+        <div className="card-header">
+          <h2>Ocorrências Recentes</h2>
+        </div>
+        <div className="card-body">
+          {ocorrenciasRecentes.length === 0 ? (
+            <p className="text-center">Nenhuma ocorrência aberta</p>
+          ) : (
+            <div className="ocorrencias-table">
+              {ocorrenciasRecentes.map((oc) => (
+                <div key={oc.id} className="ocorrencia-row">
+                  <span className="col-id">#{oc.id}</span>
+                  <span className="col-local">{oc.local}</span>
+                  <span 
+                    className="col-gravidade" 
+                    style={{ color: getCorGravidade(oc.gravidade) }}
+                  >
+                    {oc.gravidade}
+                  </span>
+                  <span 
+                    className="col-status" 
+                    style={{ color: getCorStatus(oc.status) }}
+                  >
+                    {oc.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

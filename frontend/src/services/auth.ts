@@ -3,7 +3,14 @@ import api from './api';
 const TOKEN_KEY = 'sosrota_token';
 const USER_KEY = 'sosrota_user';
 
-async function login(username, password) {
+interface LoginResponse {
+	success: boolean;
+	token?: string;
+	user?: any;
+	message?: string;
+}
+
+async function login(username: string, password: string): Promise<LoginResponse> {
 	try {
 		const resp = await api.post('/auth/login', { username, password });
 
@@ -25,13 +32,13 @@ async function login(username, password) {
 		setAuthToken(token);
 
 		return { success: true, token, user };
-		} catch (err) {
+		} catch (err: any) {
 			const message = err?.response?.data?.message || err.message || 'Erro ao autenticar';
 			return { success: false, message };
 		}
 }
 
-function setAuthToken(token) {
+function setAuthToken(token: string | null): void {
 	if (token) {
 		api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 	} else {
@@ -39,17 +46,17 @@ function setAuthToken(token) {
 	}
 }
 
-function signOut() {
+function signOut(): void {
 	localStorage.removeItem(TOKEN_KEY);
 	localStorage.removeItem(USER_KEY);
 	setAuthToken(null);
 }
 
-function getStoredToken() {
+function getStoredToken(): string | null {
 	return localStorage.getItem(TOKEN_KEY);
 }
 
-function getStoredUser() {
+function getStoredUser(): any | null {
 	try {
 		const raw = localStorage.getItem(USER_KEY);
 		return raw ? JSON.parse(raw) : null;
@@ -65,4 +72,3 @@ export default {
 	getStoredToken,
 	getStoredUser,
 };
-

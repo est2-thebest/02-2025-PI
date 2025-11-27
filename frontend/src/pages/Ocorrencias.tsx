@@ -1,16 +1,22 @@
-import { useState, useEffect } from 'react';
-import ocorrenciaService from '../services/ocorrencia';
+import React, { useState, useEffect } from 'react';
+import ocorrenciaService, { Ocorrencia } from '../services/ocorrencia';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import OcorrenciaForm from '../components/ocorrencias/OcorrenciaForm';
 import { getCorGravidade, getCorStatus } from '../utils/helpers';
 import './Ocorrencias.css';
 
-const Ocorrencias = () => {
-  const [ocorrencias, setOcorrencias] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [mostrarForm, setMostrarForm] = useState(false);
-  const [ocorrenciaEdit, setOcorrenciaEdit] = useState(null);
-  const [filtros, setFiltros] = useState({
+interface Filtros {
+  status: string;
+  gravidade: string;
+  busca: string;
+}
+
+const Ocorrencias: React.FC = () => {
+  const [ocorrencias, setOcorrencias] = useState<Ocorrencia[]>([]);
+  const [carregando, setCarregando] = useState<boolean>(true);
+  const [mostrarForm, setMostrarForm] = useState<boolean>(false);
+  const [ocorrenciaEdit, setOcorrenciaEdit] = useState<Ocorrencia | null>(null);
+  const [filtros, setFiltros] = useState<Filtros>({
     status: '',
     gravidade: '',
     busca: '',
@@ -20,7 +26,7 @@ const Ocorrencias = () => {
     carregarOcorrencias();
   }, []);
 
-  const carregarOcorrencias = async () => {
+  const carregarOcorrencias = async (): Promise<void> => {
     try {
       setCarregando(true);
       const dados = await ocorrenciaService.listarTodas();
@@ -32,22 +38,22 @@ const Ocorrencias = () => {
     }
   };
 
-  const handleNovo = () => {
+  const handleNovo = (): void => {
     setOcorrenciaEdit(null);
     setMostrarForm(true);
   };
 
-  const handleEditar = (ocorrencia) => {
+  const handleEditar = (ocorrencia: Ocorrencia): void => {
     setOcorrenciaEdit(ocorrencia);
     setMostrarForm(true);
   };
 
-  const handleSalvar = async () => {
+  const handleSalvar = async (): Promise<void> => {
     setMostrarForm(false);
     await carregarOcorrencias();
   };
 
-  const handleCancelar = () => {
+  const handleCancelar = (): void => {
     setMostrarForm(false);
     setOcorrenciaEdit(null);
   };
@@ -68,7 +74,7 @@ const Ocorrencias = () => {
     return (
       <div className="page-container">
         <OcorrenciaForm
-          ocorrencia={ocorrenciaEdit}
+          ocorrencia={ocorrenciaEdit || undefined}
           onSalvar={handleSalvar}
           onCancelar={handleCancelar}
         />
@@ -111,7 +117,7 @@ const Ocorrencias = () => {
               <option value="">Todos os Status</option>
               <option value="ABERTA">Aberta</option>
               <option value="DESPACHADA">Despachada</option>
-              <option value="EM_ATENDIMENTO">Em Atendimento</option>
+              <option value="ATENDENDO">Em Atendimento</option>
               <option value="CONCLUIDA">Concluída</option>
               <option value="CANCELADA">Cancelada</option>
             </select>
@@ -146,14 +152,13 @@ const Ocorrencias = () => {
                     <th>Tipo</th>
                     <th>Gravidade</th>
                     <th>Status</th>
-                    <th>Data/Hora</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {ocorrenciasFiltradas.length === 0 ? (
                     <tr>
-                      <td colSpan="7" className="text-center">
+                      <td colSpan={6} className="text-center">
                         Nenhuma ocorrência encontrada
                       </td>
                     </tr>
@@ -184,11 +189,6 @@ const Ocorrencias = () => {
                           >
                             {ocorrencia.status}
                           </span>
-                        </td>
-                        <td>
-                          {new Date(ocorrencia.dataHoraAbertura).toLocaleString(
-                            'pt-BR',
-                          )}
                         </td>
                         <td>
                           <button

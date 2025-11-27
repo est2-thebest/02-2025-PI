@@ -1,23 +1,44 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../services/api';
-import ocorrenciaService from '../services/ocorrencia';
+import ocorrenciaService, { Ocorrencia } from '../services/ocorrencia';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-import { getCorGravidade } from '../utils/helpers';
+// import { getCorGravidade } from '../utils/helpers';
 import './Despacho.css';
 
-const Despacho = () => {
-  const [ocorrenciasAbertas, setOcorrenciasAbertas] = useState([]);
-  const [ocorrenciaSelecionada, setOcorrenciaSelecionada] = useState(null);
-  const [ambulanciasAptas, setAmbulanciasAptas] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [despachando, setDespachando] = useState(false);
-  const [mensagem, setMensagem] = useState({ tipo: '', texto: '' });
+interface Mensagem {
+  tipo: 'success' | 'error' | 'warning' | '';
+  texto: string;
+}
+
+interface SLAInfo {
+  tempo: number;
+  tipo: string;
+  cor: string;
+}
+
+interface Ambulancia {
+  id: number;
+  placa: string;
+  tipo: string;
+  base: string;
+  distancia?: number;
+  tempoEstimado?: number;
+  equipe?: string;
+}
+
+const Despacho: React.FC = () => {
+  const [ocorrenciasAbertas, setOcorrenciasAbertas] = useState<Ocorrencia[]>([]);
+  const [ocorrenciaSelecionada, setOcorrenciaSelecionada] = useState<Ocorrencia | null>(null);
+  const [ambulanciasAptas, setAmbulanciasAptas] = useState<Ambulancia[]>([]);
+  const [carregando, setCarregando] = useState<boolean>(true);
+  const [despachando, setDespachando] = useState<boolean>(false);
+  const [mensagem, setMensagem] = useState<Mensagem>({ tipo: '', texto: '' });
 
   useEffect(() => {
     carregarOcorrencias();
   }, []);
 
-  const carregarOcorrencias = async () => {
+  const carregarOcorrencias = async (): Promise<void> => {
     try {
       setCarregando(true);
       const dados = await ocorrenciaService.listarAbertas();
@@ -29,10 +50,10 @@ const Despacho = () => {
     }
   };
 
-  const buscarAmbulanciasAptas = async (ocorrenciaId) => {
+  const buscarAmbulanciasAptas = async (ocorrenciaId: number): Promise<void> => {
     try {
       setCarregando(true);
-      const response = await api.get(`/despacho/ambulancias-aptas/${ocorrenciaId}`);
+      const response = await api.get<Ambulancia[]>(`/despacho/ambulancias-aptas/${ocorrenciaId}`);
       setAmbulanciasAptas(response.data);
       
       if (response.data.length === 0) {
@@ -52,14 +73,14 @@ const Despacho = () => {
     }
   };
 
-  const handleSelecionarOcorrencia = async (ocorrencia) => {
+  const handleSelecionarOcorrencia = async (ocorrencia: Ocorrencia): Promise<void> => {
     setOcorrenciaSelecionada(ocorrencia);
     setAmbulanciasAptas([]);
     setMensagem({ tipo: '', texto: '' });
-    await buscarAmbulanciasAptas(ocorrencia.id);
+    await buscarAmbulanciasAptas(ocorrencia.id!);
   };
 
-  const handleDespachar = async (ambulanciaId) => {
+  const handleDespachar = async (ambulanciaId: number): Promise<void> => {
     if (!window.confirm('Confirmar despacho desta ambulância?')) {
       return;
     }
@@ -69,7 +90,7 @@ const Despacho = () => {
 
     try {
       await api.post('/despacho', {
-        ocorrenciaId: ocorrenciaSelecionada.id,
+        ocorrenciaId: ocorrenciaSelecionada?.id,
         ambulanciaId
       });
 
@@ -87,7 +108,7 @@ const Despacho = () => {
         setAmbulanciasAptas([]);
       }, 2000);
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao despachar ambulância:', error);
       setMensagem({
         tipo: 'error',
@@ -98,13 +119,13 @@ const Despacho = () => {
     }
   };
 
-  const getSLAInfo = (gravidade) => {
-    const slas = {
+  const getSLAInfo = (gravidade: string): SLAInfo => {
+    const slas: Record<string, SLAInfo> = {
       ALTA: { tempo: 8, tipo: 'UTI', cor: '#f44336' },
       MEDIA: { tempo: 15, tipo: 'Básica', cor: '#ff9800' },
       BAIXA: { tempo: 30, tipo: 'Básica', cor: '#4caf50' }
     };
-    return slas[gravidade] || slas.MEDIA;
+    return slas[gravidade] || slas['MEDIA'];
   };
 
   if (carregando && !ocorrenciaSelecionada) {
@@ -179,7 +200,7 @@ const Despacho = () => {
                 <h2>Ambulâncias Aptas</h2>
                 <button
                   className="btn btn-secondary btn-sm"
-                  onClick={() => buscarAmbulanciasAptas(ocorrenciaSelecionada.id)}
+                  onClick={() => buscarAmbulanciasAptas(ocorrenciaSelecionada.id!)}
                   disabled={carregando}
                 >
                   🔄 Atualizar
