@@ -2,9 +2,22 @@
   box-sizing: border-box;
 }
 
+/* Ajustado para permitir deslocamento pelo sidebar */
 .app-container {
   min-height: 100vh;
   background: #f5f7fa;
+  transition: margin-left 0.3s ease;
+  display: flex;
+  width: 100%;
+}
+
+/* Conteúdo se ajusta ao sidebar */
+.app-container.sidebar-open .main-content {
+  margin-left: 250px;
+}
+
+.app-container.sidebar-closed .main-content {
+  margin-left: 80px;
 }
 
 .app-content {
@@ -15,6 +28,7 @@
   flex: 1;
   padding: 2rem;
   min-height: calc(100vh - 80px);
+  transition: margin-left 0.3s ease;
 }
 
 /* Estilos de página */
@@ -268,6 +282,7 @@
 
   .main-content {
     padding: 1rem;
+    margin-left: 0 !important;
   }
 
   .stats-grid {

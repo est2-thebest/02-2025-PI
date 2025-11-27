@@ -219,7 +219,7 @@ Passos rápidos:
 2. Suba o container do banco:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 3. Rode a aplicação (o Spring aplicará as migrations Flyway automaticamente). Se você tiver um `.env` ele fornecerá as variáveis utilizadas pelo Docker e pela aplicação:

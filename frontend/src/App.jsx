@@ -1,11 +1,18 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useState } from 'react';
 import { AuthProvider } from './context/Auth';
 import { useAuth } from './hooks/useAuth';
-import Header from './components/common/Header';
+
 import Sidebar from './components/common/Sidebar';
 import LoadingSpinner from './components/common/LoadingSpinner';
+
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Ocorrencias from './pages/Ocorrencias';
+import Ambulancias from './pages/Ambulancias';
+import Profissionais from './pages/Profissionais';
+import Despacho from './pages/Despacho';
+
 import './App.css';
 
 // Componente para proteger rotas privadas
@@ -25,17 +32,22 @@ const PrivateRoute = ({ children }) => {
 
 // Layout principal com Header e Sidebar
 const MainLayout = ({ children }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
   return (
-    <div className="app-container">
-      <Header />
-      <div className="app-content">
-        <Sidebar />
-        <main className="main-content">{children}</main>
-      </div>
+    <div
+      className={`app-container ${
+        sidebarOpen ? 'sidebar-open' : 'sidebar-closed'
+      }`}
+    >
+      <Sidebar onToggle={setSidebarOpen} />
+
+      <main className="main-content">{children}</main>
     </div>
   );
 };
 
+// Lembrar de envolver rotas privadas com <PrivateRoute>
 function AppRoutes() {
   return (
     <Routes>
@@ -44,95 +56,108 @@ function AppRoutes() {
       <Route
         path="/dashboard"
         element={
-          <PrivateRoute>
-            <MainLayout>
-              <Dashboard />
-            </MainLayout>
-          </PrivateRoute>
+          <MainLayout>
+            <Dashboard />
+          </MainLayout>
+          // <PrivateRoute>
+          // </PrivateRoute>
         }
       />
 
       <Route
         path="/ocorrencias"
         element={
-          <PrivateRoute>
-            <MainLayout>
-              <div className="page-container">
-                <h1>Ocorrências</h1>
-                <p>Página em desenvolvimento...</p>
-              </div>
-            </MainLayout>
-          </PrivateRoute>
+          <MainLayout>
+            <Ocorrencias />
+          </MainLayout>
+          // <PrivateRoute>
+          // </PrivateRoute>
         }
       />
 
       <Route
         path="/ambulancias"
         element={
-          <PrivateRoute>
-            <MainLayout>
-              <div className="page-container">
-                <h1>Ambulâncias</h1>
-                <p>Página em desenvolvimento...</p>
-              </div>
-            </MainLayout>
-          </PrivateRoute>
+          <MainLayout>
+            <Ambulancias />
+          </MainLayout>
+          // <PrivateRoute>
+          // </PrivateRoute>
         }
       />
 
       <Route
         path="/profissionais"
         element={
-          <PrivateRoute>
-            <MainLayout>
-              <div className="page-container">
-                <h1>Profissionais</h1>
-                <p>Página em desenvolvimento...</p>
-              </div>
-            </MainLayout>
-          </PrivateRoute>
+          <MainLayout>
+            <Profissionais />
+          </MainLayout>
+          // <PrivateRoute>
+          // </PrivateRoute>
         }
       />
 
       <Route
         path="/bases"
         element={
-          <PrivateRoute>
-            <MainLayout>
-              <div className="page-container">
-                <h1>Bases</h1>
-                <p>Página em desenvolvimento...</p>
+          <MainLayout>
+            <div className="page-container">
+              <div className="page-header">
+                <h1>Bases de Atendimento</h1>
+                <p>Gerenciamento de bases e localizações</p>
               </div>
-            </MainLayout>
-          </PrivateRoute>
+              <div className="card">
+                <div className="card-body">
+                  <p>Página em desenvolvimento...</p>
+                  <p>
+                    Esta página permitirá o cadastro e gerenciamento das bases
+                    de atendimento da cidade.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </MainLayout>
+          // <PrivateRoute>
+          // </PrivateRoute>
         }
       />
 
       <Route
         path="/despacho"
         element={
-          <PrivateRoute>
-            <MainLayout>
-              <div className="page-container">
-                <h1>Despacho</h1>
-                <p>Página em desenvolvimento...</p>
-              </div>
-            </MainLayout>
-          </PrivateRoute>
+          <MainLayout>
+            <Despacho />
+          </MainLayout>
+          // <PrivateRoute>
+          // </PrivateRoute>
         }
       />
 
       <Route
         path="/relatorios"
         element={
-          <PrivateRoute>
-            <MainLayout>
-              <div className="page-container">
+          <MainLayout>
+            <div className="page-container">
+              <div className="page-header">
                 <h1>Relatórios</h1>
-                <p>Página em desenvolvimento...</p>
+                <p>Análises e estatísticas do sistema</p>
               </div>
-            </MainLayout>
-          </PrivateRoute>
+              <div className="card">
+                <div className="card-body">
+                  <p>Página em desenvolvimento...</p>
+                  <p>Esta página exibirá relatórios como:</p>
+                  <ul>
+                    <li>Histórico de atendimentos</li>
+                    <li>Tempo médio de resposta por gravidade</li>
+                    <li>Mapa de ocorrências por bairro</li>
+                    <li>Performance de ambulâncias</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </MainLayout>
+          // <PrivateRoute>
+          // </PrivateRoute>
         }
       />
 

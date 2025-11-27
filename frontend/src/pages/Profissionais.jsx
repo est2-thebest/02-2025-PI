@@ -1,0 +1,180 @@
+import { useState, useEffect } from 'react';
+import api from '../services/api';
+import LoadingSpinner from '../components/common/LoadingSpinner';
+import ProfissionalForm from '../components/profissionais/ProfissionalForm';
+import './Profissionais.css';
+
+const Profissionais = () => {
+  const [profissionais, setProfissionais] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [mostrarForm, setMostrarForm] = useState(false);
+  const [profissionalEdit, setProfissionalEdit] = useState(null);
+  const [filtroFuncao, setFiltroFuncao] = useState('');
+
+  useEffect(() => {
+    carregarProfissionais();
+  }, []);
+
+  const carregarProfissionais = async () => {
+    try {
+      setCarregando(true);
+      const response = await api.get('/profissionais');
+      setProfissionais(response.data);
+    } catch (error) {
+      console.error('Erro ao carregar profissionais:', error);
+    } finally {
+      setCarregando(false);
+    }
+  };
+
+  const handleNovo = () => {
+    setProfissionalEdit(null);
+    setMostrarForm(true);
+  };
+
+  const handleEditar = (profissional) => {
+    setProfissionalEdit(profissional);
+    setMostrarForm(true);
+  };
+
+  const handleSalvar = async () => {
+    setMostrarForm(false);
+    await carregarProfissionais();
+  };
+
+  const handleCancelar = () => {
+    setMostrarForm(false);
+    setProfissionalEdit(null);
+  };
+
+  const getIconeFuncao = (funcao) => {
+    const icones = {
+      MEDICO: '👨‍⚕️',
+      ENFERMEIRO: '👩‍⚕️',
+      CONDUTOR: '👨‍✈️',
+    };
+    return icones[funcao] || '👤';
+  };
+
+  const getCorFuncao = (funcao) => {
+    const cores = {
+      MEDICO: '#e91e63',
+      ENFERMEIRO: '#2196f3',
+      CONDUTOR: '#ff9800',
+    };
+    return cores[funcao] || '#757575';
+  };
+
+  const profissionaisFiltrados = profissionais.filter((p) => {
+    return !filtroFuncao || p.funcao === filtroFuncao;
+  });
+
+  if (mostrarForm) {
+    return (
+      <div className="page-container">
+        <ProfissionalForm
+          profissional={profissionalEdit}
+          onSalvar={handleSalvar}
+          onCancelar={handleCancelar}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="page-container">
+      <div className="page-header flex-between">
+        <div>
+          <h1>Profissionais</h1>
+          <p>Gerenciamento de equipe médica</p>
+        </div>
+        <button className="btn btn-primary" onClick={handleNovo}>
+          + Novo Profissional
+        </button>
+      </div>
+
+      <div className="card">
+        <div className="card-body">
+          <div className="filtro-funcao">
+            <label>Filtrar por função:</label>
+            <select
+              value={filtroFuncao}
+              onChange={(e) => setFiltroFuncao(e.target.value)}
+              className="filtro-select"
+            >
+              <option value="">Todas as Funções</option>
+              <option value="MEDICO">Médico</option>
+              <option value="ENFERMEIRO">Enfermeiro</option>
+              <option value="CONDUTOR">Condutor</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {carregando ? (
+        <LoadingSpinner message="Carregando profissionais..." />
+      ) : (
+        <div className="profissionais-grid">
+          {profissionaisFiltrados.length === 0 ? (
+            <div className="card">
+              <div className="card-body text-center">
+                <p>Nenhum profissional encontrado</p>
+              </div>
+            </div>
+          ) : (
+            profissionaisFiltrados.map((profissional) => (
+              <div key={profissional.id} className="profissional-card">
+                <div className="profissional-avatar">
+                  <span style={{ fontSize: '3rem' }}>
+                    {getIconeFuncao(profissional.funcao)}
+                  </span>
+                </div>
+
+                <div className="profissional-info">
+                  <h3>{profissional.nome}</h3>
+                  <span
+                    className="badge"
+                    style={{
+                      backgroundColor: getCorFuncao(profissional.funcao),
+                    }}
+                  >
+                    {profissional.funcao}
+                  </span>
+                </div>
+
+                <div className="profissional-detalhes">
+                  <div className="detalhe-item">
+                    <span className="detalhe-label">📞 Contato:</span>
+                    <span className="detalhe-valor">
+                      {profissional.contato || 'Não informado'}
+                    </span>
+                  </div>
+
+                  <div className="detalhe-item">
+                    <span className="detalhe-label">Status:</span>
+                    <span
+                      className={`status-badge ${
+                        profissional.ativo ? 'ativo' : 'inativo'
+                      }`}
+                    >
+                      {profissional.ativo ? 'Ativo' : 'Inativo'}
+                    </span>
+                  </div>
+                </div>
+
+                <button
+                  className="btn btn-secondary btn-block"
+                  onClick={() => handleEditar(profissional)}
+                >
+                  Editar
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Profissionais;

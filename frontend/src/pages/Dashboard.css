@@ -22,8 +22,16 @@
 }
 
 .stat-icon {
-  font-size: 3rem;
   line-height: 1;
+}
+
+/* Novas classes de cor */
+.stat-red {
+  border-left: 4px solid #d32f2f;
+}
+
+.stat-blue {
+  border-left: 4px solid #1565c0;
 }
 
 .stat-info h3 {
@@ -37,22 +45,6 @@
   margin: 0.25rem 0 0 0;
   color: #666;
   font-size: 0.9rem;
-}
-
-.stat-warning {
-  border-left: 4px solid #ff9800;
-}
-
-.stat-success {
-  border-left: 4px solid #4caf50;
-}
-
-.stat-info {
-  border-left: 4px solid #2196f3;
-}
-
-.stat-primary {
-  border-left: 4px solid #9c27b0;
 }
 
 .dashboard-content {

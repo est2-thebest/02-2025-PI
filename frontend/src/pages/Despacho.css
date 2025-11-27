@@ -1,0 +1,195 @@
+.despacho-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.ocorrencias-painel,
+.ambulancias-painel {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  max-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+}
+
+.painel-header {
+  padding: 1.5rem;
+  border-bottom: 2px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+}
+
+.painel-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+
+.ocorrencias-lista,
+.ambulancias-lista {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.ocorrencia-item {
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ocorrencia-item:hover {
+  border-color: #2196f3;
+  transform: translateX(4px);
+}
+
+.ocorrencia-item.selecionada {
+  background: #e3f2fd;
+  border-color: #2196f3;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+}
+
+.ocorrencia-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.ocorrencia-id {
+  font-weight: 600;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.ocorrencia-info p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.ocorrencia-local {
+  font-weight: 600;
+  color: #333;
+}
+
+.ocorrencia-tipo {
+  color: #666;
+}
+
+.ocorrencia-sla {
+  color: #2196f3;
+  font-weight: 500;
+}
+
+.painel-vazio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+.ambulancia-item {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.ambulancia-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.ambulancia-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.badge-uti {
+  background: #e91e63 !important;
+}
+
+.badge-basica {
+  background: #2196f3 !important;
+}
+
+.ambulancia-detalhes {
+  margin-bottom: 1rem;
+}
+
+.detalhe {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.detalhe .label {
+  font-weight: 500;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.detalhe .value {
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.detalhe .value.destacado {
+  font-weight: 600;
+  color: #2196f3;
+  font-size: 1.05rem;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #999;
+}
+
+.empty-message p {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.empty-message small {
+  display: block;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 1024px) {
+  .despacho-container {
+    grid-template-columns: 1fr;
+  }
+
+  .ocorrencias-painel,
+  .ambulancias-painel {
+    max-height: 500px;
+  }
+}
