@@ -70,18 +70,6 @@ const Ocorrencias: React.FC = () => {
     return matchStatus && matchGravidade && matchBusca;
   });
 
-  if (mostrarForm) {
-    return (
-      <div className="page-container">
-        <OcorrenciaForm
-          ocorrencia={ocorrenciaEdit || undefined}
-          onSalvar={handleSalvar}
-          onCancelar={handleCancelar}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="page-container">
       <div className="page-header flex-between">
@@ -93,6 +81,13 @@ const Ocorrencias: React.FC = () => {
           + Nova Ocorrência
         </button>
       </div>
+
+      <OcorrenciaForm
+        isOpen={mostrarForm}
+        ocorrencia={ocorrenciaEdit || undefined}
+        onSalvar={handleSalvar}
+        onCancelar={handleCancelar}
+      />
 
       <div className="card">
         <div className="card-body">

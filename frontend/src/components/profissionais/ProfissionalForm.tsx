@@ -1,20 +1,33 @@
 import React from 'react';
+import Modal from '../common/Modal';
 
 interface ProfissionalFormProps {
+  isOpen: boolean;
   profissional?: any;
   onSalvar: () => void;
   onCancelar: () => void;
 }
 
-const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ profissional, onSalvar, onCancelar }) => {
+const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissional, onSalvar, onCancelar }) => {
   const [formData, setFormData] = React.useState({
     nome: profissional?.nome || '',
     funcao: profissional?.funcao || 'MEDICO',
-    cref: profissional?.cref || '',
+    contato: profissional?.contato || '',
     ativo: profissional?.ativo ?? true,
   });
+
   const [salvando, setSalvando] = React.useState(false);
   const [erro, setErro] = React.useState('');
+
+  // Atualiza o form quando abrir o modal para edição
+  React.useEffect(() => {
+    setFormData({
+      nome: profissional?.nome || '',
+      funcao: profissional?.funcao || 'MEDICO',
+      contato: profissional?.contato || '',
+      ativo: profissional?.ativo ?? true,
+    });
+  }, [profissional, isOpen]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     const { name, value, type } = e.currentTarget;
@@ -45,12 +58,23 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ profissional, onSal
   };
 
   return (
-    <div className="form-container">
-      <div className="form-header">
-        <h2>{profissional ? 'Editar Profissional' : 'Novo Profissional'}</h2>
-      </div>
-
-      <form onSubmit={handleSubmit}>
+    <Modal
+      isOpen={isOpen}
+      title={profissional ? 'Editar Profissional' : 'Novo Profissional'}
+      onClose={onCancelar}
+      size="medium"
+      footer={
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button type="submit" form="profissional-form" className="btn btn-primary" disabled={salvando}>
+            {salvando ? 'Salvando...' : 'Salvar'}
+          </button>
+          <button type="button" className="btn btn-secondary" onClick={onCancelar}>
+            Cancelar
+          </button>
+        </div>
+      }
+    >
+      <form id="profissional-form" onSubmit={handleSubmit}>
         {erro && <div className="alert alert-error">{erro}</div>}
 
         <div className="form-row">
@@ -85,28 +109,20 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ profissional, onSal
 
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="cref">CREF/Registro</label>
+            <label htmlFor="contato">Contato *</label>
             <input
-              id="cref"
-              name="cref"
-              type="text"
-              value={formData.cref}
+              id="contato"
+              name="contato"
+              type="tel"
+              value={formData.contato}
               onChange={handleChange}
-              placeholder="Número de registro profissional"
+              placeholder="(00) 00000-0000"
+              required
             />
           </div>
         </div>
-
-        <div className="form-actions">
-          <button type="submit" className="btn btn-primary" disabled={salvando}>
-            {salvando ? 'Salvando...' : 'Salvar'}
-          </button>
-          <button type="button" className="btn btn-secondary" onClick={onCancelar}>
-            Cancelar
-          </button>
-        </div>
       </form>
-    </div>
+    </Modal>
   );
 };
 

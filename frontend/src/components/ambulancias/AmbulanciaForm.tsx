@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import ambulanciaService, { Ambulancia } from '../../services/ambulancia';
-import '../ocorrencias/OcorrenciaForm.css';
+import Modal from '../common/Modal';
+import './AmbulanciaForm.css';
 
 interface AmbulanciaFormProps {
+  isOpen: boolean;
   ambulancia?: Ambulancia;
   onSalvar: () => void;
   onCancelar: () => void;
 }
 
-const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({ ambulancia, onSalvar, onCancelar }) => {
+const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({ isOpen, ambulancia, onSalvar, onCancelar }) => {
   const [formData, setFormData] = useState<Ambulancia>({
     placa: '',
     tipo: 'BASICA',
@@ -74,12 +76,23 @@ const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({ ambulancia, onSalvar, o
   };
 
   return (
-    <div className="form-container">
-      <div className="form-header">
-        <h2>{ambulancia ? 'Editar Ambulância' : 'Nova Ambulância'}</h2>
-      </div>
-
-      <form onSubmit={handleSubmit}>
+    <Modal
+      isOpen={isOpen}
+      title={ambulancia ? 'Editar Ambulância' : 'Nova Ambulância'}
+      onClose={onCancelar}
+      size="medium"
+      footer={
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button type="submit" form="ambulancia-form" className="btn btn-primary" disabled={salvando}>
+            {salvando ? 'Salvando...' : 'Salvar'}
+          </button>
+          <button type="button" className="btn btn-secondary" onClick={onCancelar}>
+            Cancelar
+          </button>
+        </div>
+      }
+    >
+      <form id="ambulancia-form" onSubmit={handleSubmit}>
         {erro && (
           <div className="alert alert-error">
             {erro}
@@ -142,22 +155,13 @@ const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({ ambulancia, onSalvar, o
               type="text"
               value={formData.base}
               onChange={handleChange}
-              placeholder="Nome da base"
+              placeholder="Nome da base associada"
               required
             />
           </div>
         </div>
-
-        <div className="form-actions">
-          <button type="submit" className="btn btn-primary" disabled={salvando}>
-            {salvando ? 'Salvando...' : 'Salvar'}
-          </button>
-          <button type="button" className="btn btn-secondary" onClick={onCancelar}>
-            Cancelar
-          </button>
-        </div>
       </form>
-    </div>
+    </Modal>
   );
 };
 

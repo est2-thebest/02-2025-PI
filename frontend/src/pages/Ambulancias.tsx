@@ -80,18 +80,6 @@ const Ambulancias: React.FC = () => {
     return matchStatus && matchTipo && matchBusca;
   });
 
-  if (mostrarForm) {
-    return (
-      <div className="page-container">
-        <AmbulanciaForm
-          ambulancia={ambulanciaEdit || undefined}
-          onSalvar={handleSalvar}
-          onCancelar={handleCancelar}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="page-container">
       <div className="page-header">
@@ -103,6 +91,13 @@ const Ambulancias: React.FC = () => {
           + Nova Ambulância
         </button>
       </div>
+
+      <AmbulanciaForm
+        isOpen={mostrarForm}
+        ambulancia={ambulanciaEdit || undefined}
+        onSalvar={handleSalvar}
+        onCancelar={handleCancelar}
+      />
 
       <div className="card">
         <div className="card-body">

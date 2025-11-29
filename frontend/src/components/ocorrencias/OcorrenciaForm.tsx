@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import ocorrenciaService, { Ocorrencia } from '../../services/ocorrencia';
+import Modal from '../common/Modal';
 import './OcorrenciaForm.css';
 
 interface OcorrenciaFormProps {
+  isOpen: boolean;
   ocorrencia?: Ocorrencia;
   onSalvar: () => void;
   onCancelar: () => void;
 }
 
-const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ ocorrencia, onSalvar, onCancelar }) => {
+const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onSalvar, onCancelar }) => {
   const [formData, setFormData] = useState<Ocorrencia>({
     local: '',
     tipo: '',
@@ -65,17 +67,28 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ ocorrencia, onSalvar, o
   };
 
   return (
-    <div className="form-container">
-      <div className="form-header">
-        <h2>{ocorrencia ? 'Editar Ocorrência' : 'Nova Ocorrência'}</h2>
-      </div>
-
-      <form onSubmit={handleSubmit}>
+    <Modal
+      isOpen={isOpen}
+      title={ocorrencia ? 'Editar Ocorrência' : 'Nova Ocorrência'}
+      onClose={onCancelar}
+      size="medium"
+      footer={
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button type="submit" form="ocorrencia-form" className="btn btn-primary" disabled={salvando}>
+            {salvando ? 'Salvando...' : 'Salvar'}
+          </button>
+          <button type="button" className="btn btn-secondary" onClick={onCancelar}>
+            Cancelar
+          </button>
+        </div>
+      }
+    >
+      <form id="ocorrencia-form" onSubmit={handleSubmit}>
         {erro && <div className="alert alert-error">{erro}</div>}
 
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="local">Local / Bairro *</label>
+            <label htmlFor="local">Local *</label>
             <input
               id="local"
               name="local"
@@ -88,7 +101,7 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ ocorrencia, onSalvar, o
           </div>
 
           <div className="form-group">
-            <label htmlFor="tipo">Tipo de Ocorrência *</label>
+            <label htmlFor="tipo">Tipo *</label>
             <select
               id="tipo"
               name="tipo"
@@ -96,7 +109,6 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ ocorrencia, onSalvar, o
               onChange={handleChange}
               required
             >
-              <option value="">Selecione...</option>
               <option value="ACIDENTE_TRANSITO">Acidente de Trânsito</option>
               <option value="MAL_SUBITO">Mal Súbito</option>
               <option value="TRAUMA">Trauma</option>
@@ -154,17 +166,8 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ ocorrencia, onSalvar, o
             />
           </div>
         </div>
-
-        <div className="form-actions">
-          <button type="submit" className="btn btn-primary" disabled={salvando}>
-            {salvando ? 'Salvando...' : 'Salvar'}
-          </button>
-          <button type="button" className="btn btn-secondary" onClick={onCancelar}>
-            Cancelar
-          </button>
-        </div>
       </form>
-    </div>
+    </Modal>
   );
 };
 

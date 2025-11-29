@@ -78,18 +78,6 @@ const Profissionais: React.FC = () => {
     return !filtroFuncao || p.funcao === filtroFuncao;
   });
 
-  if (mostrarForm) {
-    return (
-      <div className="page-container">
-        <ProfissionalForm
-          profissional={profissionalEdit}
-          onSalvar={handleSalvar}
-          onCancelar={handleCancelar}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="page-container">
       <div className="page-header flex-between">
@@ -101,6 +89,13 @@ const Profissionais: React.FC = () => {
           + Novo Profissional
         </button>
       </div>
+
+      <ProfissionalForm
+        isOpen={mostrarForm}
+        profissional={profissionalEdit}
+        onSalvar={handleSalvar}
+        onCancelar={handleCancelar}
+      />
 
       <div className="card">
         <div className="card-body">
