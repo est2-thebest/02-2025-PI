@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import logo from '../assets/logo-short.svg';
 import './Login.css';
 
 const Login: React.FC = () => {
-  const [login, setLogin] = React.useState<string>('');
-  const [senha, setSenha] = React.useState<string>('');
-  const [erro, setErro] = React.useState<string>('');
-  const [carregando, setCarregando] = React.useState<boolean>(false);
+  const [login, setLogin] = useState<string>('');
+  const [senha, setSenha] = useState<string>('');
+  const [erro, setErro] = useState<string>('');
+  const [carregando, setCarregando] = useState<boolean>(false);
   
   const { signIn } = useAuth();
   const navigate = useNavigate();
@@ -42,9 +43,13 @@ const Login: React.FC = () => {
   return (
     <div className="login-container">
       <div className="login-box">
+        <div className="login-logo">
+          <img src={logo} alt="Vitalis Tech" />
+        </div>
+        
         <div className="login-header">
-          <h1>🚑 SOS-Rota</h1>
-          <p>Sistema Inteligente de Gestão de Emergências</p>
+          <h1>Login</h1>
+          <p>Para continuar, insira seus dados</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
@@ -57,6 +62,7 @@ const Login: React.FC = () => {
               onChange={(e) => setLogin(e.target.value)}
               placeholder="Digite seu usuário"
               disabled={carregando}
+              autoFocus
             />
           </div>
 
@@ -84,6 +90,7 @@ const Login: React.FC = () => {
             disabled={carregando}
           >
             {carregando ? <LoadingSpinner size="small" message="" /> : 'Entrar'}
+            {/* {carregando ? 'Entrando...' : 'Entrar'} */}
           </button>
         </form>
 
