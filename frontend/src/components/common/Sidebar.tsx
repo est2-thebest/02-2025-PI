@@ -13,7 +13,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo.svg';
 import './Sidebar.css';
 
 interface SidebarProps {
