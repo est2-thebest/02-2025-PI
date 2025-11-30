@@ -1,0 +1,65 @@
+/* =============================================
+   BANNER MINIMALISTA COM LINHA VERMELHA
+   ============================================= */
+
+.banner {
+  position: relative;
+  padding: 2.5rem 2rem;
+  margin-bottom: 3rem;
+  border-bottom: 4px solid var(--primary);
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.banner-content {
+  flex: 1;
+}
+
+.banner-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.5px;
+}
+
+.banner-subtitle {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    gap: 1rem;
+  }
+
+  .banner-title {
+    font-size: 1.5rem;
+  }
+
+  .banner-subtitle {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner {
+    padding: 1.5rem 1rem;
+  }
+
+  .banner-title {
+    font-size: 1.25rem;
+  }
+
+  .banner-subtitle {
+    font-size: 0.8rem;
+  }
+}

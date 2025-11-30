@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import Banner from '../components/common/Banner';
 import ProfissionalForm from '../components/profissionais/ProfissionalForm';
 import './Profissionais.css';
 
@@ -80,11 +81,12 @@ const Profissionais: React.FC = () => {
 
   return (
     <div className="page-container">
-      <div className="page-header flex-between">
-        <div>
-          <h1>Profissionais</h1>
-          <p>Gerenciamento de equipe médica</p>
-        </div>
+      <Banner 
+        title="Profissionais" 
+        subtitle="Gerenciamento de equipe médica" 
+      />
+      <div className="flex-between" style={{ marginBottom: '2rem' }}>
+        <div></div>
         <button className="btn btn-primary" onClick={handleNovo}>
           + Novo Profissional
         </button>

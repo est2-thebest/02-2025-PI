@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ambulanciaService, { Ambulancia } from '../services/ambulancia';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import Banner from '../components/common/Banner';
 import AmbulanciaForm from '../components/ambulancias/AmbulanciaForm';
 import './Ambulancias.css';
 
@@ -82,11 +83,12 @@ const Ambulancias: React.FC = () => {
 
   return (
     <div className="page-container">
-      <div className="page-header">
-        <div>
-          <h1>Ambulâncias</h1>
-          <p>Gerenciamento da frota de ambulâncias</p>
-        </div>
+      <Banner 
+        title="Ambulâncias" 
+        subtitle="Gerenciamento da frota de ambulâncias" 
+      />
+      <div className="flex-between" style={{ marginBottom: '2rem' }}>
+        <div></div>
         <button className="btn btn-primary" onClick={handleNovo}>
           + Nova Ambulância
         </button>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import Banner from '../components/common/Banner';
 import { Activity, MapPin, Clock, BarChart3 } from 'lucide-react';
 import './Relatorios.css';
 
@@ -88,10 +89,10 @@ const Relatorios: React.FC = () => {
 
   return (
     <div className="page-container">
-      <div className="page-header">
-        <h1>Relatórios</h1>
-        <p>Análises e estatísticas operacionais</p>
-      </div>
+      <Banner 
+        title="Relatórios" 
+        subtitle="Análises e estatísticas operacionais" 
+      />
 
       {/* FILTROS */}
       <div className="card mb-2">

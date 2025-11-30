@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import ocorrenciaService, { Ocorrencia } from '../services/ocorrencia';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import Banner from '../components/common/Banner';
 // import { getCorGravidade } from '../utils/helpers';
 import './Despacho.css';
 
@@ -138,10 +139,10 @@ const Despacho: React.FC = () => {
 
   return (
     <div className="page-container">
-      <div className="page-header">
-        <h1>Despacho de Ambulâncias</h1>
-        <p>Seleção inteligente de ambulâncias por SLA e disponibilidade</p>
-      </div>
+      <Banner 
+        title="Despacho de Ambulâncias" 
+        subtitle="Seleção inteligente de ambulâncias por SLA e disponibilidade" 
+      />
 
       <div className="despacho-container">
         {/* Lista de Ocorrências Abertas */}

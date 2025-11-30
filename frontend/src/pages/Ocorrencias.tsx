@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ocorrenciaService, { Ocorrencia } from '../services/ocorrencia';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import Banner from '../components/common/Banner';
 import OcorrenciaForm from '../components/ocorrencias/OcorrenciaForm';
 import { getCorGravidade, getCorStatus } from '../utils/helpers';
 import './Ocorrencias.css';
@@ -72,11 +73,12 @@ const Ocorrencias: React.FC = () => {
 
   return (
     <div className="page-container">
-      <div className="page-header flex-between">
-        <div>
-          <h1>Ocorrências</h1>
-          <p>Gerenciamento de ocorrências de emergência</p>
-        </div>
+      <Banner 
+        title="Ocorrências" 
+        subtitle="Gerenciamento de ocorrências de emergência" 
+      />
+      <div className="flex-between" style={{ marginBottom: '2rem' }}>
+        <div></div>
         <button className="btn btn-primary" onClick={handleNovo}>
           + Nova Ocorrência
         </button>

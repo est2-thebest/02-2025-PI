@@ -7,31 +7,37 @@
 
 :root {
   /* Cores principais */
-  --primary: #2196f3;
-  --primary-dark: #1976d2;
+  --primary: #d32f2f;
+  --primary-dark: #a4161a;
+  --secondary: #1565c0;
+  --secondary-dark: #0d47a1;
+  --secondary-light: #42a5f5;
   --success: #4caf50;
   --danger: #f44336;
+  --error: #ff4757;
   --warning: #ff9800;
   --info: #2196f3;
   
   /* Cores de texto */
-  --text-primary: #333333;
+  --text-primary: #1a1a2e;
   --text-secondary: #666666;
   --text-light: #999999;
   
   /* Cores de fundo */
   --bg-primary: #ffffff;
   --bg-secondary: #f5f7fa;
+  --bg-light: #f8f9fa;
   --bg-tertiary: #e9ecef;
+  
+  /* Bordas */
+  --border: #e0e0e0;
+  --border-radius: 6px;
+  --border-radius-lg: 12px;
   
   /* Sombras */
   --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
   --shadow-md: 0 2px 8px rgba(0,0,0,0.1);
   --shadow-lg: 0 4px 12px rgba(0,0,0,0.15);
-  
-  /* Bordas */
-  --border-radius: 6px;
-  --border-radius-lg: 12px;
   
   /* Transições */
   --transition: all 0.3s ease;

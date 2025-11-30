@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import Banner from '../components/common/Banner';
 import { Plus, Pencil, Trash } from 'lucide-react';
 import baseService from '../services/base';
 import './Bases.css';
@@ -97,12 +98,12 @@ const Bases: React.FC = () => {
 
   return (
     <div className="page-container">
-      <div className="page-header flex-between">
-        <div>
-          <h1>Bases de Atendimento</h1>
-          <p>Gerenciamento de bases e localizações</p>
-        </div>
-
+      <Banner 
+        title="Bases" 
+        subtitle="Gerenciamento de bases de emergência" 
+      />
+      <div className="flex-between" style={{ marginBottom: '2rem' }}>
+        <div></div>
         <button className="btn btn-primary" onClick={abrirModalCriar}>
           <Plus size={20} />
           Nova Base

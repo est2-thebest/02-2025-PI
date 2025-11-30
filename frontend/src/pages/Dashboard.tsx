@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ocorrenciaService, { Ocorrencia } from '../services/ocorrencia';
 import ambulanciaService from '../services/ambulancia';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import Banner from '../components/common/Banner';
 import { getCorGravidade, getCorStatus } from '../utils/helpers';
 
 import { Siren, Ambulance, CheckCircle, Timer } from 'lucide-react';
@@ -64,10 +65,10 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="page-container">
-      <div className="page-header">
-        <h1>Dashboard</h1>
-        <p>Visão geral do sistema de emergências</p>
-      </div>
+      <Banner 
+        title="Dashboard" 
+        subtitle="Visão geral do sistema de emergências" 
+      />
 
       <div className="stats-grid">
         {/* Ocorrências Abertas – vermelho */}
