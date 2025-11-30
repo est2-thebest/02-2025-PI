@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
-  FileWarning,
+  Siren,
   Ambulance,
   Users,
   MapPin,
@@ -52,7 +52,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
         </NavLink>
 
         <NavLink to="/ocorrencias" className="sidebar-item">
-          <FileWarning className="sidebar-icon icon-ocorrencias" />
+          <Siren className="sidebar-icon icon-ocorrencias" />
           <span className="sidebar-label">Ocorrências</span>
         </NavLink>
 
