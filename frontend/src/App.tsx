@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/Auth';
+import { ThemeProvider } from './context/ThemeProvider';
 
 import Sidebar from './components/common/Sidebar';
 
@@ -114,9 +115,11 @@ function AppRoutes(): React.ReactElement {
 function App(): React.ReactElement {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

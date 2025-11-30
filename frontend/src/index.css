@@ -56,6 +56,40 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* TEMA DARK */
+[data-theme="dark"] {
+  /* Cores principais (mantém as mesmas para manter identidade visual) */
+  --primary: #ff5252;
+  --primary-dark: #ff1744;
+  --secondary: #42a5f5;
+  --secondary-dark: #1e88e5;
+  --secondary-light: #64b5f6;
+  --success: #66bb6a;
+  --danger: #ef5350;
+  --error: #ff6b6b;
+  --warning: #ffa726;
+  --info: #29b6f6;
+  
+  /* Cores de texto */
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --text-light: #808080;
+  
+  /* Cores de fundo */
+  --bg-primary: #1e1e2e;
+  --bg-secondary: #2a2a3e;
+  --bg-light: #323245;
+  --bg-tertiary: #3a3a52;
+  
+  /* Bordas */
+  --border: #404060;
+  
+  /* Sombras */
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-lg: 0 4px 12px rgba(0,0,0,0.5);
+}
+
 html, body {
   font-family: var(--font-family);
 }

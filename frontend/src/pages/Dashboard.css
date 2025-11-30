@@ -6,19 +6,19 @@
 }
 
 .stat-card {
-  background: white;
+  background: var(--bg-primary);
   padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
   display: flex;
   align-items: center;
   gap: 1rem;
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: var(--shadow-lg);
 }
 
 .stat-icon {
@@ -27,23 +27,23 @@
 
 /* Novas classes de cor */
 .stat-red {
-  border-left: 4px solid #d32f2f;
+  border-left: 4px solid var(--primary);
 }
 
 .stat-blue {
-  border-left: 4px solid #1565c0;
+  border-left: 4px solid var(--secondary);
 }
 
 .stat-info h3 {
   margin: 0;
   font-size: 2rem;
   font-weight: 700;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .stat-info p {
   margin: 0.25rem 0 0 0;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
@@ -54,7 +54,7 @@
 
 .empty-message {
   text-align: center;
-  color: #999;
+  color: var(--text-light);
   padding: 2rem;
   font-style: italic;
 }

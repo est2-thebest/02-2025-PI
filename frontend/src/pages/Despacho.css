@@ -7,9 +7,9 @@
 
 .ocorrencias-painel,
 .ambulancias-painel {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background: var(--bg-primary);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
   max-height: calc(100vh - 200px);
   display: flex;
@@ -18,17 +18,17 @@
 
 .painel-header {
   padding: 1.5rem;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f8f9fa;
+  background: var(--bg-secondary);
 }
 
 .painel-header h2 {
   margin: 0;
   font-size: 1.25rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .btn-sm {
@@ -44,24 +44,24 @@
 }
 
 .ocorrencia-item {
-  background: #f8f9fa;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  border-radius: var(--border-radius);
   padding: 1rem;
   margin-bottom: 1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .ocorrencia-item:hover {
-  border-color: #2196f3;
+  border-color: var(--secondary);
   transform: translateX(4px);
 }
 
 .ocorrencia-item.selecionada {
-  background: #e3f2fd;
-  border-color: #2196f3;
-  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+  background: rgba(21, 101, 192, 0.1);
+  border-color: var(--secondary);
+  box-shadow: var(--shadow-md);
 }
 
 .ocorrencia-header {
@@ -73,7 +73,7 @@
 
 .ocorrencia-id {
   font-weight: 600;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
@@ -84,15 +84,15 @@
 
 .ocorrencia-local {
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .ocorrencia-tipo {
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .ocorrencia-sla {
-  color: #2196f3;
+  color: var(--secondary);
   font-weight: 500;
 }
 
@@ -103,16 +103,17 @@
   height: 100%;
   padding: 2rem;
   text-align: center;
-  color: #999;
+  color: var(--text-light);
   font-style: italic;
 }
 
 .ambulancia-item {
-  background: white;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  border-radius: var(--border-radius);
   padding: 1.25rem;
   margin-bottom: 1rem;
+  transition: var(--transition);
 }
 
 .ambulancia-header {
@@ -121,21 +122,23 @@
   align-items: center;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 1px solid var(--border);
 }
 
 .ambulancia-header h3 {
   margin: 0;
   font-size: 1.1rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .badge-uti {
-  background: #e91e63 !important;
+  background: var(--danger) !important;
+  color: white !important;
 }
 
 .badge-basica {
-  background: #2196f3 !important;
+  background: var(--secondary) !important;
+  color: white !important;
 }
 
 .ambulancia-detalhes {
@@ -151,25 +154,25 @@
 
 .detalhe .label {
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
 .detalhe .value {
-  color: #333;
+  color: var(--text-primary);
   font-size: 0.95rem;
 }
 
 .detalhe .value.destacado {
   font-weight: 600;
-  color: #2196f3;
+  color: var(--secondary);
   font-size: 1.05rem;
 }
 
 .empty-message {
   text-align: center;
   padding: 3rem 2rem;
-  color: #999;
+  color: var(--text-light);
 }
 
 .empty-message p {

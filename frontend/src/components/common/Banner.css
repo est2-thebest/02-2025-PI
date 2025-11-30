@@ -7,7 +7,7 @@
   padding: 2.5rem 2rem;
   margin-bottom: 3rem;
   border-bottom: 4px solid var(--primary);
-  background: white;
+  background: var(--bg-primary);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -21,14 +21,14 @@
 .banner-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--text-primary);
   margin: 0 0 0.5rem 0;
   letter-spacing: -0.5px;
 }
 
 .banner-subtitle {
   font-size: 0.95rem;
-  color: #666;
+  color: var(--text-secondary);
   margin: 0;
   font-weight: 400;
 }

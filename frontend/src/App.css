@@ -5,7 +5,7 @@
 /* Ajustado para permitir deslocamento pelo sidebar */
 .app-container {
   min-height: 100vh;
-  background: #f5f7fa;
+  background: var(--bg-secondary);
   transition: margin-left 0.3s ease;
   display: flex;
   width: 100%;
@@ -44,32 +44,32 @@
 .page-header h1 {
   margin: 0 0 0.5rem 0;
   font-size: 2rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .page-header p {
   margin: 0;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 1rem;
 }
 
 /* Cards */
 .card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background: var(--bg-primary);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
 }
 
 .card-header {
   padding: 1.5rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border);
 }
 
 .card-header h2 {
   margin: 0;
   font-size: 1.25rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .card-body {
@@ -87,23 +87,23 @@
 }
 
 .data-table th {
-  background: #f5f5f5;
+  background: var(--bg-secondary);
   padding: 0.75rem;
   text-align: left;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   font-size: 0.9rem;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid var(--border);
 }
 
 .data-table td {
   padding: 0.75rem;
-  border-bottom: 1px solid #f0f0f0;
-  color: #666;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
 }
 
 .data-table tbody tr:hover {
-  background: #f9f9f9;
+  background: var(--bg-light);
 }
 
 /* Badges */
@@ -113,7 +113,7 @@
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: white;
+  color: var(--bg-primary);
   text-transform: uppercase;
 }
 
@@ -143,27 +143,27 @@
 }
 
 .btn-primary {
-  background: #2196f3;
+  background: var(--info);
   color: white;
 }
 
 .btn-success {
-  background: #4caf50;
+  background: var(--success);
   color: white;
 }
 
 .btn-danger {
-  background: #f44336;
+  background: var(--danger);
   color: white;
 }
 
 .btn-warning {
-  background: #ff9800;
+  background: var(--warning);
   color: white;
 }
 
 .btn-secondary {
-  background: #757575;
+  background: var(--text-secondary);
   color: white;
 }
 
@@ -183,7 +183,7 @@
 .form-group label {
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #333;
+  color: var(--text-primary);
   font-size: 0.9rem;
 }
 
@@ -191,7 +191,7 @@
 .form-group select,
 .form-group textarea {
   padding: 0.625rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border);
   border-radius: 6px;
   font-size: 0.95rem;
   transition: all 0.3s ease;
@@ -218,27 +218,27 @@
 }
 
 .alert-success {
-  background: #e8f5e9;
-  color: #2e7d32;
-  border: 1px solid #a5d6a7;
+  background: rgba(76, 175, 80, 0.1);
+  color: var(--success);
+  border: 1px solid var(--success);
 }
 
 .alert-error {
-  background: #ffebee;
-  color: #c62828;
-  border: 1px solid #ef9a9a;
+  background: rgba(244, 67, 54, 0.1);
+  color: var(--danger);
+  border: 1px solid var(--danger);
 }
 
 .alert-warning {
-  background: #fff3e0;
-  color: #ef6c00;
-  border: 1px solid #ffcc80;
+  background: rgba(255, 152, 0, 0.1);
+  color: var(--warning);
+  border: 1px solid var(--warning);
 }
 
 .alert-info {
-  background: #e3f2fd;
-  color: #1565c0;
-  border: 1px solid #90caf9;
+  background: rgba(33, 150, 243, 0.1);
+  color: var(--info);
+  border: 1px solid var(--info);
 }
 
 /* Utilitários */

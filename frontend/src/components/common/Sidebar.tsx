@@ -11,9 +11,12 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
+  Moon,
+  Sun,
 } from 'lucide-react';
 
 import logo from '../../assets/logo.svg';
+import { useTheme } from '../../hooks/useTheme';
 import './Sidebar.css';
 
 interface SidebarProps {
@@ -22,6 +25,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
+  const { theme, toggleTheme } = useTheme();
 
   const handleToggle = (): void => {
     const novoEstado = !isOpen;
@@ -81,6 +85,19 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
           <span className="sidebar-label">Relatórios</span>
         </NavLink>
       </nav>
+
+      <div className="sidebar-footer">
+        <button className="sidebar-theme-toggle" onClick={toggleTheme} title={`Ativar tema ${theme === 'light' ? 'escuro' : 'claro'}`}>
+          {theme === 'light' ? (
+            <Moon size={20} className="theme-icon" />
+          ) : (
+            <Sun size={20} className="theme-icon" />
+          )}
+          <span className="sidebar-label">
+            {theme === 'light' ? 'Escuro' : 'Claro'}
+          </span>
+        </button>
+      </div>
 
       <button className="sidebar-logout" onClick={handleLogout}>
         <LogOut className="sidebar-icon icon-logout" />
