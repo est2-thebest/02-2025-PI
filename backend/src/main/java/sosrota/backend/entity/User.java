@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "usuario")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,18 +24,20 @@ public class User implements UserDetails {
     private Long id;
 
     @NotBlank
-    @Column(unique = true)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @NotBlank
     @Email
-    @Column(unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
     @NotBlank
+    @Column(name = "senha_hash", nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "perfil")
     private Role role = Role.USER;
 
     private boolean enabled = true;

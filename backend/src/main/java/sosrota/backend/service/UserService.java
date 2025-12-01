@@ -2,6 +2,8 @@ package sosrota.backend.service;
 
 import sosrota.backend.entity.User;
 import sosrota.backend.repository.UserRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,9 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
-    
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -34,7 +36,7 @@ public class UserService implements UserDetailsService {
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
-        
+
         return userRepository.save(user);
     }
 

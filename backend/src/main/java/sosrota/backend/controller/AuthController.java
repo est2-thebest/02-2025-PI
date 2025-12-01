@@ -1,7 +1,7 @@
 package sosrota.backend.controller;
 
-
 import sosrota.backend.dto.LoginRequest;
+import sosrota.backend.dto.RegisterRequest;
 import sosrota.backend.dto.JwtResponse;
 import sosrota.backend.service.AuthService;
 import jakarta.validation.Valid;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    
+
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<JwtResponse> register(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<JwtResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
 

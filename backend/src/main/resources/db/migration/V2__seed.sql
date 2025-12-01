@@ -1,25 +1,92 @@
--- V2__seed.sql - minimal seed data for testing
+-- ============================================================
+-- V2__seed.sql
+-- Importação dos dados reais dos CSV (bairros e arestas)
+-- ============================================================
 
-INSERT INTO bairros (nome) VALUES ('Centro') ON CONFLICT DO NOTHING;
-INSERT INTO bairros (nome) VALUES ('Bela Vista') ON CONFLICT DO NOTHING;
+-- Bairros de Cidália (bairros.csv)
+INSERT INTO bairro (id, nome) VALUES
+(1,'Jardim América'),
+(2,'Centro'),
+(3,'Setor Leste'),
+(4,'Vila Nova'),
+(5,'Alto da Serra'),
+(6,'Setor Oeste'),
+(7,'Distrito Industrial'),
+(8,'Residencial Esperança'),
+(9,'Recanto Verde'),
+(10,'Ecoparque Sul'),
+(11,'Nova Alvorada'),
+(12,'Setor das Palmeiras'),
+(13,'Colina Azul'),
+(14,'Bela Vista'),
+(15,'Morada do Sol'),
+(16,'Setor Central II'),
+(17,'Lago Azul'),
+(18,'Residencial Florença'),
+(19,'Setor Industrial Norte'),
+(20,'Vale do Cerrado')
+ON CONFLICT (id) DO NOTHING;
 
--- Add two nodes and an edge between them (for quick Dijkstra smoke test)
-INSERT INTO nodes (bairro_id, name, latitude, longitude)
-SELECT b.id, 'Node A', -23.55052, -46.633308
-FROM bairros b WHERE b.nome='Centro'
-ON CONFLICT DO NOTHING;
-
-INSERT INTO nodes (bairro_id, name, latitude, longitude)
-SELECT b.id, 'Node B', -23.551, -46.634
-FROM bairros b WHERE b.nome='Centro'
-ON CONFLICT DO NOTHING;
-
--- Insert an edge with a small distance
-WITH a AS (
-  SELECT id FROM nodes WHERE name='Node A' LIMIT 1
-), b AS (
-  SELECT id FROM nodes WHERE name='Node B' LIMIT 1
-)
-INSERT INTO edges (source_node, target_node, distance_meters, travel_time_seconds)
-SELECT a.id, b.id, 120.0, 90 FROM a, b
-ON CONFLICT DO NOTHING;
+-- Arestas entre bairros (ruas_conexoes.csv)
+INSERT INTO aresta (id, origem_id, destino_id, distancia_km) VALUES
+(1,9,16,6.4),
+(2,15,19,8.3),
+(3,17,7,1.2),
+(4,3,5,12.2),
+(5,12,4,14.0),
+(6,13,7,9.2),
+(7,13,6,19.2),
+(8,5,9,13.2),
+(9,16,3,3.4),
+(10,8,10,12.8),
+(11,20,1,14.4),
+(12,14,3,18.1),
+(13,2,18,1.9),
+(14,6,11,15.7),
+(15,1,17,14.5),
+(16,3,4,19.2),
+(17,14,19,18.9),
+(18,15,18,18.5),
+(19,20,2,14.7),
+(20,15,20,12.7),
+(21,17,15,7.9),
+(22,4,12,6.4),
+(23,5,15,8.6),
+(24,6,2,13.4),
+(25,14,15,9.4),
+(26,9,3,18.7),
+(27,18,7,1.7),
+(28,13,7,17.5),
+(29,18,9,9.0),
+(30,15,11,18.3),
+(31,3,4,3.0),
+(32,7,2,13.9),
+(33,20,4,7.7),
+(34,5,16,14.3),
+(35,13,4,12.8),
+(36,1,16,13.4),
+(37,14,3,14.3),
+(38,2,6,16.7),
+(39,11,8,16.6),
+(40,11,10,4.6),
+(41,4,1,7.0),
+(42,11,7,14.4),
+(43,13,5,6.2),
+(44,9,20,2.7),
+(45,13,15,8.3),
+(46,17,13,16.3),
+(47,10,14,7.9),
+(48,8,1,17.9),
+(49,9,2,19.3),
+(50,16,17,18.4),
+(51,6,14,9.0),
+(52,2,19,5.1),
+(53,6,5,1.3),
+(54,2,1,1.4),
+(55,20,19,3.7),
+(56,20,2,6.5),
+(57,4,8,13.1),
+(58,4,19,3.8),
+(59,16,11,2.8),
+(60,13,16,7.8)
+ON CONFLICT (id) DO NOTHING;
