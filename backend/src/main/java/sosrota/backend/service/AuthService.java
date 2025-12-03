@@ -1,13 +1,14 @@
 package sosrota.backend.service;
 
-import sosrota.backend.dto.LoginRequest;
-import sosrota.backend.dto.JwtResponse;
-import sosrota.backend.entity.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import sosrota.backend.dto.JwtResponse;
+import sosrota.backend.dto.LoginRequest;
+import sosrota.backend.entity.User;
 
 @Service
 @RequiredArgsConstructor
