@@ -7,8 +7,8 @@ import logo from '../assets/logo-short.svg';
 import './Login.css';
 
 const Login: React.FC = () => {
-  const [login, setLogin] = useState<string>('');
-  const [senha, setSenha] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [erro, setErro] = useState<string>('');
   const [carregando, setCarregando] = useState<boolean>(false);
   
@@ -19,7 +19,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     setErro('');
     
-    if (!login || !senha) {
+    if (!username || !password) {
       setErro('Por favor, preencha todos os campos');
       return;
     }
@@ -27,7 +27,7 @@ const Login: React.FC = () => {
     setCarregando(true);
 
     try {
-      const result = await signIn(login, senha);
+      const result = await signIn(username, password);
       
       if (result.success) {
         navigate('/dashboard');
@@ -59,8 +59,8 @@ const Login: React.FC = () => {
             <input
               id="login"
               type="text"
-              value={login}
-              onChange={(e) => setLogin(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               placeholder="Digite seu usuário"
               disabled={carregando}
               autoFocus
@@ -72,8 +72,8 @@ const Login: React.FC = () => {
             <input
               id="senha"
               type="password"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Digite sua senha"
               disabled={carregando}
             />

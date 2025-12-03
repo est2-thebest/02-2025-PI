@@ -13,9 +13,13 @@ const api: AxiosInstance = axios.create({
 // Interceptor para adicionar token automaticamente em todas as requisições
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = localStorage.getItem('sosrota_token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const isAuthRequest = config.url?.includes('/auth/login');
+
+    if (!isAuthRequest) {
+      const token = localStorage.getItem('sosrota_token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config;
   },
