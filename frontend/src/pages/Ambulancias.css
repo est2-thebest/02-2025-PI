@@ -24,38 +24,6 @@
 }
 
 /* ============================== */
-/* BOTÕES */
-/* ============================== */
-
-.btn {
-  display: inline-block;
-  padding: 0.6rem 1rem;
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-weight: 600;
-  transition: var(--transition);
-}
-
-.btn-primary {
-  background: var(--secondary);
-  color: white;
-}
-
-.btn-primary:hover {
-  background: var(--secondary-dark);
-}
-
-.btn-secondary {
-  background: var(--text-light);
-  color: white;
-}
-
-.btn-secondary:hover {
-  background: var(--text-secondary);
-}
-
-/* ============================== */
 /* CARD PADRÃO */
 /* ============================== */
 
