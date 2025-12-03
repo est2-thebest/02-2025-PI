@@ -1,0 +1,1709 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------------< sosrota:backend >---------------------------
+[INFO] Building backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.0:run (default-cli) > test-compile @ backend >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ backend ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ backend ---
+[INFO] skip non existing resourceDirectory C:\Users\CaioBrito\Projetos\02-2025-PI\backend\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ backend ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:4.0.0:run (default-cli) < test-compile @ backend <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.0:run (default-cli) @ backend ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2025-12-01T21:10:11.363-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Starting BackendApplication using Java 21.0.9 with PID 7920 (C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes started by CaioBrito in C:\Users\CaioBrito\Projetos\02-2025-PI\backend)
+2025-12-01T21:10:11.368-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:10:11.462-03:00  INFO 7920 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-12-01T21:10:11.462-03:00  INFO 7920 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-12-01T21:10:11.488-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\CaioBrito\Projetos\02-2025-PI\backend\compose.yaml
+2025-12-01T21:10:13.469-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2025-12-01T21:10:14.490-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:10:14.581-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 75 ms. Found 1 JPA repository interface.
+2025-12-01T21:10:15.457-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2025-12-01T21:10:15.479-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:10:15.481-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-01T21:10:15.567-03:00  INFO 7920 --- [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2088 ms
+2025-12-01T21:10:15.744-03:00  INFO 7920 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:10:15.831-03:00  INFO 7920 --- [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 7.1.8.Final
+2025-12-01T21:10:16.781-03:00  INFO 7920 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:10:16.841-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-01T21:10:17.077-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@65328af0
+2025-12-01T21:10:17.081-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-01T21:10:17.125-03:00  WARN 7920 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:10:17.158-03:00  INFO 7920 --- [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://127.0.0.1:46521/mydatabase]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.1
+	Default catalog/schema: mydatabase/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:10:18.822-03:00  INFO 7920 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:10:18.837-03:00  INFO 7920 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:10:18.947-03:00  INFO 7920 --- [  restartedMain] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-01T21:10:19.536-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/callback' ...
+2025-12-01T21:10:19.536-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/callback using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@1aed1c64 ...
+2025-12-01T21:10:19.536-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Unable to resolve location classpath:db/callback.
+2025-12-01T21:10:19.536-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:10:19.536-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@1aed1c64 ...
+2025-12-01T21:10:19.538-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:10:19.539-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning starting at classpath root in filesystem: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\
+2025-12-01T21:10:19.540-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning for resources in path: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\db\migration (db/migration)
+2025-12-01T21:10:19.542-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:10:19.543-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:10:19.544-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:10:19.544-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@1aed1c64 ...
+2025-12-01T21:10:19.544-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:10:19.544-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:10:19.545-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:10:19.545-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classes at classpath:db/migration
+2025-12-01T21:10:19.576-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V2__seed.sql
+2025-12-01T21:10:19.577-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V1__init.sql
+2025-12-01T21:10:19.586-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.database.DatabaseTypeRegister    : Multiple databases found that handle url 'jdbc:postgresql://127.0.0.1:46521/mydatabase': CockroachDB,PostgreSQL
+2025-12-01T21:10:19.586-03:00  INFO 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://127.0.0.1:46521/mydatabase (PostgreSQL 18.1)
+2025-12-01T21:10:19.586-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database Type: PostgreSQL
+2025-12-01T21:10:19.586-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Driver: PostgreSQL JDBC Driver 42.7.8
+2025-12-01T21:10:19.587-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : DDL Transactions Supported: true
+2025-12-01T21:10:19.588-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Schemas: public
+2025-12-01T21:10:19.589-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Default schema: null
+2025-12-01T21:10:19.610-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Scanning for script callbacks ...
+2025-12-01T21:10:19.614-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.c.SqlScriptCallbackFactory       : Scanning for SQL callbacks ...
+2025-12-01T21:10:19.628-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Validating migrations ...
+2025-12-01T21:10:19.632-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:10:19.646-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:10:19.646-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:10:19.647-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:10:19.647-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:10:19.648-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:10:19.648-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:10:19.648-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:10:19.648-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:10:19.654-03:00  INFO 7920 --- [  restartedMain] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2025-12-01T21:10:19.659-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.030s)
+2025-12-01T21:10:19.665-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbSchemas      : Skipping creation of existing schema: "public"
+2025-12-01T21:10:19.679-03:00  INFO 7920 --- [  restartedMain] org.flywaydb.core.Flyway                 : All configured schemas are empty; baseline operation skipped. A baseline or migration script with a lower version than the baseline version may execute if available. Check the Schemas parameter if this is not intended.
+2025-12-01T21:10:19.686-03:00  INFO 7920 --- [  restartedMain] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2025-12-01T21:10:19.693-03:00 DEBUG 7920 --- [  restartedMain] o.flywaydb.core.internal.parser.Parser   : Parsing  ...
+2025-12-01T21:10:19.703-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 1: CREATE TABLE "public"."flyway_schema_history" (
+    "installed_rank" INT NOT NULL,
+    "version" VARCHAR(50),
+    "description" VARCHAR(200) NOT NULL,
+    "type" VARCHAR(20) NOT NULL,
+    "script" VARCHAR(1000) NOT NULL,
+    "checksum" INTEGER,
+    "installed_by" VARCHAR(100) NOT NULL,
+    "installed_on" TIMESTAMP NOT NULL DEFAULT now(),
+    "execution_time" INTEGER NOT NULL,
+    "success" BOOLEAN NOT NULL
+)
+2025-12-01T21:10:19.704-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 13: ALTER TABLE "public"."flyway_schema_history" ADD CONSTRAINT "flyway_schema_history_pk" PRIMARY KEY ("installed_rank")
+2025-12-01T21:10:19.705-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 14: CREATE INDEX "flyway_schema_history_s_idx" ON "public"."flyway_schema_history" ("success")
+2025-12-01T21:10:19.705-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: CREATE TABLE "public"."flyway_schema_history" (
+    "installed_rank" INT NOT NULL,
+    "version" VARCHAR(50),
+    "description" VARCHAR(200) NOT NULL,
+    "type" VARCHAR(20) NOT NULL,
+    "script" VARCHAR(1000) NOT NULL,
+    "checksum" INTEGER,
+    "installed_by" VARCHAR(100) NOT NULL,
+    "installed_on" TIMESTAMP NOT NULL DEFAULT now(),
+    "execution_time" INTEGER NOT NULL,
+    "success" BOOLEAN NOT NULL
+)
+2025-12-01T21:10:19.716-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:10:19.717-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: ALTER TABLE "public"."flyway_schema_history" ADD CONSTRAINT "flyway_schema_history_pk" PRIMARY KEY ("installed_rank")
+2025-12-01T21:10:19.720-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:10:19.720-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: CREATE INDEX "flyway_schema_history_s_idx" ON "public"."flyway_schema_history" ("success")
+2025-12-01T21:10:19.722-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:10:19.722-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.JdbcTableSchemaHistory         : Created Schema History table "public"."flyway_schema_history"
+2025-12-01T21:10:19.752-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:10:19.763-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2025-12-01T21:10:19.766-03:00 DEBUG 7920 --- [  restartedMain] o.flywaydb.core.internal.parser.Parser   : Parsing V1__init.sql ...
+2025-12-01T21:10:19.769-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 7: -- ============================================================
+-- V1__init.sql
+-- Estrutura inicial completa do banco SOS-Rota
+-- ============================================================
+
+-- Tabela de bairros (vértices do grafo)
+CREATE TABLE IF NOT EXISTS bairro (
+  id INTEGER PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL
+)
+2025-12-01T21:10:19.770-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 13: -- Tabela de arestas (ruas ligando bairros)
+CREATE TABLE IF NOT EXISTS aresta (
+  id INTEGER PRIMARY KEY,
+  origem_id INTEGER NOT NULL REFERENCES bairro(id) ON DELETE CASCADE,
+  destino_id INTEGER NOT NULL REFERENCES bairro(id) ON DELETE CASCADE,
+  distancia_km NUMERIC NOT NULL
+)
+2025-12-01T21:10:19.771-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 21: -- Ambulâncias
+CREATE TABLE IF NOT EXISTS ambulancia (
+  id SERIAL PRIMARY KEY,
+  placa VARCHAR(50) UNIQUE NOT NULL,
+  tipo VARCHAR(50) NOT NULL,
+  status VARCHAR(50) NOT NULL,
+  base_id INTEGER REFERENCES bairro(id)
+)
+2025-12-01T21:10:19.772-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 30: -- Profissionais
+CREATE TABLE IF NOT EXISTS profissional (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  funcao VARCHAR(100) NOT NULL,
+  contato VARCHAR(255),
+  ativo BOOLEAN DEFAULT TRUE
+)
+2025-12-01T21:10:19.772-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 39: -- Equipes
+CREATE TABLE IF NOT EXISTS equipe (
+  id SERIAL PRIMARY KEY,
+  descricao VARCHAR(255),
+  ambulancia_id INTEGER REFERENCES ambulancia(id)
+)
+2025-12-01T21:10:19.773-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 46: -- Relação equipe-profissional
+CREATE TABLE IF NOT EXISTS equipe_profissional (
+  equipe_id INTEGER NOT NULL REFERENCES equipe(id) ON DELETE CASCADE,
+  profissional_id INTEGER NOT NULL REFERENCES profissional(id) ON DELETE CASCADE,
+  PRIMARY KEY (equipe_id, profissional_id)
+)
+2025-12-01T21:10:19.775-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 53: -- Ocorrências
+CREATE TABLE IF NOT EXISTS ocorrencia (
+  id SERIAL PRIMARY KEY,
+  tipo VARCHAR(100),
+  gravidade VARCHAR(20),
+  bairro_id INTEGER REFERENCES bairro(id),
+  data_hora_abertura TIMESTAMP,
+  status VARCHAR(50),
+  observacao TEXT
+)
+2025-12-01T21:10:19.777-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 64: -- Atendimentos
+CREATE TABLE IF NOT EXISTS atendimento (
+  id SERIAL PRIMARY KEY,
+  ocorrencia_id INTEGER REFERENCES ocorrencia(id),
+  ambulancia_id INTEGER REFERENCES ambulancia(id),
+  data_hora_despacho TIMESTAMP,
+  data_hora_chegada TIMESTAMP,
+  distancia_km NUMERIC
+)
+2025-12-01T21:10:19.779-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 74: -- Usuários (login do sistema)
+CREATE TABLE IF NOT EXISTS usuario (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(100) UNIQUE NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  senha_hash VARCHAR(255) NOT NULL,
+  perfil VARCHAR(50)
+)
+2025-12-01T21:10:19.782-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Starting migration of schema "public" to version "1 - init" ...
+2025-12-01T21:10:19.786-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - init"
+2025-12-01T21:10:19.789-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: -- ============================================================
+-- V1__init.sql
+-- Estrutura inicial completa do banco SOS-Rota
+-- ============================================================
+
+-- Tabela de bairros (vértices do grafo)
+CREATE TABLE IF NOT EXISTS bairro (
+  id INTEGER PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL
+)
+2025-12-01T21:10:19.794-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:10:19.794-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: -- Tabela de arestas (ruas ligando bairros)
+CREATE TABLE IF NOT EXISTS aresta (
+  id INTEGER PRIMARY KEY,
+  origem_id INTEGER NOT NULL REFERENCES bairro(id) ON DELETE CASCADE,
+  destino_id INTEGER NOT NULL REFERENCES bairro(id) ON DELETE CASCADE,
+  distancia_km NUMERIC NOT NULL
+)
+2025-12-01T21:10:19.798-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:10:19.799-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: -- Ambulâncias
+CREATE TABLE IF NOT EXISTS ambulancia (
+  id SERIAL PRIMARY KEY,
+  placa VARCHAR(50) UNIQUE NOT NULL,
+  tipo VARCHAR(50) NOT NULL,
+  status VARCHAR(50) NOT NULL,
+  base_id INTEGER REFERENCES bairro(id)
+)
+2025-12-01T21:10:19.803-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:10:19.803-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: -- Profissionais
+CREATE TABLE IF NOT EXISTS profissional (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  funcao VARCHAR(100) NOT NULL,
+  contato VARCHAR(255),
+  ativo BOOLEAN DEFAULT TRUE
+)
+2025-12-01T21:10:19.806-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:10:19.807-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: -- Equipes
+CREATE TABLE IF NOT EXISTS equipe (
+  id SERIAL PRIMARY KEY,
+  descricao VARCHAR(255),
+  ambulancia_id INTEGER REFERENCES ambulancia(id)
+)
+2025-12-01T21:10:19.809-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:10:19.809-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: -- Relação equipe-profissional
+CREATE TABLE IF NOT EXISTS equipe_profissional (
+  equipe_id INTEGER NOT NULL REFERENCES equipe(id) ON DELETE CASCADE,
+  profissional_id INTEGER NOT NULL REFERENCES profissional(id) ON DELETE CASCADE,
+  PRIMARY KEY (equipe_id, profissional_id)
+)
+2025-12-01T21:10:19.813-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:10:19.814-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: -- Ocorrências
+CREATE TABLE IF NOT EXISTS ocorrencia (
+  id SERIAL PRIMARY KEY,
+  tipo VARCHAR(100),
+  gravidade VARCHAR(20),
+  bairro_id INTEGER REFERENCES bairro(id),
+  data_hora_abertura TIMESTAMP,
+  status VARCHAR(50),
+  observacao TEXT
+)
+2025-12-01T21:10:19.818-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:10:19.818-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: -- Atendimentos
+CREATE TABLE IF NOT EXISTS atendimento (
+  id SERIAL PRIMARY KEY,
+  ocorrencia_id INTEGER REFERENCES ocorrencia(id),
+  ambulancia_id INTEGER REFERENCES ambulancia(id),
+  data_hora_despacho TIMESTAMP,
+  data_hora_chegada TIMESTAMP,
+  distancia_km NUMERIC
+)
+2025-12-01T21:10:19.821-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:10:19.822-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: -- Usuários (login do sistema)
+CREATE TABLE IF NOT EXISTS usuario (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(100) UNIQUE NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  senha_hash VARCHAR(255) NOT NULL,
+  perfil VARCHAR(50)
+)
+2025-12-01T21:10:19.828-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:10:19.828-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Successfully completed migration of schema "public" to version "1 - init"
+2025-12-01T21:10:19.838-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.JdbcTableSchemaHistory         : Schema History table "public"."flyway_schema_history" successfully updated to reflect changes
+2025-12-01T21:10:19.846-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:10:19.854-03:00 DEBUG 7920 --- [  restartedMain] o.flywaydb.core.internal.parser.Parser   : Parsing V2__seed.sql ...
+2025-12-01T21:10:19.856-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 7: -- ============================================================
+-- V2__seed.sql
+-- Importação dos dados reais dos CSV (bairros e arestas)
+-- ============================================================
+
+-- Bairros de Cidália (bairros.csv)
+INSERT INTO bairro (id, nome) VALUES
+(1,'Jardim América'),
+(2,'Centro'),
+(3,'Setor Leste'),
+(4,'Vila Nova'),
+(5,'Alto da Serra'),
+(6,'Setor Oeste'),
+(7,'Distrito Industrial'),
+(8,'Residencial Esperança'),
+(9,'Recanto Verde'),
+(10,'Ecoparque Sul'),
+(11,'Nova Alvorada'),
+(12,'Setor das Palmeiras'),
+(13,'Colina Azul'),
+(14,'Bela Vista'),
+(15,'Morada do Sol'),
+(16,'Setor Central II'),
+(17,'Lago Azul'),
+(18,'Residencial Florença'),
+(19,'Setor Industrial Norte'),
+(20,'Vale do Cerrado')
+ON CONFLICT (id) DO NOTHING
+2025-12-01T21:10:19.860-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 31: -- Arestas entre bairros (ruas_conexoes.csv)
+INSERT INTO aresta (id, origem_id, destino_id, distancia_km) VALUES
+(1,9,16,6.4),
+(2,15,19,8.3),
+(3,17,7,1.2),
+(4,3,5,12.2),
+(5,12,4,14.0),
+(6,13,7,9.2),
+(7,13,6,19.2),
+(8,5,9,13.2),
+(9,16,3,3.4),
+(10,8,10,12.8),
+(11,20,1,14.4),
+(12,14,3,18.1),
+(13,2,18,1.9),
+(14,6,11,15.7),
+(15,1,17,14.5),
+(16,3,4,19.2),
+(17,14,19,18.9),
+(18,15,18,18.5),
+(19,20,2,14.7),
+(20,15,20,12.7),
+(21,17,15,7.9),
+(22,4,12,6.4),
+(23,5,15,8.6),
+(24,6,2,13.4),
+(25,14,15,9.4),
+(26,9,3,18.7),
+(27,18,7,1.7),
+(28,13,7,17.5),
+(29,18,9,9.0),
+(30,15,11,18.3),
+(31,3,4,3.0),
+(32,7,2,13.9),
+(33,20,4,7.7),
+(34,5,16,14.3),
+(35,13,4,12.8),
+(36,1,16,13.4),
+(37,14,3,14.3),
+(38,2,6,16.7),
+(39,11,8,16.6),
+(40,11,10,4.6),
+(41,4,1,7.0),
+(42,11,7,14.4),
+(43,13,5,6.2),
+(44,9,20,2.7),
+(45,13,15,8.3),
+(46,17,13,16.3),
+(47,10,14,7.9),
+(48,8,1,17.9),
+(49,9,2,19.3),
+(50,16,17,18.4),
+(51,6,14,9.0),
+(52,2,19,5.1),
+(53,6,5,1.3),
+(54,2,1,1.4),
+(55,20,19,3.7),
+(56,20,2,6.5),
+(57,4,8,13.1),
+(58,4,19,3.8),
+(59,16,11,2.8),
+(60,13,16,7.8)
+ON CONFLICT (id) DO NOTHING
+2025-12-01T21:10:19.860-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Starting migration of schema "public" to version "2 - seed" ...
+2025-12-01T21:10:19.863-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - seed"
+2025-12-01T21:10:19.864-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: -- ============================================================
+-- V2__seed.sql
+-- Importação dos dados reais dos CSV (bairros e arestas)
+-- ============================================================
+
+-- Bairros de Cidália (bairros.csv)
+INSERT INTO bairro (id, nome) VALUES
+(1,'Jardim América'),
+(2,'Centro'),
+(3,'Setor Leste'),
+(4,'Vila Nova'),
+(5,'Alto da Serra'),
+(6,'Setor Oeste'),
+(7,'Distrito Industrial'),
+(8,'Residencial Esperança'),
+(9,'Recanto Verde'),
+(10,'Ecoparque Sul'),
+(11,'Nova Alvorada'),
+(12,'Setor das Palmeiras'),
+(13,'Colina Azul'),
+(14,'Bela Vista'),
+(15,'Morada do Sol'),
+(16,'Setor Central II'),
+(17,'Lago Azul'),
+(18,'Residencial Florença'),
+(19,'Setor Industrial Norte'),
+(20,'Vale do Cerrado')
+ON CONFLICT (id) DO NOTHING
+2025-12-01T21:10:19.866-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 20 rows affected
+2025-12-01T21:10:19.866-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: -- Arestas entre bairros (ruas_conexoes.csv)
+INSERT INTO aresta (id, origem_id, destino_id, distancia_km) VALUES
+(1,9,16,6.4),
+(2,15,19,8.3),
+(3,17,7,1.2),
+(4,3,5,12.2),
+(5,12,4,14.0),
+(6,13,7,9.2),
+(7,13,6,19.2),
+(8,5,9,13.2),
+(9,16,3,3.4),
+(10,8,10,12.8),
+(11,20,1,14.4),
+(12,14,3,18.1),
+(13,2,18,1.9),
+(14,6,11,15.7),
+(15,1,17,14.5),
+(16,3,4,19.2),
+(17,14,19,18.9),
+(18,15,18,18.5),
+(19,20,2,14.7),
+(20,15,20,12.7),
+(21,17,15,7.9),
+(22,4,12,6.4),
+(23,5,15,8.6),
+(24,6,2,13.4),
+(25,14,15,9.4),
+(26,9,3,18.7),
+(27,18,7,1.7),
+(28,13,7,17.5),
+(29,18,9,9.0),
+(30,15,11,18.3),
+(31,3,4,3.0),
+(32,7,2,13.9),
+(33,20,4,7.7),
+(34,5,16,14.3),
+(35,13,4,12.8),
+(36,1,16,13.4),
+(37,14,3,14.3),
+(38,2,6,16.7),
+(39,11,8,16.6),
+(40,11,10,4.6),
+(41,4,1,7.0),
+(42,11,7,14.4),
+(43,13,5,6.2),
+(44,9,20,2.7),
+(45,13,15,8.3),
+(46,17,13,16.3),
+(47,10,14,7.9),
+(48,8,1,17.9),
+(49,9,2,19.3),
+(50,16,17,18.4),
+(51,6,14,9.0),
+(52,2,19,5.1),
+(53,6,5,1.3),
+(54,2,1,1.4),
+(55,20,19,3.7),
+(56,20,2,6.5),
+(57,4,8,13.1),
+(58,4,19,3.8),
+(59,16,11,2.8),
+(60,13,16,7.8)
+ON CONFLICT (id) DO NOTHING
+2025-12-01T21:10:19.870-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 60 rows affected
+2025-12-01T21:10:19.871-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Successfully completed migration of schema "public" to version "2 - seed"
+2025-12-01T21:10:19.876-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.JdbcTableSchemaHistory         : Schema History table "public"."flyway_schema_history" successfully updated to reflect changes
+2025-12-01T21:10:19.882-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:10:19.893-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.056s)
+2025-12-01T21:10:19.903-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Memory usage: 34 of 96M
+2025-12-01T21:10:19.993-03:00  WARN 7920 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:10:20.115-03:00  INFO 7920 --- [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userService
+2025-12-01T21:10:20.823-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2025-12-01T21:10:20.833-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Started BackendApplication in 10.153 seconds (process running for 11.07)
+2025-12-01T21:11:19.602-03:00  INFO 7920 --- [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-01T21:11:19.602-03:00  INFO 7920 --- [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-01T21:11:19.604-03:00  INFO 7920 --- [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        usuario u1_0 
+    where
+        u1_0.username=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        usuario u1_0 
+    where
+        u1_0.email=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    insert 
+    into
+        usuario
+        (email, enabled, senha_hash, perfil, username) 
+    values
+        (?, ?, ?, ?, ?)
+2025-12-01T21:11:20.622-03:00  WARN 7920 --- [nio-8081-exec-1] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 42703
+2025-12-01T21:11:20.622-03:00  WARN 7920 --- [nio-8081-exec-1] org.hibernate.orm.jdbc.error             : ERROR: column "enabled" of relation "usuario" does not exist
+  Posição: 28
+2025-12-01T21:11:20.644-03:00 ERROR 7920 --- [nio-8081-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.springframework.dao.InvalidDataAccessResourceUsageException: could not execute statement [ERROR: column "enabled" of relation "usuario" does not exist
+  Posição: 28] [insert into usuario (email,enabled,senha_hash,perfil,username) values (?,?,?,?,?)]; SQL [insert into usuario (email,enabled,senha_hash,perfil,username) values (?,?,?,?,?)]] with root cause
+
+org.postgresql.util.PSQLException: ERROR: column "enabled" of relation "usuario" does not exist
+  Posição: 28
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2736) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2421) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:372) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:525) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:435) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:196) ~[postgresql-42.7.8.jar:42.7.8]
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:157) ~[postgresql-42.7.8.jar:42.7.8]
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-7.0.2.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-7.0.2.jar:na]
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:190) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.id.insert.GetGeneratedKeysDelegate.performMutation(GetGeneratedKeysDelegate.java:103) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.engine.jdbc.mutation.internal.MutationExecutorSingleNonBatched.performNonBatchedOperations(MutationExecutorSingleNonBatched.java:45) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.engine.jdbc.mutation.internal.AbstractMutationExecutor.execute(AbstractMutationExecutor.java:66) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.engine.jdbc.mutation.internal.AbstractMutationExecutor.execute(AbstractMutationExecutor.java:55) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.persister.entity.mutation.InsertCoordinatorStandard.doStaticInserts(InsertCoordinatorStandard.java:191) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.persister.entity.mutation.InsertCoordinatorStandard.coordinateInsert(InsertCoordinatorStandard.java:129) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.persister.entity.mutation.InsertCoordinatorStandard.insert(InsertCoordinatorStandard.java:92) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:90) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:684) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.engine.spi.ActionQueue.addResolvedEntityInsertAction(ActionQueue.java:291) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.engine.spi.ActionQueue.addInsertAction(ActionQueue.java:272) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.engine.spi.ActionQueue.addAction(ActionQueue.java:322) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.event.internal.AbstractSaveEventListener.addInsertAction(AbstractSaveEventListener.java:376) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:290) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:220) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:138) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:148) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.persist(DefaultPersistEventListener.java:92) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:76) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:52) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:140) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:692) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:676) ~[hibernate-core-7.1.8.Final.jar:7.1.8.Final]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:362) ~[spring-orm-7.0.1.jar:7.0.1]
+	at jdk.proxy4/jdk.proxy4.$Proxy135.persist(Unknown Source) ~[na:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:317) ~[spring-orm-7.0.1.jar:7.0.1]
+	at jdk.proxy4/jdk.proxy4.$Proxy135.persist(Unknown Source) ~[na:na]
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:663) ~[spring-data-jpa-4.0.0.jar:4.0.0]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-7.0.1.jar:7.0.1]
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:278) ~[spring-data-commons-4.0.0.jar:4.0.0]
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:169) ~[spring-data-commons-4.0.0.jar:4.0.0]
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158) ~[spring-data-commons-4.0.0.jar:4.0.0]
+	at org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:545) ~[spring-data-commons-4.0.0.jar:4.0.0]
+	at org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:290) ~[spring-data-commons-4.0.0.jar:4.0.0]
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:708) ~[spring-data-commons-4.0.0.jar:4.0.0]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.1.jar:7.0.1]
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:171) ~[spring-data-commons-4.0.0.jar:4.0.0]
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:146) ~[spring-data-commons-4.0.0.jar:4.0.0]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.1.jar:7.0.1]
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:69) ~[spring-data-commons-4.0.0.jar:4.0.0]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.1.jar:7.0.1]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:370) ~[spring-tx-7.0.1.jar:7.0.1]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:118) ~[spring-tx-7.0.1.jar:7.0.1]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.1.jar:7.0.1]
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:135) ~[spring-tx-7.0.1.jar:7.0.1]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.1.jar:7.0.1]
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:166) ~[spring-data-jpa-4.0.0.jar:4.0.0]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.1.jar:7.0.1]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:222) ~[spring-aop-7.0.1.jar:7.0.1]
+	at jdk.proxy4/jdk.proxy4.$Proxy138.save(Unknown Source) ~[na:na]
+	at sosrota.backend.service.UserService.createUser(UserService.java:40) ~[classes/:na]
+	at sosrota.backend.service.AuthService.register(AuthService.java:28) ~[classes/:na]
+	at sosrota.backend.controller.AuthController.register(AuthController.java:21) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.1.jar:7.0.1]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.1.jar:7.0.1]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.1.jar:7.0.1]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.1.jar:7.0.1]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.1.jar:7.0.1]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.1.jar:7.0.1]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1003) ~[spring-webmvc-7.0.1.jar:7.0.1]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903) ~[spring-webmvc-7.0.1.jar:7.0.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649) ~[tomcat-embed-core-11.0.14.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.1.jar:7.0.1]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.14.jar:6.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-11.0.14.jar:11.0.14]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:235) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:371) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:380) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:380) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:132) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:86) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:380) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:380) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:181) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:380) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:380) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at sosrota.backend.config.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:35) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:380) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:110) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:96) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:380) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:380) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:380) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:380) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:380) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:237) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:195) ~[spring-security-web-7.0.0.jar:7.0.0]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:317) ~[spring-security-config-7.0.0.jar:7.0.0]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:355) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:272) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.1.jar:7.0.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1778) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57) ~[tomcat-embed-core-11.0.14.jar:11.0.14]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+2025-12-01T21:11:39.008-03:00  INFO 7920 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2025-12-01T21:11:39.013-03:00  INFO 7920 --- [       Thread-1] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:11:39.028-03:00  INFO 7920 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2025-12-01T21:11:39.033-03:00  INFO 7920 --- [       Thread-1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:11:39.038-03:00  INFO 7920 --- [       Thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-01T21:11:39.043-03:00  INFO 7920 --- [       Thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2025-12-01T21:11:39.254-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Starting BackendApplication using Java 21.0.9 with PID 7920 (C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes started by CaioBrito in C:\Users\CaioBrito\Projetos\02-2025-PI\backend)
+2025-12-01T21:11:39.255-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:11:39.263-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\CaioBrito\Projetos\02-2025-PI\backend\compose.yaml
+2025-12-01T21:11:40.480-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2025-12-01T21:11:40.797-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:11:40.815-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17 ms. Found 1 JPA repository interface.
+2025-12-01T21:11:40.978-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2025-12-01T21:11:40.982-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:11:40.982-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-01T21:11:41.034-03:00  INFO 7920 --- [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 553 ms
+2025-12-01T21:11:41.088-03:00  INFO 7920 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:11:41.166-03:00  INFO 7920 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:11:41.169-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-12-01T21:11:41.201-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@10ad9525
+2025-12-01T21:11:41.201-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-12-01T21:11:41.206-03:00  WARN 7920 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:11:41.213-03:00  INFO 7920 --- [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://127.0.0.1:46521/mydatabase]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.1
+	Default catalog/schema: mydatabase/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:11:41.297-03:00  INFO 7920 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:11:41.298-03:00  INFO 7920 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:11:41.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/callback' ...
+2025-12-01T21:11:41.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/callback using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@37527dcb ...
+2025-12-01T21:11:41.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Unable to resolve location classpath:db/callback.
+2025-12-01T21:11:41.412-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:11:41.413-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@37527dcb ...
+2025-12-01T21:11:41.413-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:11:41.413-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning starting at classpath root in filesystem: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\
+2025-12-01T21:11:41.413-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning for resources in path: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\db\migration (db/migration)
+2025-12-01T21:11:41.414-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:11:41.414-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:11:41.414-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V3__add_enabled_to_usuario.sql
+2025-12-01T21:11:41.414-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:11:41.414-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@37527dcb ...
+2025-12-01T21:11:41.414-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:11:41.414-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:11:41.414-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:11:41.414-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V3__add_enabled_to_usuario.sql
+2025-12-01T21:11:41.414-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classes at classpath:db/migration
+2025-12-01T21:11:41.417-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V2__seed.sql
+2025-12-01T21:11:41.417-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V1__init.sql
+2025-12-01T21:11:41.418-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V3__add_enabled_to_usuario.sql
+2025-12-01T21:11:41.418-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.database.DatabaseTypeRegister    : Multiple databases found that handle url 'jdbc:postgresql://127.0.0.1:46521/mydatabase': CockroachDB,PostgreSQL
+2025-12-01T21:11:41.418-03:00  INFO 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://127.0.0.1:46521/mydatabase (PostgreSQL 18.1)
+2025-12-01T21:11:41.418-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database Type: PostgreSQL
+2025-12-01T21:11:41.418-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Driver: PostgreSQL JDBC Driver 42.7.8
+2025-12-01T21:11:41.418-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : DDL Transactions Supported: true
+2025-12-01T21:11:41.418-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Schemas: public
+2025-12-01T21:11:41.419-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Default schema: null
+2025-12-01T21:11:41.427-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Scanning for script callbacks ...
+2025-12-01T21:11:41.428-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.c.SqlScriptCallbackFactory       : Scanning for SQL callbacks ...
+2025-12-01T21:11:41.431-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Validating migrations ...
+2025-12-01T21:11:41.431-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:11:41.433-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:11:41.433-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:11:41.433-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:11:41.435-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:11:41.435-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:11:41.435-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:11:41.435-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:11:41.435-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:11:41.435-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:11:41.435-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:11:41.435-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:11:41.435-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:11:41.443-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.012s)
+2025-12-01T21:11:41.444-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbSchemas      : Skipping creation of existing schema: "public"
+2025-12-01T21:11:41.454-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:11:41.457-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
+2025-12-01T21:11:41.458-03:00 DEBUG 7920 --- [  restartedMain] o.flywaydb.core.internal.parser.Parser   : Parsing V3__add_enabled_to_usuario.sql ...
+2025-12-01T21:11:41.461-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.sqlscript.ParserSqlScript        : Found statement at line 6: -- ============================================================
+-- V3__add_enabled_to_usuario.sql
+-- Add enabled column to usuario table for account activation support
+-- ============================================================
+
+ALTER TABLE usuario ADD COLUMN IF NOT EXISTS enabled BOOLEAN DEFAULT TRUE
+2025-12-01T21:11:41.461-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Starting migration of schema "public" to version "3 - add enabled to usuario" ...
+2025-12-01T21:11:41.464-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - add enabled to usuario"
+2025-12-01T21:11:41.465-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : Executing SQL: -- ============================================================
+-- V3__add_enabled_to_usuario.sql
+-- Add enabled column to usuario table for account activation support
+-- ============================================================
+
+ALTER TABLE usuario ADD COLUMN IF NOT EXISTS enabled BOOLEAN DEFAULT TRUE
+2025-12-01T21:11:41.467-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.DefaultSqlScriptExecutor       : 0 rows affected
+2025-12-01T21:11:41.467-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Successfully completed migration of schema "public" to version "3 - add enabled to usuario"
+2025-12-01T21:11:41.474-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.JdbcTableSchemaHistory         : Schema History table "public"."flyway_schema_history" successfully updated to reflect changes
+2025-12-01T21:11:41.481-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:11:41.487-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v3 (execution time 00:00.006s)
+2025-12-01T21:11:41.492-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Memory usage: 46 of 96M
+2025-12-01T21:11:41.514-03:00  WARN 7920 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:11:41.556-03:00  INFO 7920 --- [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userService
+2025-12-01T21:11:41.750-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2025-12-01T21:11:41.753-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Started BackendApplication in 2.54 seconds (process running for 91.991)
+2025-12-01T21:11:41.757-03:00  INFO 7920 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-12-01T21:11:47.279-03:00  INFO 7920 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-12-01T21:11:47.280-03:00  INFO 7920 --- [      Thread-17] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:11:47.293-03:00  INFO 7920 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2025-12-01T21:11:47.297-03:00  INFO 7920 --- [      Thread-17] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:11:47.298-03:00  INFO 7920 --- [      Thread-17] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2025-12-01T21:11:47.300-03:00  INFO 7920 --- [      Thread-17] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2025-12-01T21:11:47.501-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Starting BackendApplication using Java 21.0.9 with PID 7920 (C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes started by CaioBrito in C:\Users\CaioBrito\Projetos\02-2025-PI\backend)
+2025-12-01T21:11:47.501-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:11:47.508-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\CaioBrito\Projetos\02-2025-PI\backend\compose.yaml
+2025-12-01T21:11:48.781-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2025-12-01T21:11:49.081-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:11:49.102-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 18 ms. Found 1 JPA repository interface.
+2025-12-01T21:11:49.237-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2025-12-01T21:11:49.239-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:11:49.239-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-01T21:11:49.290-03:00  INFO 7920 --- [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 508 ms
+2025-12-01T21:11:49.340-03:00  INFO 7920 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:11:49.416-03:00  INFO 7920 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:11:49.418-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2025-12-01T21:11:49.457-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@37c00b5a
+2025-12-01T21:11:49.457-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2025-12-01T21:11:49.463-03:00  WARN 7920 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:11:49.470-03:00  INFO 7920 --- [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://127.0.0.1:46521/mydatabase]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.1
+	Default catalog/schema: mydatabase/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:11:49.547-03:00  INFO 7920 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:11:49.549-03:00  INFO 7920 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:11:49.653-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/callback' ...
+2025-12-01T21:11:49.653-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/callback using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@424878b1 ...
+2025-12-01T21:11:49.653-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Unable to resolve location classpath:db/callback.
+2025-12-01T21:11:49.657-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:11:49.657-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@424878b1 ...
+2025-12-01T21:11:49.657-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:11:49.657-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning starting at classpath root in filesystem: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\
+2025-12-01T21:11:49.658-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning for resources in path: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\db\migration (db/migration)
+2025-12-01T21:11:49.659-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:11:49.659-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:11:49.659-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V3__add_enabled_to_usuario.sql
+2025-12-01T21:11:49.659-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:11:49.659-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@424878b1 ...
+2025-12-01T21:11:49.660-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:11:49.660-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:11:49.660-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:11:49.660-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V3__add_enabled_to_usuario.sql
+2025-12-01T21:11:49.660-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classes at classpath:db/migration
+2025-12-01T21:11:49.662-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V2__seed.sql
+2025-12-01T21:11:49.662-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V1__init.sql
+2025-12-01T21:11:49.662-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V3__add_enabled_to_usuario.sql
+2025-12-01T21:11:49.663-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.database.DatabaseTypeRegister    : Multiple databases found that handle url 'jdbc:postgresql://127.0.0.1:46521/mydatabase': CockroachDB,PostgreSQL
+2025-12-01T21:11:49.663-03:00  INFO 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://127.0.0.1:46521/mydatabase (PostgreSQL 18.1)
+2025-12-01T21:11:49.663-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database Type: PostgreSQL
+2025-12-01T21:11:49.663-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Driver: PostgreSQL JDBC Driver 42.7.8
+2025-12-01T21:11:49.663-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : DDL Transactions Supported: true
+2025-12-01T21:11:49.663-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Schemas: public
+2025-12-01T21:11:49.663-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Default schema: null
+2025-12-01T21:11:49.672-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Scanning for script callbacks ...
+2025-12-01T21:11:49.673-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.c.SqlScriptCallbackFactory       : Scanning for SQL callbacks ...
+2025-12-01T21:11:49.677-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Validating migrations ...
+2025-12-01T21:11:49.677-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:11:49.681-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:11:49.681-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:11:49.681-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:11:49.681-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:11:49.681-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:11:49.681-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:11:49.681-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:11:49.681-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:11:49.681-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:11:49.681-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:11:49.681-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:11:49.681-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:11:49.690-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.013s)
+2025-12-01T21:11:49.691-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbSchemas      : Skipping creation of existing schema: "public"
+2025-12-01T21:11:49.703-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:11:49.708-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 3
+2025-12-01T21:11:49.709-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-01T21:11:49.716-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Memory usage: 44 of 96M
+2025-12-01T21:11:49.739-03:00  WARN 7920 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:11:49.779-03:00  INFO 7920 --- [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userService
+2025-12-01T21:11:49.959-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2025-12-01T21:11:49.963-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Started BackendApplication in 2.499 seconds (process running for 100.199)
+2025-12-01T21:11:49.965-03:00  INFO 7920 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-12-01T21:11:57.560-03:00  INFO 7920 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 17 class path changes (0 additions, 16 deletions, 1 modification)
+2025-12-01T21:11:57.562-03:00  INFO 7920 --- [      Thread-29] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:11:57.575-03:00  INFO 7920 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2025-12-01T21:11:57.578-03:00  INFO 7920 --- [      Thread-29] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:11:57.578-03:00  INFO 7920 --- [      Thread-29] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2025-12-01T21:11:57.582-03:00  INFO 7920 --- [      Thread-29] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2025-12-01T21:11:57.776-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Starting BackendApplication using Java 21.0.9 with PID 7920 (C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes started by CaioBrito in C:\Users\CaioBrito\Projetos\02-2025-PI\backend)
+2025-12-01T21:11:57.776-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:11:57.783-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\CaioBrito\Projetos\02-2025-PI\backend\compose.yaml
+2025-12-01T21:11:59.095-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2025-12-01T21:11:59.347-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:11:59.349-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2025-12-01T21:11:59.489-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2025-12-01T21:11:59.490-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:11:59.490-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-01T21:11:59.546-03:00  INFO 7920 --- [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 450 ms
+2025-12-01T21:11:59.587-03:00  INFO 7920 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:11:59.640-03:00  INFO 7920 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:11:59.642-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2025-12-01T21:11:59.673-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@560109a4
+2025-12-01T21:11:59.674-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2025-12-01T21:11:59.678-03:00  WARN 7920 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:11:59.684-03:00  INFO 7920 --- [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://127.0.0.1:46521/mydatabase]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.1
+	Default catalog/schema: mydatabase/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:11:59.713-03:00  INFO 7920 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:11:59.713-03:00  INFO 7920 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:11:59.754-03:00  WARN 7920 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:12:00.005-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2025-12-01T21:12:00.008-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Started BackendApplication in 2.275 seconds (process running for 110.244)
+2025-12-01T21:12:00.012-03:00  INFO 7920 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   OAuth2ResourceServerJwtConfiguration.OAuth2SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   OAuth2ResourceServerOpaqueTokenConfiguration.OAuth2SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   ServletWebSecurityAutoConfiguration.EnableWebSecurityConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+      - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ServletWebSecurityAutoConfiguration.SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+
+Negative matches:
+-----------------
+
+   OAuth2ResourceServerJwtConfiguration.OAuth2SecurityFilterChainConfiguration#jwtSecurityFilterChain:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.security.oauth2.jwt.JwtDecoder; SearchStrategy: all) did not find any beans of type org.springframework.security.oauth2.jwt.JwtDecoder (OnBeanCondition)
+
+   OAuth2ResourceServerOpaqueTokenConfiguration.OAuth2SecurityFilterChainConfiguration#opaqueTokenSecurityFilterChain:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector; SearchStrategy: all) did not find any beans of type org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector (OnBeanCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2025-12-01T21:12:02.343-03:00  INFO 7920 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 16 class path changes (16 additions, 0 deletions, 0 modifications)
+2025-12-01T21:12:02.351-03:00  INFO 7920 --- [      Thread-41] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:12:02.641-03:00  INFO 7920 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2025-12-01T21:12:02.644-03:00  INFO 7920 --- [      Thread-41] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:12:02.645-03:00  INFO 7920 --- [      Thread-41] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2025-12-01T21:12:02.655-03:00  INFO 7920 --- [      Thread-41] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2025-12-01T21:12:02.892-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Starting BackendApplication using Java 21.0.9 with PID 7920 (C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes started by CaioBrito in C:\Users\CaioBrito\Projetos\02-2025-PI\backend)
+2025-12-01T21:12:02.893-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:12:02.900-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\CaioBrito\Projetos\02-2025-PI\backend\compose.yaml
+2025-12-01T21:12:04.106-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2025-12-01T21:12:04.370-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:12:04.389-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17 ms. Found 1 JPA repository interface.
+2025-12-01T21:12:04.520-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2025-12-01T21:12:04.524-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:12:04.524-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-01T21:12:04.582-03:00  INFO 7920 --- [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 475 ms
+2025-12-01T21:12:04.638-03:00  INFO 7920 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:12:04.720-03:00  INFO 7920 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:12:04.723-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2025-12-01T21:12:04.757-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection org.postgresql.jdbc.PgConnection@5bfd5475
+2025-12-01T21:12:04.757-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2025-12-01T21:12:04.762-03:00  WARN 7920 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:12:04.768-03:00  INFO 7920 --- [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://127.0.0.1:46521/mydatabase]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.1
+	Default catalog/schema: mydatabase/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:12:04.841-03:00  INFO 7920 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:12:04.845-03:00  INFO 7920 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:12:04.969-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/callback' ...
+2025-12-01T21:12:04.969-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/callback using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@74382290 ...
+2025-12-01T21:12:04.970-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Unable to resolve location classpath:db/callback.
+2025-12-01T21:12:04.973-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:12:04.973-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@74382290 ...
+2025-12-01T21:12:04.973-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:12:04.973-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning starting at classpath root in filesystem: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\
+2025-12-01T21:12:04.973-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning for resources in path: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\db\migration (db/migration)
+2025-12-01T21:12:04.975-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:12:04.975-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:12:04.975-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V3__add_enabled_to_usuario.sql
+2025-12-01T21:12:04.977-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:12:04.977-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@74382290 ...
+2025-12-01T21:12:04.977-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:12:04.977-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:12:04.977-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:12:04.977-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V3__add_enabled_to_usuario.sql
+2025-12-01T21:12:04.977-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classes at classpath:db/migration
+2025-12-01T21:12:04.979-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V2__seed.sql
+2025-12-01T21:12:04.979-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V1__init.sql
+2025-12-01T21:12:04.979-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V3__add_enabled_to_usuario.sql
+2025-12-01T21:12:04.979-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.database.DatabaseTypeRegister    : Multiple databases found that handle url 'jdbc:postgresql://127.0.0.1:46521/mydatabase': CockroachDB,PostgreSQL
+2025-12-01T21:12:04.979-03:00  INFO 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://127.0.0.1:46521/mydatabase (PostgreSQL 18.1)
+2025-12-01T21:12:04.979-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database Type: PostgreSQL
+2025-12-01T21:12:04.979-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Driver: PostgreSQL JDBC Driver 42.7.8
+2025-12-01T21:12:04.979-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : DDL Transactions Supported: true
+2025-12-01T21:12:04.979-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Schemas: public
+2025-12-01T21:12:04.979-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Default schema: null
+2025-12-01T21:12:04.999-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Scanning for script callbacks ...
+2025-12-01T21:12:04.999-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.c.SqlScriptCallbackFactory       : Scanning for SQL callbacks ...
+2025-12-01T21:12:05.004-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Validating migrations ...
+2025-12-01T21:12:05.004-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:12:05.009-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:12:05.009-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:12:05.009-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:12:05.009-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:12:05.009-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:12:05.009-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:12:05.009-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:12:05.009-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:12:05.009-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:12:05.009-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:12:05.009-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:12:05.009-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:12:05.020-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.015s)
+2025-12-01T21:12:05.022-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbSchemas      : Skipping creation of existing schema: "public"
+2025-12-01T21:12:05.036-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:12:05.050-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 3
+2025-12-01T21:12:05.052-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-01T21:12:05.059-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Memory usage: 35 of 96M
+2025-12-01T21:12:05.088-03:00  WARN 7920 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:12:05.140-03:00  INFO 7920 --- [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userService
+2025-12-01T21:12:05.397-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2025-12-01T21:12:05.402-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Started BackendApplication in 2.554 seconds (process running for 115.639)
+2025-12-01T21:12:05.406-03:00  INFO 7920 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   OAuth2ResourceServerJwtConfiguration.OAuth2SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   OAuth2ResourceServerOpaqueTokenConfiguration.OAuth2SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   ServletWebSecurityAutoConfiguration.EnableWebSecurityConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) found beans named springSecurityFilterChain (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+
+   ServletWebSecurityAutoConfiguration.SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2025-12-01T21:13:38.196-03:00  INFO 7920 --- [nio-8081-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-01T21:13:38.196-03:00  INFO 7920 --- [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-01T21:13:38.198-03:00  INFO 7920 --- [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        usuario u1_0 
+    where
+        u1_0.username=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        usuario u1_0 
+    where
+        u1_0.email=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    insert 
+    into
+        usuario
+        (email, enabled, senha_hash, perfil, username) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        usuario u1_0 
+    where
+        u1_0.username=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        usuario u1_0 
+    where
+        u1_0.email=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    insert 
+    into
+        usuario
+        (email, enabled, senha_hash, perfil, username) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.senha_hash,
+        u1_0.perfil,
+        u1_0.username 
+    from
+        usuario u1_0 
+    where
+        u1_0.username=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.senha_hash,
+        u1_0.perfil,
+        u1_0.username 
+    from
+        usuario u1_0 
+    where
+        u1_0.username=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.enabled,
+        u1_0.senha_hash,
+        u1_0.perfil,
+        u1_0.username 
+    from
+        usuario u1_0 
+    where
+        u1_0.username=?
+2025-12-01T21:23:28.761-03:00  INFO 7920 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-12-01T21:23:28.763-03:00  INFO 7920 --- [      Thread-53] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:23:28.786-03:00  INFO 7920 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2025-12-01T21:23:28.789-03:00  INFO 7920 --- [      Thread-53] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:23:28.790-03:00  INFO 7920 --- [      Thread-53] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
+2025-12-01T21:23:28.793-03:00  INFO 7920 --- [      Thread-53] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2025-12-01T21:23:29.057-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Starting BackendApplication using Java 21.0.9 with PID 7920 (C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes started by CaioBrito in C:\Users\CaioBrito\Projetos\02-2025-PI\backend)
+2025-12-01T21:23:29.057-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:23:29.068-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\CaioBrito\Projetos\02-2025-PI\backend\compose.yaml
+2025-12-01T21:23:30.392-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2025-12-01T21:23:30.756-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:23:30.783-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22 ms. Found 1 JPA repository interface.
+2025-12-01T21:23:31.017-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2025-12-01T21:23:31.020-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:23:31.020-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-01T21:23:31.086-03:00  INFO 7920 --- [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 693 ms
+2025-12-01T21:23:31.162-03:00  INFO 7920 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:23:31.257-03:00  INFO 7920 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:23:31.259-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2025-12-01T21:23:31.299-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-6 - Added connection org.postgresql.jdbc.PgConnection@2d401b5c
+2025-12-01T21:23:31.300-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2025-12-01T21:23:31.306-03:00  WARN 7920 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:23:31.312-03:00  INFO 7920 --- [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://127.0.0.1:46521/mydatabase]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.1
+	Default catalog/schema: mydatabase/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:23:31.389-03:00  INFO 7920 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:23:31.391-03:00  INFO 7920 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:23:31.499-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/callback' ...
+2025-12-01T21:23:31.500-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/callback using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@40e8c3e0 ...
+2025-12-01T21:23:31.500-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Unable to resolve location classpath:db/callback.
+2025-12-01T21:23:31.504-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:23:31.504-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@40e8c3e0 ...
+2025-12-01T21:23:31.504-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:23:31.504-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning starting at classpath root in filesystem: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\
+2025-12-01T21:23:31.504-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning for resources in path: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\db\migration (db/migration)
+2025-12-01T21:23:31.505-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:23:31.505-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:23:31.505-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V3__add_enabled_to_usuario.sql
+2025-12-01T21:23:31.505-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:23:31.506-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@40e8c3e0 ...
+2025-12-01T21:23:31.506-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:23:31.506-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:23:31.506-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:23:31.506-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V3__add_enabled_to_usuario.sql
+2025-12-01T21:23:31.506-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classes at classpath:db/migration
+2025-12-01T21:23:31.508-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V2__seed.sql
+2025-12-01T21:23:31.508-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V1__init.sql
+2025-12-01T21:23:31.508-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V3__add_enabled_to_usuario.sql
+2025-12-01T21:23:31.509-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.database.DatabaseTypeRegister    : Multiple databases found that handle url 'jdbc:postgresql://127.0.0.1:46521/mydatabase': CockroachDB,PostgreSQL
+2025-12-01T21:23:31.509-03:00  INFO 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://127.0.0.1:46521/mydatabase (PostgreSQL 18.1)
+2025-12-01T21:23:31.509-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database Type: PostgreSQL
+2025-12-01T21:23:31.509-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Driver: PostgreSQL JDBC Driver 42.7.8
+2025-12-01T21:23:31.509-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : DDL Transactions Supported: true
+2025-12-01T21:23:31.509-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Schemas: public
+2025-12-01T21:23:31.509-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Default schema: null
+2025-12-01T21:23:31.516-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Scanning for script callbacks ...
+2025-12-01T21:23:31.517-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.c.SqlScriptCallbackFactory       : Scanning for SQL callbacks ...
+2025-12-01T21:23:31.519-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Validating migrations ...
+2025-12-01T21:23:31.519-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:23:31.522-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:23:31.522-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:23:31.522-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:23:31.522-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:23:31.523-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:23:31.523-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:23:31.523-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:23:31.523-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:23:31.523-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:23:31.523-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:23:31.523-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:23:31.523-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:23:31.529-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.010s)
+2025-12-01T21:23:31.531-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbSchemas      : Skipping creation of existing schema: "public"
+2025-12-01T21:23:31.540-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:23:31.543-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 3
+2025-12-01T21:23:31.544-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-01T21:23:31.549-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Memory usage: 46 of 96M
+2025-12-01T21:23:31.579-03:00  WARN 7920 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:23:31.628-03:00  INFO 7920 --- [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userService
+2025-12-01T21:23:31.861-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2025-12-01T21:23:31.864-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Started BackendApplication in 2.858 seconds (process running for 802.1)
+2025-12-01T21:23:31.865-03:00  INFO 7920 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-12-01T21:23:33.275-03:00  INFO 7920 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-12-01T21:23:33.277-03:00  INFO 7920 --- [      Thread-65] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:23:33.295-03:00  INFO 7920 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2025-12-01T21:23:33.298-03:00  INFO 7920 --- [      Thread-65] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:23:33.298-03:00  INFO 7920 --- [      Thread-65] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2025-12-01T21:23:33.302-03:00  INFO 7920 --- [      Thread-65] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2025-12-01T21:23:33.533-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Starting BackendApplication using Java 21.0.9 with PID 7920 (C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes started by CaioBrito in C:\Users\CaioBrito\Projetos\02-2025-PI\backend)
+2025-12-01T21:23:33.535-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:23:33.544-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\CaioBrito\Projetos\02-2025-PI\backend\compose.yaml
+2025-12-01T21:23:34.668-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2025-12-01T21:23:34.912-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:23:34.929-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 15 ms. Found 1 JPA repository interface.
+2025-12-01T21:23:35.048-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2025-12-01T21:23:35.049-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:23:35.049-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-01T21:23:35.095-03:00  INFO 7920 --- [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 427 ms
+2025-12-01T21:23:35.131-03:00  INFO 7920 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:23:35.196-03:00  INFO 7920 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:23:35.198-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2025-12-01T21:23:35.232-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection org.postgresql.jdbc.PgConnection@14ed201a
+2025-12-01T21:23:35.232-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2025-12-01T21:23:35.236-03:00  WARN 7920 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:23:35.242-03:00  INFO 7920 --- [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://127.0.0.1:46521/mydatabase]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.1
+	Default catalog/schema: mydatabase/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:23:35.311-03:00  INFO 7920 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:23:35.312-03:00  INFO 7920 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:23:35.403-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/callback' ...
+2025-12-01T21:23:35.403-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/callback using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@25cd60f2 ...
+2025-12-01T21:23:35.403-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Unable to resolve location classpath:db/callback.
+2025-12-01T21:23:35.407-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:23:35.407-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@25cd60f2 ...
+2025-12-01T21:23:35.407-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:23:35.407-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning starting at classpath root in filesystem: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\
+2025-12-01T21:23:35.407-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning for resources in path: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\db\migration (db/migration)
+2025-12-01T21:23:35.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:23:35.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:23:35.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V3__add_enabled_to_usuario.sql
+2025-12-01T21:23:35.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:23:35.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@25cd60f2 ...
+2025-12-01T21:23:35.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:23:35.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:23:35.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:23:35.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V3__add_enabled_to_usuario.sql
+2025-12-01T21:23:35.408-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classes at classpath:db/migration
+2025-12-01T21:23:35.410-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V2__seed.sql
+2025-12-01T21:23:35.410-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V1__init.sql
+2025-12-01T21:23:35.410-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V3__add_enabled_to_usuario.sql
+2025-12-01T21:23:35.410-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.database.DatabaseTypeRegister    : Multiple databases found that handle url 'jdbc:postgresql://127.0.0.1:46521/mydatabase': CockroachDB,PostgreSQL
+2025-12-01T21:23:35.410-03:00  INFO 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://127.0.0.1:46521/mydatabase (PostgreSQL 18.1)
+2025-12-01T21:23:35.410-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database Type: PostgreSQL
+2025-12-01T21:23:35.411-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Driver: PostgreSQL JDBC Driver 42.7.8
+2025-12-01T21:23:35.411-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : DDL Transactions Supported: true
+2025-12-01T21:23:35.411-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Schemas: public
+2025-12-01T21:23:35.411-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Default schema: null
+2025-12-01T21:23:35.417-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Scanning for script callbacks ...
+2025-12-01T21:23:35.419-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.c.SqlScriptCallbackFactory       : Scanning for SQL callbacks ...
+2025-12-01T21:23:35.421-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Validating migrations ...
+2025-12-01T21:23:35.421-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:23:35.424-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:23:35.424-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:23:35.424-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:23:35.424-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:23:35.424-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:23:35.424-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:23:35.425-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:23:35.425-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:23:35.425-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:23:35.425-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:23:35.425-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:23:35.425-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:23:35.431-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.009s)
+2025-12-01T21:23:35.432-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbSchemas      : Skipping creation of existing schema: "public"
+2025-12-01T21:23:35.441-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:23:35.444-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 3
+2025-12-01T21:23:35.446-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-01T21:23:35.451-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Memory usage: 46 of 400M
+2025-12-01T21:23:35.474-03:00  WARN 7920 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:23:35.506-03:00  INFO 7920 --- [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userService
+2025-12-01T21:23:35.693-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2025-12-01T21:23:35.696-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Started BackendApplication in 2.215 seconds (process running for 805.932)
+2025-12-01T21:23:35.698-03:00  INFO 7920 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-12-01T21:24:05.833-03:00  INFO 7920 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 17 class path changes (0 additions, 16 deletions, 1 modification)
+2025-12-01T21:24:05.834-03:00  INFO 7920 --- [      Thread-77] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:24:05.849-03:00  INFO 7920 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2025-12-01T21:24:05.851-03:00  INFO 7920 --- [      Thread-77] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:24:05.852-03:00  INFO 7920 --- [      Thread-77] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown initiated...
+2025-12-01T21:24:05.853-03:00  INFO 7920 --- [      Thread-77] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2025-12-01T21:24:05.969-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Starting BackendApplication using Java 21.0.9 with PID 7920 (C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes started by CaioBrito in C:\Users\CaioBrito\Projetos\02-2025-PI\backend)
+2025-12-01T21:24:05.970-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:24:05.977-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\CaioBrito\Projetos\02-2025-PI\backend\compose.yaml
+2025-12-01T21:24:07.509-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2025-12-01T21:24:07.757-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:24:07.760-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2025-12-01T21:24:07.879-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2025-12-01T21:24:07.880-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:24:07.880-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-01T21:24:07.930-03:00  INFO 7920 --- [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 420 ms
+2025-12-01T21:24:07.971-03:00  INFO 7920 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:24:08.026-03:00  INFO 7920 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:24:08.027-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Starting...
+2025-12-01T21:24:08.061-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-8 - Added connection org.postgresql.jdbc.PgConnection@2e6f3124
+2025-12-01T21:24:08.061-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Start completed.
+2025-12-01T21:24:08.065-03:00  WARN 7920 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:24:08.074-03:00  INFO 7920 --- [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://127.0.0.1:46521/mydatabase]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.1
+	Default catalog/schema: mydatabase/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:24:08.102-03:00  INFO 7920 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:24:08.103-03:00  INFO 7920 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:24:08.148-03:00  WARN 7920 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:24:08.395-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2025-12-01T21:24:08.398-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Started BackendApplication in 2.471 seconds (process running for 838.635)
+2025-12-01T21:24:08.399-03:00  INFO 7920 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   OAuth2ResourceServerJwtConfiguration.OAuth2SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   OAuth2ResourceServerOpaqueTokenConfiguration.OAuth2SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   ServletWebSecurityAutoConfiguration.EnableWebSecurityConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+      - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ServletWebSecurityAutoConfiguration.SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+
+Negative matches:
+-----------------
+
+   OAuth2ResourceServerJwtConfiguration.OAuth2SecurityFilterChainConfiguration#jwtSecurityFilterChain:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.security.oauth2.jwt.JwtDecoder; SearchStrategy: all) did not find any beans of type org.springframework.security.oauth2.jwt.JwtDecoder (OnBeanCondition)
+
+   OAuth2ResourceServerOpaqueTokenConfiguration.OAuth2SecurityFilterChainConfiguration#opaqueTokenSecurityFilterChain:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector; SearchStrategy: all) did not find any beans of type org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector (OnBeanCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2025-12-01T21:24:10.727-03:00  INFO 7920 --- [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 16 class path changes (16 additions, 0 deletions, 0 modifications)
+2025-12-01T21:24:10.728-03:00  INFO 7920 --- [      Thread-89] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-01T21:24:10.742-03:00  INFO 7920 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2025-12-01T21:24:10.745-03:00  INFO 7920 --- [      Thread-89] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:24:10.745-03:00  INFO 7920 --- [      Thread-89] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown initiated...
+2025-12-01T21:24:10.748-03:00  INFO 7920 --- [      Thread-89] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.0)
+
+2025-12-01T21:24:10.891-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Starting BackendApplication using Java 21.0.9 with PID 7920 (C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes started by CaioBrito in C:\Users\CaioBrito\Projetos\02-2025-PI\backend)
+2025-12-01T21:24:10.892-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-12-01T21:24:10.900-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\CaioBrito\Projetos\02-2025-PI\backend\compose.yaml
+2025-12-01T21:24:12.026-03:00  INFO 7920 --- [  restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2025-12-01T21:24:12.306-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-01T21:24:12.325-03:00  INFO 7920 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16 ms. Found 1 JPA repository interface.
+2025-12-01T21:24:12.450-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2025-12-01T21:24:12.450-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-01T21:24:12.451-03:00  INFO 7920 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2025-12-01T21:24:12.506-03:00  INFO 7920 --- [  restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 479 ms
+2025-12-01T21:24:12.550-03:00  INFO 7920 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-01T21:24:12.618-03:00  INFO 7920 --- [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-01T21:24:12.620-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Starting...
+2025-12-01T21:24:12.654-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-9 - Added connection org.postgresql.jdbc.PgConnection@5953a479
+2025-12-01T21:24:12.654-03:00  INFO 7920 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Start completed.
+2025-12-01T21:24:12.659-03:00  WARN 7920 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-01T21:24:12.668-03:00  INFO 7920 --- [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://127.0.0.1:46521/mydatabase]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.1
+	Default catalog/schema: mydatabase/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-12-01T21:24:12.782-03:00  INFO 7920 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-01T21:24:12.785-03:00  INFO 7920 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-01T21:24:12.991-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/callback' ...
+2025-12-01T21:24:12.991-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/callback using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@617545fc ...
+2025-12-01T21:24:12.992-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Unable to resolve location classpath:db/callback.
+2025-12-01T21:24:12.999-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:24:12.999-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@617545fc ...
+2025-12-01T21:24:12.999-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:24:12.999-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning starting at classpath root in filesystem: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\
+2025-12-01T21:24:12.999-03:00 DEBUG 7920 --- [  restartedMain] i.s.c.FileSystemClassPathLocationScanner : Scanning for resources in path: C:\Users\CaioBrito\Projetos\02-2025-PI\backend\target\classes\db\migration (db/migration)
+2025-12-01T21:24:13.000-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:24:13.001-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:24:13.001-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V3__add_enabled_to_usuario.sql
+2025-12-01T21:24:13.001-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classpath resources at 'classpath:db/migration' ...
+2025-12-01T21:24:13.001-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Determining location urls for classpath:db/migration using ClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@617545fc ...
+2025-12-01T21:24:13.001-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning URL: file:/C:/Users/CaioBrito/Projetos/02-2025-PI/backend/target/classes/db/migration
+2025-12-01T21:24:13.001-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V1__init.sql
+2025-12-01T21:24:13.001-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V2__seed.sql
+2025-12-01T21:24:13.001-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Found resource: db/migration/V3__add_enabled_to_usuario.sql
+2025-12-01T21:24:13.001-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.classpath.ClassPathScanner     : Scanning for classes at classpath:db/migration
+2025-12-01T21:24:13.005-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V2__seed.sql
+2025-12-01T21:24:13.006-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V1__init.sql
+2025-12-01T21:24:13.007-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.resource.ResourceNameValidator   : Validating V3__add_enabled_to_usuario.sql
+2025-12-01T21:24:13.007-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.database.DatabaseTypeRegister    : Multiple databases found that handle url 'jdbc:postgresql://127.0.0.1:46521/mydatabase': CockroachDB,PostgreSQL
+2025-12-01T21:24:13.007-03:00  INFO 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://127.0.0.1:46521/mydatabase (PostgreSQL 18.1)
+2025-12-01T21:24:13.007-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Database Type: PostgreSQL
+2025-12-01T21:24:13.007-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Driver: PostgreSQL JDBC Driver 42.7.8
+2025-12-01T21:24:13.007-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : DDL Transactions Supported: true
+2025-12-01T21:24:13.008-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Schemas: public
+2025-12-01T21:24:13.008-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.s.SchemaHistoryFactory           : Default schema: null
+2025-12-01T21:24:13.022-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Scanning for script callbacks ...
+2025-12-01T21:24:13.022-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.i.c.SqlScriptCallbackFactory       : Scanning for SQL callbacks ...
+2025-12-01T21:24:13.026-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Validating migrations ...
+2025-12-01T21:24:13.027-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:24:13.031-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:24:13.031-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:24:13.031-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:24:13.032-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:24:13.032-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:24:13.032-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:24:13.032-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:24:13.032-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:24:13.032-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:24:13.033-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V2__seed.sql (filename: V2__seed.sql)
+2025-12-01T21:24:13.033-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V1__init.sql (filename: V1__init.sql)
+2025-12-01T21:24:13.033-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.scanner.Scanner        : Filtering out resource: db/migration/V3__add_enabled_to_usuario.sql (filename: V3__add_enabled_to_usuario.sql)
+2025-12-01T21:24:13.044-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.016s)
+2025-12-01T21:24:13.046-03:00 DEBUG 7920 --- [  restartedMain] o.f.core.internal.command.DbSchemas      : Skipping creation of existing schema: "public"
+2025-12-01T21:24:13.064-03:00 DEBUG 7920 --- [  restartedMain] o.f.c.a.c.ClassicConfiguration           : CherryPickConfigurationExtension not found
+2025-12-01T21:24:13.070-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 3
+2025-12-01T21:24:13.072-03:00  INFO 7920 --- [  restartedMain] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2025-12-01T21:24:13.081-03:00 DEBUG 7920 --- [  restartedMain] org.flywaydb.core.FlywayExecutor         : Memory usage: 89 of 136M
+2025-12-01T21:24:13.123-03:00  WARN 7920 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-01T21:24:13.213-03:00  INFO 7920 --- [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userService
+2025-12-01T21:24:13.569-03:00  INFO 7920 --- [  restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2025-12-01T21:24:13.574-03:00  INFO 7920 --- [  restartedMain] sosrota.backend.BackendApplication       : Started BackendApplication in 2.724 seconds (process running for 843.81)
+2025-12-01T21:24:13.576-03:00  INFO 7920 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   OAuth2ResourceServerJwtConfiguration.OAuth2SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   OAuth2ResourceServerOpaqueTokenConfiguration.OAuth2SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   ServletWebSecurityAutoConfiguration.EnableWebSecurityConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) found beans named springSecurityFilterChain (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+
+   ServletWebSecurityAutoConfiguration.SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+^CDeseja finalizar o arquivo em lotes (S/N)? 
