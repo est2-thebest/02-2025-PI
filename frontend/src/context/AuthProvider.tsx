@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+// frontend/src/context/Auth.tsx
+import React, { useState } from 'react';
 import authService from '../services/auth';
 import AuthContext, { AuthContextType } from './AuthContext';
 
-// Initialize user synchronously from storage to avoid calling setState in effect
+// Inicializar usuário do localStorage
 const initialUser = authService.getStoredUser();
 
 interface AuthProviderProps {
@@ -13,25 +14,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	const [user, setUser] = useState<any | null>(initialUser || null);
 	const [loading, setLoading] = useState<boolean>(false);
 
-	useEffect(() => {
-		const token = authService.getStoredToken();
-		if (token) {
-			authService.setAuthToken(token);
-			// user already initialized from storage
-		}
-		// small delay not necessary; loading false ensures consumers render
-	}, []);
-
+	// Função logar
 	async function signIn(username: string, password: string): Promise<any> {
 			setLoading(true);
-			const result = await authService.login(username, password);
-		if (result.success) {
-			setUser(result.user || null);
-		}
-			setLoading(false);
-		return result;
+
+			try {
+				const result = await authService.login(username, password);
+				
+				if (result.success) {
+					setUser(result.user);
+				}
+
+				return result;
+			} finally {
+				setLoading(false);
+			}
 	}
 
+	// Função sair/deslogar
 	function signOut(): void {
 		authService.signOut();
 		setUser(null);

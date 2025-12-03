@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/Auth';
+import { AuthProvider } from './context/AuthProvider';
 import { ThemeProvider } from './context/ThemeProvider';
 
 import Sidebar from './components/common/Sidebar';
