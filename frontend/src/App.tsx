@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import useAuth from './hooks/useAuth';
 import { AuthProvider } from './context/AuthProvider';
 import { ThemeProvider } from './context/ThemeProvider';
 
@@ -37,6 +38,17 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   );
 };
 
+// Componente PrivateRoute
+const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
+  const { signed } = useAuth();
+  
+  if (!signed) {
+    return <Navigate to="/login" />;
+  }
+  
+  return <>{children}</>;
+};
+
 // Lembrar de envolver rotas privadas com <PrivateRoute>
 function AppRoutes(): React.ReactElement {
   return (
@@ -46,9 +58,11 @@ function AppRoutes(): React.ReactElement {
       <Route
         path="/dashboard"
         element={
-          <MainLayout>
-            <Dashboard />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <Dashboard />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 

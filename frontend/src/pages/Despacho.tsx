@@ -154,7 +154,7 @@ const Despacho: React.FC = () => {
           <div className="ocorrencias-lista">
             {ocorrenciasAbertas.length === 0 ? (
               <div className="empty-message">
-                <p>✅ Nenhuma ocorrência em aberto</p>
+                <p> Nenhuma ocorrência em aberto</p>
               </div>
             ) : (
               ocorrenciasAbertas.map((ocorrencia) => {
