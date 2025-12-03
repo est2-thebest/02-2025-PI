@@ -69,59 +69,71 @@ function AppRoutes(): React.ReactElement {
       <Route
         path="/ocorrencias"
         element={
-          <MainLayout>
-            <Ocorrencias />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <Ocorrencias />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/ambulancias"
         element={
-          <MainLayout>
-            <Ambulancias />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <Ambulancias />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/profissionais"
         element={
-          <MainLayout>
-            <Profissionais />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <Profissionais />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/bases"
         element={
-          <MainLayout>
-            <Bases />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <Bases />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/despacho"
         element={
-          <MainLayout>
-            <Despacho />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <Despacho />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/relatorios"
         element={
-          <MainLayout>
-            <Relatorios />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <Relatorios />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
-      <Route path="/" element={<Navigate to="/dashboard" />} />
-      <Route path="*" element={<Navigate to="/dashboard" />} />
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );
 }
