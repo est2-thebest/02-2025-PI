@@ -1,4 +1,4 @@
-// frontend/src/pages/Login.tsx
+// frontend/src/pages/Register.tsx
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
@@ -7,21 +7,25 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import logo from '../assets/logo-ss.svg';
 import './AuthPages.css';
 
-const Login: React.FC = () => {
+const Register: React.FC = () => {
   const [formData, setFormData] = useState({
     username: '',
+    email: '',
     password: '',
+    confirmPassword: '',
   });
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [carregando, setCarregando] = useState<boolean>(false);
 
-  const { signIn } = useAuth();
+  const { signUp } = useAuth();
   const navigate = useNavigate();
   const { errors, validateForm, clearAllErrors, hasError } = useFormValidation();
 
   const validationRules: ValidationRules = {
     username: { type: 'username', minLength: 3 },
+    email: { type: 'email' },
     password: { type: 'password', minLength: 6 },
+    confirmPassword: { type: 'confirmPassword', matchField: 'password' },
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,20 +49,20 @@ const Login: React.FC = () => {
     setCarregando(true);
 
     try {
-      const result = await signIn(formData.username, formData.password);
+      const result = await signUp(formData.username, formData.email, formData.password);
 
       if (result.success) {
         setStatusMessage({
           type: 'success',
-          text: 'Login realizado com sucesso! Redirecionando...',
+          text: 'Cadastro realizado com sucesso! Redirecionando...',
         });
         setTimeout(() => {
           navigate('/dashboard');
-        }, 1500);
+        }, 2000);
       } else {
         setStatusMessage({
           type: 'error',
-          text: result.message || 'Erro ao fazer login',
+          text: result.message || 'Erro ao realizar cadastro',
         });
       }
     } catch (error: any) {
@@ -77,10 +81,10 @@ const Login: React.FC = () => {
         <div className="login-logo">
           <img src={logo} alt="Vitalis Tech" />
         </div>
-        
+
         <div className="login-header">
-          <h1>Login</h1>
-          <p>Para continuar, insira seus dados</p>
+          <h1>Cadastro</h1>
+          <p>Crie sua conta para começar</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
@@ -91,14 +95,14 @@ const Login: React.FC = () => {
           )}
 
           <div className="form-group">
-            <label htmlFor="login">Usuário</label>
+            <label htmlFor="username">Usuário *</label>
             <input
-              id="login"
+              id="username"
               name="username"
               type="text"
               value={formData.username}
               onChange={handleChange}
-              placeholder="Digite seu usuário"
+              placeholder="Digite seu nome de usuário"
               disabled={carregando}
               autoFocus
               className={hasError('username') ? 'input-error' : ''}
@@ -107,31 +111,61 @@ const Login: React.FC = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="senha">Senha</label>
+            <label htmlFor="email">Email *</label>
             <input
-              id="senha"
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Digite seu email"
+              disabled={carregando}
+              className={hasError('email') ? 'input-error' : ''}
+            />
+            {hasError('email') && <span className="error-text">{errors.email}</span>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Senha *</label>
+            <input
+              id="password"
               name="password"
               type="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Digite sua senha"
+              placeholder="Digite sua senha (mín. 6 caracteres)"
               disabled={carregando}
               className={hasError('password') ? 'input-error' : ''}
             />
             {hasError('password') && <span className="error-text">{errors.password}</span>}
           </div>
 
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirmar Senha *</label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="Confirme sua senha"
+              disabled={carregando}
+              className={hasError('confirmPassword') ? 'input-error' : ''}
+            />
+            {hasError('confirmPassword') && <span className="error-text">{errors.confirmPassword}</span>}
+          </div>
+
           <button type="submit" className="btn-login" disabled={carregando}>
-            {carregando ? <LoadingSpinner size="small" message="" /> : 'Entrar'}
+            {carregando ? <LoadingSpinner size="small" message="" /> : 'Cadastrar'}
           </button>
         </form>
 
         <div className="login-footer">
-          <p>Ainda não tem conta? <Link to="/register">Faça o cadastro aqui</Link></p>
+          <p>Já tem conta? <Link to="/login">Faça login aqui</Link></p>
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;

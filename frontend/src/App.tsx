@@ -7,6 +7,7 @@ import { ThemeProvider } from './context/ThemeProvider';
 import Sidebar from './components/common/Sidebar';
 
 import Login from './pages/Login';
+import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Ocorrencias from './pages/Ocorrencias';
 import Ambulancias from './pages/Ambulancias';
@@ -54,15 +55,16 @@ function AppRoutes(): React.ReactElement {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       <Route
         path="/dashboard"
         element={
-          <PrivateRoute>
             <MainLayout>
               <Dashboard />
             </MainLayout>
-          </PrivateRoute>
+          // <PrivateRoute>
+          // </PrivateRoute>
         }
       />
 
