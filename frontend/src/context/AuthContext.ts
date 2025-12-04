@@ -6,6 +6,7 @@ export interface AuthContextType {
   user: any | null;
   loading: boolean;
   signIn: (username: string, password: string) => Promise<any>;
+  signUp: (username: string, email: string, password: string) => Promise<any>;
   signOut: () => void;
 }
 

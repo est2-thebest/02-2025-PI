@@ -31,6 +31,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			}
 	}
 
+	// Função cadastrar
+	async function signUp(username: string, email: string, password: string): Promise<any> {
+		setLoading(true);
+
+		try {
+			const result = await authService.register(username, email, password);
+			
+			if (result.success) {
+				setUser(result.user);
+			}
+
+			return result;
+		} finally {
+			setLoading(false);
+		}
+	}
+
 	// Função sair/deslogar
 	function signOut(): void {
 		authService.signOut();
@@ -42,6 +59,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		user,
 		loading,
 		signIn,
+		signUp,
 		signOut
 	};
 

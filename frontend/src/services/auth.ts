@@ -47,6 +47,40 @@ async function login(username: string, password: string): Promise<LoginResponse>
 		}
 }
 
+async function register(username: string, email: string, password: string): Promise<LoginResponse> {
+	try {
+		const resp = await api.post('/auth/register', { username, email, password });
+
+		const token = resp.data.token;
+		const user = resp.data.user || { username, email };
+
+		if (!token) {
+			return { success: false, message: 'Token não encontrado na resposta' };
+		}
+
+		localStorage.setItem(TOKEN_KEY, token);
+
+		try {
+			if (user) localStorage.setItem(USER_KEY, JSON.stringify(user));
+		} catch {
+			console.warn('Não foi possível salvar usuário no localStorage');
+		}
+
+		return {
+			success: true,
+			token,
+			user: {
+				username: user.username,
+				email: user.email,
+				role: user.role || 'OPERADOR'
+			}
+		};
+	} catch (err: any) {
+		const message = err?.response?.data?.message || err.message || 'Erro ao cadastrar';
+		return { success: false, message };
+	}
+}
+
 function signOut(): void {
 	localStorage.removeItem(TOKEN_KEY);
 	localStorage.removeItem(USER_KEY);
@@ -67,6 +101,7 @@ function getStoredUser(): any | null {
 
 export default {
 	login,
+	register,
 	signOut,
 	getStoredToken,
 	getStoredUser,
