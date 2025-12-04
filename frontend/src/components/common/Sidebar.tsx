@@ -15,7 +15,8 @@ import {
   Sun,
 } from 'lucide-react';
 
-import logo from '../../assets/logo.svg';
+// TODO: ajustar cor para entrar na paleta
+import logo from '../../assets/logo-p.svg';
 import { useTheme } from '../../hooks/useTheme';
 import './Sidebar.css';
 
