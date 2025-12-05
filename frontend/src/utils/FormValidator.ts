@@ -78,4 +78,22 @@ export class FormValidator {
       messages,
     };
   }
+
+  // Valida telefone (formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX)
+  static validatePhone(phone: string): { valid: boolean; message: string } {
+    // Remove caracteres não numéricos para verificar tamanho
+    const cleanPhone = phone.replace(/\D/g, '');
+
+    // Verifica se tem 10 ou 11 dígitos
+    if (cleanPhone.length < 10 || cleanPhone.length > 11) {
+      return { valid: false, message: 'Telefone deve ter 10 ou 11 dígitos' };
+    }
+
+    // Regex para formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
+    const phoneRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+    if (!phoneRegex.test(phone)) {
+      return { valid: false, message: 'Formato inválido. Use (XX) XXXXX-XXXX' };
+    }
+    return { valid: true, message: '' };
+  }
 }

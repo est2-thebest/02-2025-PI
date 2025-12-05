@@ -5,6 +5,7 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import Banner from '../components/common/Banner';
 import ConfirmDialog from '../components/common/ConfirmDialog';
 import { useConfirmDialog } from '../hooks/useConfirmDialog';
+import { MapPin, Clock, Ambulance, RefreshCw, AlertTriangle, Send } from 'lucide-react';
 // import { getCorGravidade } from '../utils/helpers';
 import './Despacho.css';
 
@@ -59,7 +60,7 @@ const Despacho: React.FC = () => {
       setCarregando(true);
       const response = await api.get<Ambulancia[]>(`/despacho/ambulancias-aptas/${ocorrenciaId}`);
       setAmbulanciasAptas(response.data);
-      
+
       if (response.data.length === 0) {
         setMensagem({
           tipo: 'warning',
@@ -113,7 +114,7 @@ const Despacho: React.FC = () => {
 
       // Atualizar lista de ocorrências
       await carregarOcorrencias();
-      
+
       // Limpar seleção
       setTimeout(() => {
         setOcorrenciaSelecionada(null);
@@ -163,143 +164,151 @@ const Despacho: React.FC = () => {
       />
 
       <div className="page-container">
-      <Banner 
-        title="Despacho de Ambulâncias" 
-        subtitle="Seleção inteligente de ambulâncias por SLA e disponibilidade" 
-      />
+        <Banner
+          title="Despacho de Ambulâncias"
+          subtitle="Seleção inteligente de ambulâncias por SLA e disponibilidade"
+        />
 
-      <div className="despacho-container">
-        {/* Lista de Ocorrências Abertas */}
-        <div className="ocorrencias-painel">
-          <div className="painel-header">
-            <h2>Ocorrências Abertas ({ocorrenciasAbertas.length})</h2>
-          </div>
-          
-          <div className="ocorrencias-lista">
-            {ocorrenciasAbertas.length === 0 ? (
-              <div className="empty-message">
-                <p> Nenhuma ocorrência em aberto</p>
-              </div>
-            ) : (
-              ocorrenciasAbertas.map((ocorrencia) => {
-                const sla = getSLAInfo(ocorrencia.gravidade);
-                return (
-                  <div
-                    key={ocorrencia.id}
-                    className={`ocorrencia-item ${ocorrenciaSelecionada?.id === ocorrencia.id ? 'selecionada' : ''}`}
-                    onClick={() => handleSelecionarOcorrencia(ocorrencia)}
-                  >
-                    <div className="ocorrencia-header">
-                      <span className="ocorrencia-id">#{ocorrencia.id}</span>
-                      <span
-                        className="badge"
-                        style={{ backgroundColor: sla.cor }}
-                      >
-                        {ocorrencia.gravidade}
-                      </span>
-                    </div>
-                    
-                    <div className="ocorrencia-info">
-                      <p className="ocorrencia-local">📍 {ocorrencia.local}</p>
-                      <p className="ocorrencia-tipo">{ocorrencia.tipo}</p>
-                      <p className="ocorrencia-sla">
-                        ⏱️ SLA: {sla.tempo} min | 🚑 {sla.tipo}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        </div>
-
-        {/* Painel de Ambulâncias Aptas */}
-        <div className="ambulancias-painel">
-          {!ocorrenciaSelecionada ? (
-            <div className="painel-vazio">
-              <p>← Selecione uma ocorrência para ver as ambulâncias disponíveis</p>
+        <div className="despacho-container">
+          {/* Lista de Ocorrências Abertas */}
+          <div className="ocorrencias-painel">
+            <div className="painel-header">
+              <h2>Ocorrências Abertas ({ocorrenciasAbertas.length})</h2>
             </div>
-          ) : (
-            <>
-              <div className="painel-header">
-                <h2>Ambulâncias Aptas</h2>
-                <button
-                  className="btn btn-secondary btn-sm"
-                  onClick={() => buscarAmbulanciasAptas(ocorrenciaSelecionada.id!)}
-                  disabled={carregando}
-                >
-                  🔄 Atualizar
-                </button>
-              </div>
 
-              {mensagem.texto && (
-                <div className={`alert alert-${mensagem.tipo}`}>
-                  {mensagem.texto}
-                </div>
-              )}
-
-              {carregando ? (
-                <LoadingSpinner message="Buscando ambulâncias..." />
-              ) : ambulanciasAptas.length === 0 ? (
+            <div className="ocorrencias-lista">
+              {ocorrenciasAbertas.length === 0 ? (
                 <div className="empty-message">
-                  <p>⚠️ Nenhuma ambulância disponível atende os critérios</p>
-                  <small>Verifique: disponibilidade, tipo necessário e distância dentro do SLA</small>
+                  <p> Nenhuma ocorrência em aberto</p>
                 </div>
               ) : (
-                <div className="ambulancias-lista">
-                  {ambulanciasAptas.map((ambulancia) => (
-                    <div key={ambulancia.id} className="ambulancia-item">
-                      <div className="ambulancia-header">
-                        <h3>🚑 {ambulancia.placa}</h3>
-                        <span className={`badge badge-${ambulancia.tipo.toLowerCase()}`}>
-                          {ambulancia.tipo}
+                ocorrenciasAbertas.map((ocorrencia) => {
+                  const sla = getSLAInfo(ocorrencia.gravidade);
+                  return (
+                    <div
+                      key={ocorrencia.id}
+                      className={`ocorrencia-item ${ocorrenciaSelecionada?.id === ocorrencia.id ? 'selecionada' : ''}`}
+                      onClick={() => handleSelecionarOcorrencia(ocorrencia)}
+                    >
+                      <div className="ocorrencia-header">
+                        <span className="ocorrencia-id">#{ocorrencia.id}</span>
+                        <span
+                          className="badge"
+                          style={{ backgroundColor: sla.cor }}
+                        >
+                          {ocorrencia.gravidade}
                         </span>
                       </div>
 
-                      <div className="ambulancia-detalhes">
-                        <div className="detalhe">
-                          <span className="label">Base:</span>
-                          <span className="value">{ambulancia.base}</span>
-                        </div>
-                        
-                        <div className="detalhe">
-                          <span className="label">Distância:</span>
-                          <span className="value destacado">
-                            {ambulancia.distancia?.toFixed(1)} km
-                          </span>
-                        </div>
-                        
-                        <div className="detalhe">
-                          <span className="label">Tempo Estimado:</span>
-                          <span className="value destacado">
-                            {ambulancia.tempoEstimado || ambulancia.distancia?.toFixed(0)} min
-                          </span>
-                        </div>
-
-                        {ambulancia.equipe && (
-                          <div className="detalhe">
-                            <span className="label">Equipe:</span>
-                            <span className="value">{ambulancia.equipe}</span>
-                          </div>
-                        )}
+                      <div className="ocorrencia-info">
+                        <p className="ocorrencia-local" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <MapPin size={16} /> {ocorrencia.bairro?.nome || 'Local não informado'}
+                        </p>
+                        <p className="ocorrencia-tipo">{ocorrencia.tipo}</p>
+                        <p className="ocorrencia-sla" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <Clock size={16} /> SLA: {sla.tempo} min | <Ambulance size={16} /> {sla.tipo}
+                        </p>
                       </div>
-
-                      <button
-                        className="btn btn-primary btn-block"
-                        onClick={() => handleDespachar(ambulancia.id)}
-                        disabled={despachando}
-                      >
-                        {despachando ? 'Despachando...' : '🚀 Despachar'}
-                      </button>
                     </div>
-                  ))}
-                </div>
+                  );
+                })
               )}
-            </>
-          )}
+            </div>
+          </div>
+
+          {/* Painel de Ambulâncias Aptas */}
+          <div className="ambulancias-painel">
+            {!ocorrenciaSelecionada ? (
+              <div className="painel-vazio">
+                <p>← Selecione uma ocorrência para ver as ambulâncias disponíveis</p>
+              </div>
+            ) : (
+              <>
+                <div className="painel-header">
+                  <h2>Ambulâncias Aptas</h2>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => buscarAmbulanciasAptas(ocorrenciaSelecionada.id!)}
+                    disabled={carregando}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                  >
+                    <RefreshCw size={16} /> Atualizar
+                  </button>
+                </div>
+
+                {mensagem.texto && (
+                  <div className={`alert alert-${mensagem.tipo}`}>
+                    {mensagem.texto}
+                  </div>
+                )}
+
+                {carregando ? (
+                  <LoadingSpinner message="Buscando ambulâncias..." />
+                ) : ambulanciasAptas.length === 0 ? (
+                  <div className="empty-message">
+                    <p style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+                      <AlertTriangle size={20} /> Nenhuma ambulância disponível atende os critérios
+                    </p>
+                    <small>Verifique: disponibilidade, tipo necessário e distância dentro do SLA</small>
+                  </div>
+                ) : (
+                  <div className="ambulancias-lista">
+                    {ambulanciasAptas.map((ambulancia) => (
+                      <div key={ambulancia.id} className="ambulancia-item">
+                        <div className="ambulancia-header">
+                          <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <Ambulance size={20} /> {ambulancia.placa}
+                          </h3>
+                          <span className={`badge badge-${ambulancia.tipo.toLowerCase()}`}>
+                            {ambulancia.tipo}
+                          </span>
+                        </div>
+
+                        <div className="ambulancia-detalhes">
+                          <div className="detalhe">
+                            <span className="label">Base:</span>
+                            <span className="value">{ambulancia.base}</span>
+                          </div>
+
+                          <div className="detalhe">
+                            <span className="label">Distância:</span>
+                            <span className="value destacado">
+                              {ambulancia.distancia?.toFixed(1)} km
+                            </span>
+                          </div>
+
+                          <div className="detalhe">
+                            <span className="label">Tempo Estimado:</span>
+                            <span className="value destacado">
+                              {ambulancia.tempoEstimado || ambulancia.distancia?.toFixed(0)} min
+                            </span>
+                          </div>
+
+                          {ambulancia.equipe && (
+                            <div className="detalhe">
+                              <span className="label">Equipe:</span>
+                              <span className="value">{ambulancia.equipe}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        <button
+                          className="btn btn-primary btn-block"
+                          onClick={() => handleDespachar(ambulancia.id)}
+                          disabled={despachando}
+                          style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}
+                        >
+                          {despachando ? 'Despachando...' : <><Send size={16} /> Despachar</>}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

@@ -1,0 +1,35 @@
+import api from './api';
+import { AxiosResponse } from 'axios';
+import { Profissional } from './profissional';
+
+import { Ambulancia } from './ambulancia';
+
+export interface Equipe {
+  id?: number;
+  descricao: string;
+  ambulancia?: Ambulancia | null;
+  profissionais: Profissional[];
+}
+
+const equipeService = {
+  listar: async (): Promise<Equipe[]> => {
+    const resp: AxiosResponse<Equipe[]> = await api.get('/equipes');
+    return resp.data;
+  },
+
+  criar: async (dados: Equipe): Promise<Equipe> => {
+    const resp: AxiosResponse<Equipe> = await api.post('/equipes', dados);
+    return resp.data;
+  },
+
+  atualizar: async (id: number, dados: Equipe): Promise<Equipe> => {
+    const resp: AxiosResponse<Equipe> = await api.put(`/equipes/${id}`, dados);
+    return resp.data;
+  },
+
+  excluir: async (id: number): Promise<void> => {
+    await api.delete(`/equipes/${id}`);
+  },
+};
+
+export default equipeService;

@@ -1,9 +1,11 @@
 import api from './api';
 import { AxiosResponse } from 'axios';
 
+import { Bairro } from './bairro';
+
 export interface Ocorrencia {
 	id?: number;
-	local: string;
+	bairro?: Bairro | null;
 	tipo: string;
 	gravidade: 'ALTA' | 'MEDIA' | 'BAIXA';
 	status: 'ABERTA' | 'DESPACHADA' | 'ATENDENDO' | 'CONCLUIDA' | 'CANCELADA';

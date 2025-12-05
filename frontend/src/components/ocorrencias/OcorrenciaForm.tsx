@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ocorrenciaService, { Ocorrencia } from '../../services/ocorrencia';
+import bairroService, { Bairro } from '../../services/bairro';
 import Modal from '../common/Modal';
 import './OcorrenciaForm.css';
 
@@ -12,26 +13,49 @@ interface OcorrenciaFormProps {
 
 const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onSalvar, onCancelar }) => {
   const [formData, setFormData] = useState<Ocorrencia>({
-    local: '',
+    bairro: null,
     tipo: '',
     gravidade: 'MEDIA',
     status: 'ABERTA',
     observacao: '',
   });
+  const [bairros, setBairros] = useState<Bairro[]>([]);
   const [salvando, setSalvando] = useState<boolean>(false);
   const [erro, setErro] = useState<string>('');
 
   useEffect(() => {
+    carregarBairros();
+  }, []);
+
+  useEffect(() => {
     if (ocorrencia) {
       setFormData({
-        local: ocorrencia.local || '',
+        bairro: ocorrencia.bairro || null,
         tipo: ocorrencia.tipo || '',
         gravidade: ocorrencia.gravidade || 'MEDIA',
         status: ocorrencia.status || 'ABERTA',
         observacao: ocorrencia.observacao || '',
       });
+    } else {
+      setFormData({
+        bairro: null,
+        tipo: '',
+        gravidade: 'MEDIA',
+        status: 'ABERTA',
+        observacao: '',
+      });
     }
-  }, [ocorrencia]);
+  }, [ocorrencia, isOpen]);
+
+  const carregarBairros = async () => {
+    try {
+      const dados = await bairroService.listar();
+      setBairros(dados);
+    } catch (error) {
+      console.error('Erro ao carregar bairros:', error);
+      setErro('Erro ao carregar lista de bairros');
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
     const { name, value } = e.currentTarget;
@@ -41,12 +65,18 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
     }));
   };
 
+  const handleBairroChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const bairroId = Number(e.target.value);
+    const bairro = bairros.find(b => b.id === bairroId) || null;
+    setFormData(prev => ({ ...prev, bairro }));
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setErro('');
 
-    if (!formData.local || !formData.tipo) {
-      setErro('Local e Tipo são obrigatórios');
+    if (!formData.bairro || !formData.tipo) {
+      setErro('Bairro e Tipo são obrigatórios');
       return;
     }
 
@@ -88,16 +118,20 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
 
         <div className="form-row">
           <div className="form-group">
-            <label htmlFor="local">Local *</label>
-            <input
-              id="local"
-              name="local"
-              type="text"
-              value={formData.local}
-              onChange={handleChange}
-              placeholder="Ex: Jardim América"
+            <label htmlFor="bairro">Bairro *</label>
+            <select
+              id="bairro"
+              value={formData.bairro?.id || ''}
+              onChange={handleBairroChange}
               required
-            />
+            >
+              <option value="">Selecione um bairro</option>
+              {bairros.map(bairro => (
+                <option key={bairro.id} value={bairro.id}>
+                  {bairro.nome}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="form-group">
@@ -109,6 +143,7 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
               onChange={handleChange}
               required
             >
+              <option value="">Selecione o tipo</option>
               <option value="ACIDENTE_TRANSITO">Acidente de Trânsito</option>
               <option value="MAL_SUBITO">Mal Súbito</option>
               <option value="TRAUMA">Trauma</option>

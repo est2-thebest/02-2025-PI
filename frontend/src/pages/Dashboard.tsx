@@ -65,9 +65,9 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="page-container">
-      <Banner 
-        title="Dashboard" 
-        subtitle="Visão geral do sistema de emergências" 
+      <Banner
+        title="Dashboard"
+        subtitle="Visão geral do sistema de emergências"
       />
 
       <div className="stats-grid">
@@ -120,15 +120,15 @@ const Dashboard: React.FC = () => {
               {ocorrenciasRecentes.map((oc) => (
                 <div key={oc.id} className="ocorrencia-row">
                   <span className="col-id">#{oc.id}</span>
-                  <span className="col-local">{oc.local}</span>
-                  <span 
-                    className="col-gravidade" 
+                  <span className="col-local">{oc.bairro?.nome || 'Local não informado'}</span>
+                  <span
+                    className="col-gravidade"
                     style={{ color: getCorGravidade(oc.gravidade) }}
                   >
                     {oc.gravidade}
                   </span>
-                  <span 
-                    className="col-status" 
+                  <span
+                    className="col-status"
                     style={{ color: getCorStatus(oc.status) }}
                   >
                     {oc.status}

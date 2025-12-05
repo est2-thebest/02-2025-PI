@@ -1,167 +1,168 @@
 import React, { useState, useEffect } from 'react';
-import ambulanciaService, { Ambulancia } from '../../services/ambulancia';
-import Modal from '../common/Modal';
-import './AmbulanciaForm.css';
+import { Ambulancia } from '../../services/ambulancia';
+import bairroService, { Bairro } from '../../services/bairro';
+import { X, Save } from 'lucide-react';
 
 interface AmbulanciaFormProps {
   isOpen: boolean;
-  ambulancia?: Ambulancia;
-  onSalvar: () => void;
+  ambulancia?: Ambulancia | null;
+  onSalvar: (dados: Ambulancia) => Promise<void>;
   onCancelar: () => void;
 }
 
-const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({ isOpen, ambulancia, onSalvar, onCancelar }) => {
-  const [formData, setFormData] = useState<Ambulancia>({
+const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({
+  isOpen,
+  ambulancia,
+  onSalvar,
+  onCancelar,
+}) => {
+  const [formData, setFormData] = useState<Partial<Ambulancia>>({
     placa: '',
     tipo: 'BASICA',
     status: 'DISPONIVEL',
-    base: ''
+    base: undefined
   });
-  const [salvando, setSalvando] = useState<boolean>(false);
-  const [erro, setErro] = useState<string>('');
+  const [bairros, setBairros] = useState<Bairro[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState('');
 
   useEffect(() => {
-    if (ambulancia) {
-      setFormData({
-        placa: ambulancia.placa || '',
-        tipo: ambulancia.tipo || 'BASICA',
-        status: ambulancia.status || 'DISPONIVEL',
-        base: ambulancia.base || ''
-      });
+    if (isOpen) {
+      carregarBairros();
+      if (ambulancia) {
+        setFormData({ ...ambulancia });
+      } else {
+        setFormData({
+          placa: '',
+          tipo: 'BASICA',
+          status: 'DISPONIVEL',
+          base: undefined
+        });
+      }
+      setErro('');
     }
-  }, [ambulancia]);
+  }, [isOpen, ambulancia]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
-    const { name, value } = e.currentTarget;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const carregarBairros = async () => {
+    try {
+      const dados = await bairroService.listar();
+      setBairros(dados);
+    } catch (error) {
+      console.error('Erro ao carregar bairros:', error);
+    }
   };
 
-  const validarPlaca = (placa: string): boolean => {
-    // Formato: ABC-1234 ou ABC1D234 (Mercosul)
-    const regex = /^[A-Z]{3}-?\d{4}$|^[A-Z]{3}\d[A-Z]\d{3}$/;
-    return regex.test(placa);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+
+    if (name === 'baseId') {
+      const selectedBairro = bairros.find(b => b.id === Number(value));
+      setFormData(prev => ({ ...prev, base: selectedBairro }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     setErro('');
 
-    if (!validarPlaca(formData.placa)) {
-      setErro('Placa inválida. Use o formato ABC-1234 ou ABC1D234');
-      return;
-    }
-
-    if (!formData.base) {
-      setErro('Base é obrigatória');
-      return;
-    }
-
-    setSalvando(true);
     try {
-      if (ambulancia?.id) {
-        await ambulanciaService.atualizar(ambulancia.id, formData);
-      } else {
-        await ambulanciaService.criar(formData);
-      }
-      onSalvar();
-    } catch (error: any) {
-      console.error('Erro ao salvar ambulância:', error);
-      setErro(error.response?.data?.message || 'Erro ao salvar ambulância');
+      await onSalvar(formData as Ambulancia);
+    } catch (error) {
+      setErro('Erro ao salvar ambulância. Verifique os dados.');
+      console.error(error);
     } finally {
-      setSalvando(false);
+      setLoading(false);
     }
   };
 
+  if (!isOpen) return null;
+
   return (
-    <Modal
-      isOpen={isOpen}
-      title={ambulancia ? 'Editar Ambulância' : 'Nova Ambulância'}
-      onClose={onCancelar}
-      size="medium"
-      footer={
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <button type="submit" form="ambulancia-form" className="btn btn-primary" disabled={salvando}>
-            {salvando ? 'Salvando...' : 'Salvar'}
-          </button>
-          <button type="button" className="btn btn-secondary" onClick={onCancelar}>
-            Cancelar
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h2>{ambulancia ? 'Editar Ambulância' : 'Nova Ambulância'}</h2>
+          <button className="btn-close" onClick={onCancelar}>
+            <X size={24} />
           </button>
         </div>
-      }
-    >
-      <form id="ambulancia-form" onSubmit={handleSubmit}>
-        {erro && (
-          <div className="alert alert-error">
-            {erro}
-          </div>
-        )}
 
-        <div className="form-row">
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="placa">Placa *</label>
+            <label>Placa</label>
             <input
-              id="placa"
-              name="placa"
               type="text"
-              value={formData.placa}
+              name="placa"
+              value={formData.placa || ''}
               onChange={handleChange}
-              placeholder="ABC-1234"
-              maxLength={8}
-              style={{ textTransform: 'uppercase' }}
               required
+              className="form-control"
+              placeholder="ABC-1234"
             />
-            <small>Formato: ABC-1234 ou ABC1D234</small>
           </div>
 
           <div className="form-group">
-            <label htmlFor="tipo">Tipo *</label>
+            <label>Tipo</label>
             <select
-              id="tipo"
               name="tipo"
-              value={formData.tipo}
+              value={formData.tipo || 'BASICA'}
               onChange={handleChange}
-              required
+              className="form-control"
             >
-              <option value="BASICA">Básica</option>
-              <option value="UTI">UTI</option>
+              <option value="BASICA">Básica (Suporte Básico)</option>
+              <option value="UTI">UTI (Suporte Avançado)</option>
             </select>
           </div>
-        </div>
 
-        <div className="form-row">
           <div className="form-group">
-            <label htmlFor="status">Status *</label>
+            <label>Status</label>
             <select
-              id="status"
               name="status"
-              value={formData.status}
+              value={formData.status || 'DISPONIVEL'}
               onChange={handleChange}
-              required
+              className="form-control"
             >
               <option value="DISPONIVEL">Disponível</option>
-              <option value="EM_ATENDIMENTO">Em Atendimento</option>
-              <option value="EM_MANUTENCAO">Em Manutenção</option>
+              <option value="OCUPADA">Ocupada</option>
+              <option value="MANUTENCAO">Manutenção</option>
             </select>
           </div>
 
           <div className="form-group">
-            <label htmlFor="base">Base *</label>
-            <input
-              id="base"
-              name="base"
-              type="text"
-              value={formData.base}
+            <label>Base (Localização)</label>
+            <select
+              name="baseId"
+              value={formData.base?.id || ''}
               onChange={handleChange}
-              placeholder="Nome da base associada"
+              className="form-control"
               required
-            />
+            >
+              <option value="">Selecione uma base...</option>
+              {bairros.map(bairro => (
+                <option key={bairro.id} value={bairro.id}>
+                  {bairro.nome}
+                </option>
+              ))}
+            </select>
           </div>
-        </div>
-      </form>
-    </Modal>
+
+          {erro && <div className="alert alert-error">{erro}</div>}
+
+          <div className="modal-actions">
+            <button type="button" className="btn btn-secondary" onClick={onCancelar}>
+              Cancelar
+            </button>
+            <button type="submit" className="btn btn-primary" disabled={loading}>
+              <Save size={18} style={{ marginRight: '8px' }} />
+              {loading ? 'Salvando...' : 'Salvar'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

@@ -1,19 +1,21 @@
 import React from 'react';
 import Modal from '../common/Modal';
+import { Profissional } from '../../services/profissional';
+import { FormValidator } from '../../utils/FormValidator';
 
 interface ProfissionalFormProps {
   isOpen: boolean;
-  profissional?: any;
-  onSalvar: () => void;
+  profissional?: Profissional | null;
+  onSalvar: (dados: Profissional) => Promise<void>;
   onCancelar: () => void;
 }
 
 const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissional, onSalvar, onCancelar }) => {
-  const [formData, setFormData] = React.useState({
-    nome: profissional?.nome || '',
-    funcao: profissional?.funcao || 'MEDICO',
-    contato: profissional?.contato || '',
-    ativo: profissional?.ativo ?? true,
+  const [formData, setFormData] = React.useState<Profissional>({
+    nome: '',
+    funcao: 'MEDICO',
+    contato: '',
+    ativo: true,
   });
 
   const [salvando, setSalvando] = React.useState(false);
@@ -21,19 +23,37 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
 
   // Atualiza o form quando abrir o modal para edição
   React.useEffect(() => {
-    setFormData({
-      nome: profissional?.nome || '',
-      funcao: profissional?.funcao || 'MEDICO',
-      contato: profissional?.contato || '',
-      ativo: profissional?.ativo ?? true,
-    });
+    if (profissional) {
+      setFormData(profissional);
+    } else {
+      setFormData({
+        nome: '',
+        funcao: 'MEDICO',
+        contato: '',
+        ativo: true,
+      });
+    }
   }, [profissional, isOpen]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     const { name, value, type } = e.currentTarget;
+    let newValue: any = type === 'checkbox' ? (e.currentTarget as HTMLInputElement).checked : value;
+
+    // Máscara de telefone
+    if (name === 'contato') {
+      newValue = newValue.replace(/\D/g, '');
+      if (newValue.length > 11) newValue = newValue.slice(0, 11);
+
+      if (newValue.length > 6) {
+        newValue = `(${newValue.slice(0, 2)}) ${newValue.slice(2, 7)}-${newValue.slice(7)}`;
+      } else if (newValue.length > 2) {
+        newValue = `(${newValue.slice(0, 2)}) ${newValue.slice(2)}`;
+      }
+    }
+
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? (e.currentTarget as HTMLInputElement).checked : value
+      [name]: newValue
     }));
   };
 
@@ -46,9 +66,16 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
       return;
     }
 
+    // Validação de telefone
+    const phoneValidation = FormValidator.validatePhone(formData.contato || '');
+    if (!phoneValidation.valid) {
+      setErro(phoneValidation.message);
+      return;
+    }
+
     setSalvando(true);
     try {
-      onSalvar();
+      await onSalvar(formData);
     } catch (error: any) {
       console.error('Erro ao salvar profissional:', error);
       setErro(error.response?.data?.message || 'Erro ao salvar profissional');
@@ -119,6 +146,18 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
               placeholder="(00) 00000-0000"
               required
             />
+          </div>
+
+          <div className="form-group" style={{ display: 'flex', alignItems: 'center', marginTop: '24px' }}>
+            <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '8px' }}>
+              <input
+                type="checkbox"
+                name="ativo"
+                checked={formData.ativo}
+                onChange={handleChange}
+              />
+              Ativo
+            </label>
           </div>
         </div>
       </form>

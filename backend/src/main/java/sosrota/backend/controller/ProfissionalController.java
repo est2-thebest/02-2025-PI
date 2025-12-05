@@ -33,6 +33,12 @@ public class ProfissionalController {
         return profissionalService.save(profissional);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Profissional> update(@PathVariable Integer id, @RequestBody Profissional profissional) {
+        Profissional updated = profissionalService.update(id, profissional);
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         profissionalService.delete(id);

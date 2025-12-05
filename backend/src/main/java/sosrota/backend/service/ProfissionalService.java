@@ -27,6 +27,14 @@ public class ProfissionalService {
         return profissionalRepository.save(profissional);
     }
 
+    public Profissional update(Integer id, Profissional profissional) {
+        if (!profissionalRepository.existsById(id)) {
+            return null;
+        }
+        profissional.setId(id);
+        return profissionalRepository.save(profissional);
+    }
+
     public void delete(Integer id) {
         profissionalRepository.deleteById(id);
     }

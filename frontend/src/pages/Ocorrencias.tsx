@@ -4,6 +4,7 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import Banner from '../components/common/Banner';
 import OcorrenciaForm from '../components/ocorrencias/OcorrenciaForm';
 import { getCorGravidade, getCorStatus } from '../utils/helpers';
+import { Edit } from 'lucide-react';
 import './Ocorrencias.css';
 
 interface Filtros {
@@ -65,7 +66,7 @@ const Ocorrencias: React.FC = () => {
       !filtros.gravidade || o.gravidade === filtros.gravidade;
     const matchBusca =
       !filtros.busca ||
-      o.local?.toLowerCase().includes(filtros.busca.toLowerCase()) ||
+      o.bairro?.nome.toLowerCase().includes(filtros.busca.toLowerCase()) ||
       o.tipo?.toLowerCase().includes(filtros.busca.toLowerCase());
 
     return matchStatus && matchGravidade && matchBusca;
@@ -73,9 +74,9 @@ const Ocorrencias: React.FC = () => {
 
   return (
     <div className="page-container">
-      <Banner 
-        title="Ocorrências" 
-        subtitle="Gerenciamento de ocorrências de emergência" 
+      <Banner
+        title="Ocorrências"
+        subtitle="Gerenciamento de ocorrências de emergência"
       />
       <div className="flex-between" style={{ marginBottom: '2rem' }}>
         <div></div>
@@ -163,7 +164,7 @@ const Ocorrencias: React.FC = () => {
                     ocorrenciasFiltradas.map((ocorrencia) => (
                       <tr key={ocorrencia.id}>
                         <td>#{ocorrencia.id}</td>
-                        <td>{ocorrencia.local}</td>
+                        <td>{ocorrencia.bairro?.nome || '-'}</td>
                         <td>{ocorrencia.tipo}</td>
                         <td>
                           <span
@@ -193,7 +194,7 @@ const Ocorrencias: React.FC = () => {
                             onClick={() => handleEditar(ocorrencia)}
                             title="Editar"
                           >
-                            ✏️
+                            <Edit size={16} />
                           </button>
                         </td>
                       </tr>

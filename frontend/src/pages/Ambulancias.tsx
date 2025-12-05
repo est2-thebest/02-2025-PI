@@ -2,34 +2,25 @@ import React, { useState, useEffect } from 'react';
 import ambulanciaService, { Ambulancia } from '../services/ambulancia';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import Banner from '../components/common/Banner';
+import AmbulanciaList from '../components/ambulancias/AmbulanciaList';
 import AmbulanciaForm from '../components/ambulancias/AmbulanciaForm';
-import './Ambulancias.css';
-
-interface FiltrosAmbulancias {
-  status: string;
-  tipo: string;
-  busca: string;
-}
+import { LayoutGrid, List as ListIcon } from 'lucide-react';
 
 const Ambulancias: React.FC = () => {
   const [ambulancias, setAmbulancias] = useState<Ambulancia[]>([]);
   const [carregando, setCarregando] = useState<boolean>(true);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [mostrarForm, setMostrarForm] = useState<boolean>(false);
   const [ambulanciaEdit, setAmbulanciaEdit] = useState<Ambulancia | null>(null);
-  const [filtros, setFiltros] = useState<FiltrosAmbulancias>({
-    status: '',
-    tipo: '',
-    busca: ''
-  });
 
   useEffect(() => {
     carregarAmbulancias();
   }, []);
 
-  const carregarAmbulancias = async (): Promise<void> => {
+  const carregarAmbulancias = async () => {
     try {
       setCarregando(true);
-      const dados = await ambulanciaService.listarTodas();
+      const dados = await ambulanciaService.listar();
       setAmbulancias(dados);
     } catch (error) {
       console.error('Erro ao carregar ambulâncias:', error);
@@ -38,57 +29,73 @@ const Ambulancias: React.FC = () => {
     }
   };
 
-  const handleNovo = (): void => {
+  const handleNovo = () => {
     setAmbulanciaEdit(null);
     setMostrarForm(true);
   };
 
-  const handleEditar = (ambulancia: Ambulancia): void => {
+  const handleEditar = (ambulancia: Ambulancia) => {
     setAmbulanciaEdit(ambulancia);
     setMostrarForm(true);
   };
 
-  const handleSalvar = async (): Promise<void> => {
-    setMostrarForm(false);
-    await carregarAmbulancias();
+  const handleSalvar = async (dados: Ambulancia) => {
+    try {
+      if (ambulanciaEdit && ambulanciaEdit.id) {
+        await ambulanciaService.atualizar(ambulanciaEdit.id, dados);
+      } else {
+        await ambulanciaService.criar(dados);
+      }
+      setMostrarForm(false);
+      await carregarAmbulancias();
+    } catch (error) {
+      console.error('Erro ao salvar ambulância:', error);
+      throw error;
+    }
   };
-
-  const handleCancelar = (): void => {
-    setMostrarForm(false);
-    setAmbulanciaEdit(null);
-  };
-
-  const getCorStatus = (status: string): string => {
-    const cores: Record<string, string> = {
-      DISPONIVEL: '#4caf50',
-      EM_ATENDIMENTO: '#ff9800',
-      EM_MANUTENCAO: '#f44336'
-    };
-    return cores[status] || '#999';
-  };
-
-  const getCorTipo = (tipo: string): string => {
-    return tipo === 'UTI' ? '#e91e63' : '#2196f3';
-  };
-
-  const ambulanciasFiltradas = ambulancias.filter(a => {
-    const matchStatus = !filtros.status || a.status === filtros.status;
-    const matchTipo = !filtros.tipo || a.tipo === filtros.tipo;
-    const matchBusca = !filtros.busca || 
-      a.placa?.toLowerCase().includes(filtros.busca.toLowerCase()) ||
-      a.base?.toLowerCase().includes(filtros.busca.toLowerCase());
-    
-    return matchStatus && matchTipo && matchBusca;
-  });
 
   return (
     <div className="page-container">
-      <Banner 
-        title="Ambulâncias" 
-        subtitle="Gerenciamento da frota de ambulâncias" 
+      <Banner
+        title="Frota de Ambulâncias"
+        subtitle="Gerenciamento de veículos e status"
       />
-      <div className="flex-between" style={{ marginBottom: '2rem' }}>
-        <div></div>
+
+      <div className="flex-between" style={{ marginBottom: '1.5rem', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          {/* View Toggle */}
+          <div style={{ display: 'flex', background: 'var(--bg-secondary)', borderRadius: '6px', padding: '4px' }}>
+            <button
+              onClick={() => setViewMode('grid')}
+              style={{
+                background: viewMode === 'grid' ? 'white' : 'transparent',
+                border: 'none',
+                padding: '6px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                display: 'flex',
+                boxShadow: viewMode === 'grid' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none'
+              }}
+            >
+              <LayoutGrid size={20} color={viewMode === 'grid' ? 'var(--primary)' : 'var(--text-secondary)'} />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              style={{
+                background: viewMode === 'list' ? 'white' : 'transparent',
+                border: 'none',
+                padding: '6px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                display: 'flex',
+                boxShadow: viewMode === 'list' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none'
+              }}
+            >
+              <ListIcon size={20} color={viewMode === 'list' ? 'var(--primary)' : 'var(--text-secondary)'} />
+            </button>
+          </div>
+        </div>
+
         <button className="btn btn-primary" onClick={handleNovo}>
           + Nova Ambulância
         </button>
@@ -96,98 +103,19 @@ const Ambulancias: React.FC = () => {
 
       <AmbulanciaForm
         isOpen={mostrarForm}
-        ambulancia={ambulanciaEdit || undefined}
+        ambulancia={ambulanciaEdit}
         onSalvar={handleSalvar}
-        onCancelar={handleCancelar}
+        onCancelar={() => setMostrarForm(false)}
       />
 
-      <div className="card">
-        <div className="card-body">
-          <div className="filtros-container">
-            <input
-              type="text"
-              placeholder="Buscar por placa ou base..."
-              value={filtros.busca}
-              onChange={(e) => setFiltros({ ...filtros, busca: e.target.value })}
-              className="filtro-busca"
-            />
-            
-            <select
-              value={filtros.tipo}
-              onChange={(e) => setFiltros({ ...filtros, tipo: e.target.value })}
-              className="filtro-select"
-            >
-              <option value="">Todos os Tipos</option>
-              <option value="BASICA">Básica</option>
-              <option value="UTI">UTI</option>
-            </select>
-
-            <select
-              value={filtros.status}
-              onChange={(e) => setFiltros({ ...filtros, status: e.target.value })}
-              className="filtro-select"
-            >
-              <option value="">Todos os Status</option>
-              <option value="DISPONIVEL">Disponível</option>
-              <option value="EM_ATENDIMENTO">Em Atendimento</option>
-              <option value="EM_MANUTENCAO">Em Manutenção</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
       {carregando ? (
-        <LoadingSpinner message="Carregando ambulâncias..." />
+        <LoadingSpinner message="Carregando frota..." />
       ) : (
-        <div className="ambulancias-grid">
-          {ambulanciasFiltradas.length === 0 ? (
-            <div className="card">
-              <div className="card-body text-center">
-                <p>Nenhuma ambulância encontrada</p>
-              </div>
-            </div>
-          ) : (
-            ambulanciasFiltradas.map((ambulancia) => (
-              <div key={ambulancia.id} className="ambulancia-card">
-                <div className="ambulancia-header">
-                  <h3>🚑 {ambulancia.placa}</h3>
-                  <span
-                    className="badge"
-                    style={{ backgroundColor: getCorTipo(ambulancia.tipo) }}
-                  >
-                    {ambulancia.tipo}
-                  </span>
-                </div>
-                
-                <div className="ambulancia-info">
-                  <div className="info-item">
-                    <span className="info-label">Base:</span>
-                    <span className="info-value">{ambulancia.base || 'Não definida'}</span>
-                  </div>
-                  
-                  <div className="info-item">
-                    <span className="info-label">Status:</span>
-                    <span
-                      className="badge"
-                      style={{ backgroundColor: getCorStatus(ambulancia.status) }}
-                    >
-                      {ambulancia.status?.replace('_', ' ')}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="ambulancia-actions">
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => handleEditar(ambulancia)}
-                  >
-                    Editar
-                  </button>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+        <AmbulanciaList
+          ambulancias={ambulancias}
+          onEdit={handleEditar}
+          viewMode={viewMode}
+        />
       )}
     </div>
   );

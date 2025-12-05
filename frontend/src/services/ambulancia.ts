@@ -1,15 +1,22 @@
 import api from './api';
 import { AxiosResponse } from 'axios';
 
+import { Bairro } from './bairro';
+
 export interface Ambulancia {
   id?: number;
   placa: string;
   tipo: 'BASICA' | 'UTI';
   status: 'DISPONIVEL' | 'EM_ATENDIMENTO' | 'EM_MANUTENCAO';
-  base: string;
+  base?: Bairro;
 }
 
 const ambulanciaService = {
+  async listar(): Promise<Ambulancia[]> {
+    const response: AxiosResponse<Ambulancia[]> = await api.get('/ambulancias');
+    return response.data;
+  },
+
   async listarTodas(): Promise<Ambulancia[]> {
     const response: AxiosResponse<Ambulancia[]> = await api.get('/ambulancias');
     return response.data;
