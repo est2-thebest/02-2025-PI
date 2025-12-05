@@ -3,6 +3,8 @@ import api from '../services/api';
 import ocorrenciaService, { Ocorrencia } from '../services/ocorrencia';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import Banner from '../components/common/Banner';
+import ConfirmDialog from '../components/common/ConfirmDialog';
+import { useConfirmDialog } from '../hooks/useConfirmDialog';
 // import { getCorGravidade } from '../utils/helpers';
 import './Despacho.css';
 
@@ -34,6 +36,7 @@ const Despacho: React.FC = () => {
   const [carregando, setCarregando] = useState<boolean>(true);
   const [despachando, setDespachando] = useState<boolean>(false);
   const [mensagem, setMensagem] = useState<Mensagem>({ tipo: '', texto: '' });
+  const confirmDialog = useConfirmDialog();
 
   useEffect(() => {
     carregarOcorrencias();
@@ -82,7 +85,15 @@ const Despacho: React.FC = () => {
   };
 
   const handleDespachar = async (ambulanciaId: number): Promise<void> => {
-    if (!window.confirm('Confirmar despacho desta ambulância?')) {
+    const confirmed = await confirmDialog.confirm({
+      title: 'Confirmar Despacho',
+      message: 'Tem certeza que deseja despachar esta ambulância?',
+      type: 'warning',
+      confirmText: 'Despachar',
+      cancelText: 'Cancelar',
+    });
+
+    if (!confirmed) {
       return;
     }
 
@@ -138,7 +149,20 @@ const Despacho: React.FC = () => {
   }
 
   return (
-    <div className="page-container">
+    <>
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        type={confirmDialog.type}
+        confirmText={confirmDialog.confirmText}
+        cancelText={confirmDialog.cancelText}
+        isDangerous={confirmDialog.isDangerous}
+        onConfirm={confirmDialog.handleConfirm}
+        onCancel={confirmDialog.handleCancel}
+      />
+
+      <div className="page-container">
       <Banner 
         title="Despacho de Ambulâncias" 
         subtitle="Seleção inteligente de ambulâncias por SLA e disponibilidade" 
@@ -276,6 +300,7 @@ const Despacho: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

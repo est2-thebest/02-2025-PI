@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   Siren,
@@ -18,6 +18,9 @@ import {
 // TODO: ajustar cor para entrar na paleta
 import logo from '../../assets/logo-p.svg';
 import { useTheme } from '../../hooks/useTheme';
+import { useAuth } from '../../hooks/useAuth';
+import { useConfirmDialog } from '../../hooks/useConfirmDialog';
+import ConfirmDialog from './ConfirmDialog';
 import './Sidebar.css';
 
 interface SidebarProps {
@@ -27,6 +30,9 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const { theme, toggleTheme } = useTheme();
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+  const confirmDialog = useConfirmDialog();
 
   const handleToggle = (): void => {
     const novoEstado = !isOpen;
@@ -34,12 +40,36 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
     onToggle(novoEstado);
   };
 
-  const handleLogout = (): void => {
-    console.log('logout');
+  const handleLogout = async (): Promise<void> => {
+    const confirmed = await confirmDialog.confirm({
+      title: 'Sair do Sistema',
+      message: 'Tem certeza que deseja sair?',
+      // type: 'warning',
+      confirmText: 'Sair',
+      cancelText: 'Cancelar',
+    });
+
+    if (confirmed) {
+      signOut();
+      navigate('/login');
+    }
   };
 
   return (
-    <aside className={`app-sidebar ${isOpen ? 'open' : 'closed'}`}>
+    <>
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        title={confirmDialog.title}
+        message={confirmDialog.message}
+        type={confirmDialog.type}
+        confirmText={confirmDialog.confirmText}
+        cancelText={confirmDialog.cancelText}
+        isDangerous={confirmDialog.isDangerous}
+        onConfirm={confirmDialog.handleConfirm}
+        onCancel={confirmDialog.handleCancel}
+      />
+
+      <aside className={`app-sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-top">
         <div className="sidebar-logo">
           <img src={logo} alt="Vitalis Logo" className="sidebar-logo-img" />
@@ -105,6 +135,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
         <span className="sidebar-label">Sair</span>
       </button>
     </aside>
+    </>
   );
 };
 
