@@ -12,7 +12,6 @@ import Dashboard from './pages/Dashboard';
 import Ocorrencias from './pages/Ocorrencias';
 import Ambulancias from './pages/Ambulancias';
 import Profissionais from './pages/Profissionais';
-import Bases from './pages/Bases';
 import Relatorios from './pages/Relatorios';
 import Despacho from './pages/Despacho';
 
@@ -28,9 +27,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <div
-      className={`app-container ${
-        sidebarOpen ? 'sidebar-open' : 'sidebar-closed'
-      }`}
+      className={`app-container ${sidebarOpen ? 'sidebar-open' : 'sidebar-closed'
+        }`}
     >
       <Sidebar onToggle={setSidebarOpen} />
 
@@ -42,11 +40,11 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 // Componente PrivateRoute
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const { signed } = useAuth();
-  
+
   if (!signed) {
     return <Navigate to="/login" />;
   }
-  
+
   return <>{children}</>;
 };
 
@@ -60,9 +58,9 @@ function AppRoutes(): React.ReactElement {
       <Route
         path="/dashboard"
         element={
-            <MainLayout>
-              <Dashboard />
-            </MainLayout>
+          <MainLayout>
+            <Dashboard />
+          </MainLayout>
           // <PrivateRoute>
           // </PrivateRoute>
         }
@@ -96,17 +94,6 @@ function AppRoutes(): React.ReactElement {
           <PrivateRoute>
             <MainLayout>
               <Profissionais />
-            </MainLayout>
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/bases"
-        element={
-          <PrivateRoute>
-            <MainLayout>
-              <Bases />
             </MainLayout>
           </PrivateRoute>
         }

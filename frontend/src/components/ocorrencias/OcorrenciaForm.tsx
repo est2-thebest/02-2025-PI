@@ -170,22 +170,24 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
             </select>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="status">Status *</label>
-            <select
-              id="status"
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              required
-            >
-              <option value="ABERTA">Aberta</option>
-              <option value="DESPACHADA">Despachada</option>
-              <option value="ATENDENDO">Atendendo</option>
-              <option value="CONCLUIDA">Concluída</option>
-              <option value="CANCELADA">Cancelada</option>
-            </select>
-          </div>
+          {ocorrencia && (
+            <div className="form-group">
+              <label htmlFor="status">Status *</label>
+              <select
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                required
+              >
+                <option value="ABERTA">Aberta</option>
+                <option value="DESPACHADA">Despachada</option>
+                <option value="ATENDENDO">Atendendo</option>
+                <option value="CONCLUIDA">Concluída</option>
+                <option value="CANCELADA">Cancelada</option>
+              </select>
+            </div>
+          )}
         </div>
 
         <div className="form-row">

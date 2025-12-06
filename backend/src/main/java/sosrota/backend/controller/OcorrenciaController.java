@@ -32,4 +32,24 @@ public class OcorrenciaController {
     public Ocorrencia create(@RequestBody Ocorrencia ocorrencia) {
         return ocorrenciaService.createOcorrencia(ocorrencia);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Ocorrencia> update(@PathVariable Integer id, @RequestBody Ocorrencia ocorrencia) {
+        Ocorrencia existing = ocorrenciaService.findById(id);
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
+        ocorrencia.setId(id);
+        return ResponseEntity.ok(ocorrenciaService.createOcorrencia(ocorrencia));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        Ocorrencia existing = ocorrenciaService.findById(id);
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
+        ocorrenciaService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

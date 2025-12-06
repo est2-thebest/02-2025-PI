@@ -8,6 +8,7 @@ export interface Profissional {
   cref?: string;
   contato?: string;
   ativo: boolean;
+  turno?: 'MATUTINO' | 'VESPERTINO' | 'NOTURNO';
 }
 
 const profissionalService = {

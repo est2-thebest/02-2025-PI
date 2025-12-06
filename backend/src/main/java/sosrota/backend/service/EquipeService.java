@@ -24,6 +24,28 @@ public class EquipeService {
     }
 
     public Equipe save(Equipe equipe) {
+        // Validação de Ambulância
+        if (equipe.getAmbulancia() != null) {
+            List<Equipe> conflitosAmbulancia = equipeRepository.findByAmbulanciaAndTurno(equipe.getAmbulancia(), equipe.getTurno());
+            for (Equipe conflito : conflitosAmbulancia) {
+                if (!conflito.getId().equals(equipe.getId())) {
+                    throw new IllegalArgumentException("A ambulância já está alocada em outra equipe neste turno.");
+                }
+            }
+        }
+
+        // Validação de Profissionais
+        if (equipe.getProfissionais() != null) {
+            for (var profissional : equipe.getProfissionais()) {
+                List<Equipe> conflitosProfissional = equipeRepository.findByProfissionalAndTurno(profissional, equipe.getTurno());
+                for (Equipe conflito : conflitosProfissional) {
+                    if (!conflito.getId().equals(equipe.getId())) {
+                        throw new IllegalArgumentException("O profissional " + profissional.getNome() + " já está alocado em outra equipe neste turno.");
+                    }
+                }
+            }
+        }
+
         return equipeRepository.save(equipe);
     }
 

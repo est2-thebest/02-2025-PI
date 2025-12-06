@@ -33,6 +33,16 @@ public class EquipeController {
         return equipeService.save(equipe);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Equipe> update(@PathVariable Integer id, @RequestBody Equipe equipe) {
+        Equipe existing = equipeService.findById(id);
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
+        equipe.setId(id);
+        return ResponseEntity.ok(equipeService.save(equipe));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         equipeService.delete(id);

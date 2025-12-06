@@ -86,4 +86,7 @@ public class OcorrenciaService {
             ocorrenciaRepository.save(ocorrencia);
         }
     }
+    public void delete(Integer id) {
+        ocorrenciaRepository.deleteById(id);
+    }
 }

@@ -19,4 +19,7 @@ public class Profissional {
     private String funcao; // MOTORISTA, ENFERMEIRO, MEDICO
     private String contato;
     private Boolean ativo;
+
+    @Enumerated(EnumType.STRING)
+    private Turno turno;
 }

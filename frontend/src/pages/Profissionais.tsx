@@ -6,7 +6,8 @@ import Banner from '../components/common/Banner';
 import ProfissionalForm from '../components/profissionais/ProfissionalForm';
 import EquipeForm from '../components/equipes/EquipeForm';
 import EquipeList from '../components/equipes/EquipeList';
-import { Stethoscope, Syringe, Ambulance, User, Phone, LayoutGrid, List as ListIcon } from 'lucide-react';
+import { Stethoscope, Syringe, Ambulance, User, Phone, LayoutGrid, List as ListIcon, Edit, Trash2 } from 'lucide-react';
+import ConfirmDialog from '../components/common/ConfirmDialog';
 import './Profissionais.css';
 
 const Profissionais: React.FC = () => {
@@ -20,6 +21,7 @@ const Profissionais: React.FC = () => {
   const [mostrarFormProfissional, setMostrarFormProfissional] = useState<boolean>(false);
   const [profissionalEdit, setProfissionalEdit] = useState<Profissional | null>(null);
   const [filtroFuncao, setFiltroFuncao] = useState<string>('');
+  const [profissionalParaExcluir, setProfissionalParaExcluir] = useState<number | null>(null);
 
   // Estado Equipes
   const [mostrarFormEquipe, setMostrarFormEquipe] = useState<boolean>(false);
@@ -67,6 +69,23 @@ const Profissionais: React.FC = () => {
     } catch (error) {
       console.error('Erro ao salvar profissional:', error);
       throw error;
+    }
+  };
+
+  const confirmarExclusaoProfissional = (id: number) => {
+    setProfissionalParaExcluir(id);
+  };
+
+  const handleExcluirProfissional = async () => {
+    if (profissionalParaExcluir) {
+      try {
+        await profissionalService.excluir(profissionalParaExcluir);
+        setProfissionalParaExcluir(null);
+        await carregarDados();
+      } catch (error) {
+        console.error('Erro ao excluir profissional:', error);
+        alert('Erro ao excluir profissional. Verifique se ele não está vinculado a uma equipe.');
+      }
     }
   };
 
@@ -262,12 +281,22 @@ const Profissionais: React.FC = () => {
                       </div>
                     </div>
 
-                    <button
-                      className="btn btn-secondary btn-block"
-                      onClick={() => handleEditarProfissional(profissional)}
-                    >
-                      Editar
-                    </button>
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                      <button
+                        className="btn btn-secondary"
+                        style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                        onClick={() => handleEditarProfissional(profissional)}
+                      >
+                        <Edit size={16} /> Editar
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: 'var(--danger)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                        onClick={() => profissional.id && confirmarExclusaoProfissional(profissional.id)}
+                      >
+                        <Trash2 size={16} /> Excluir
+                      </button>
+                    </div>
                   </div>
                 ))
               )}
@@ -302,13 +331,24 @@ const Profissionais: React.FC = () => {
                           </span>
                         </td>
                         <td style={{ padding: '12px' }}>
-                          <button
-                            className="btn btn-secondary"
-                            style={{ padding: '4px 8px', fontSize: '0.8rem' }}
-                            onClick={() => handleEditarProfissional(profissional)}
-                          >
-                            Editar
-                          </button>
+                          <div style={{ display: 'flex', gap: '8px' }}>
+                            <button
+                              className="btn-icon"
+                              onClick={() => handleEditarProfissional(profissional)}
+                              title="Editar"
+                              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--primary)' }}
+                            >
+                              <Edit size={18} />
+                            </button>
+                            <button
+                              className="btn-icon"
+                              onClick={() => profissional.id && confirmarExclusaoProfissional(profissional.id)}
+                              title="Excluir"
+                              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--danger)' }}
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -321,8 +361,18 @@ const Profissionais: React.FC = () => {
       )}
 
       {activeTab === 'equipes' && (
-        <EquipeList onEdit={handleEditarEquipe} />
+        <EquipeList onEdit={handleEditarEquipe} viewMode={viewMode} />
       )}
+
+      <ConfirmDialog
+        isOpen={!!profissionalParaExcluir}
+        title="Excluir Profissional"
+        message="Tem certeza que deseja excluir este profissional? Esta ação não pode ser desfeita."
+        onConfirm={handleExcluirProfissional}
+        onCancel={() => setProfissionalParaExcluir(null)}
+        isDangerous
+        type="warning"
+      />
     </div>
   );
 };

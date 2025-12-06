@@ -36,6 +36,10 @@ const ocorrenciaService = {
 	async atualizar(id: number, payload: Ocorrencia): Promise<Ocorrencia> {
 		const response: AxiosResponse<Ocorrencia> = await api.put(`/ocorrencias/${id}`, payload);
 		return response.data;
+	},
+
+	async excluir(id: number): Promise<void> {
+		await api.delete(`/ocorrencias/${id}`);
 	}
 };
 

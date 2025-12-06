@@ -8,7 +8,7 @@ export interface Ambulancia {
   placa: string;
   tipo: 'BASICA' | 'UTI';
   status: 'DISPONIVEL' | 'EM_ATENDIMENTO' | 'EM_MANUTENCAO';
-  base?: Bairro;
+  bairro?: Bairro;
 }
 
 const ambulanciaService = {

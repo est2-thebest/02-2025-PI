@@ -3,10 +3,10 @@ package sosrota.backend.config;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import sosrota.backend.entity.Aresta;
 import sosrota.backend.entity.Bairro;
-import sosrota.backend.entity.Conexao;
+import sosrota.backend.repository.ArestaRepository;
 import sosrota.backend.repository.BairroRepository;
-import sosrota.backend.repository.ConexaoRepository;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,17 +16,17 @@ import java.nio.charset.StandardCharsets;
 public class DataSeeder implements CommandLineRunner {
 
     private final BairroRepository bairroRepository;
-    private final ConexaoRepository conexaoRepository;
+    private final ArestaRepository arestaRepository;
 
-    public DataSeeder(BairroRepository bairroRepository, ConexaoRepository conexaoRepository) {
+    public DataSeeder(BairroRepository bairroRepository, ArestaRepository arestaRepository) {
         this.bairroRepository = bairroRepository;
-        this.conexaoRepository = conexaoRepository;
+        this.arestaRepository = arestaRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
         seedBairros();
-        seedConexoes();
+        seedArestas();
     }
 
     private void seedBairros() {
@@ -54,8 +54,8 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
-    private void seedConexoes() {
-        if (conexaoRepository.count() > 0) {
+    private void seedArestas() {
+        if (arestaRepository.count() > 0) {
             return; // Já populado
         }
 
@@ -67,9 +67,9 @@ public class DataSeeder implements CommandLineRunner {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length >= 4) {
-                    Conexao conexao = new Conexao();
+                    Aresta aresta = new Aresta();
                     // Use ID from CSV as 'aresta' table might expect it or we want consistency
-                    conexao.setId(Integer.parseInt(parts[0].trim()));
+                    aresta.setId(Integer.parseInt(parts[0].trim()));
                     
                     Bairro origem = new Bairro();
                     origem.setId(Integer.parseInt(parts[1].trim()));
@@ -77,16 +77,16 @@ public class DataSeeder implements CommandLineRunner {
                     Bairro destino = new Bairro();
                     destino.setId(Integer.parseInt(parts[2].trim()));
                     
-                    conexao.setBairroOrigem(origem);
-                    conexao.setBairroDestino(destino);
-                    conexao.setDistanciaKm(Double.parseDouble(parts[3].trim()));
+                    aresta.setOrigem(origem);
+                    aresta.setDestino(destino);
+                    aresta.setDistanciaKm(Double.parseDouble(parts[3].trim()));
                     
-                    conexaoRepository.save(conexao);
+                    arestaRepository.save(aresta);
                 }
             }
-            System.out.println("Conexoes seeded successfully.");
+            System.out.println("Arestas seeded successfully.");
         } catch (Exception e) {
-            System.err.println("Error seeding conexoes: " + e.getMessage());
+            System.err.println("Error seeding arestas: " + e.getMessage());
         }
     }
 }

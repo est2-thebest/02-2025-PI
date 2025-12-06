@@ -9,6 +9,7 @@ export interface Equipe {
   descricao: string;
   ambulancia?: Ambulancia | null;
   profissionais: Profissional[];
+  turno: 'MATUTINO' | 'VESPERTINO' | 'NOTURNO';
 }
 
 const equipeService = {

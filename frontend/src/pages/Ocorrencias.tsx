@@ -4,7 +4,8 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import Banner from '../components/common/Banner';
 import OcorrenciaForm from '../components/ocorrencias/OcorrenciaForm';
 import { getCorGravidade, getCorStatus } from '../utils/helpers';
-import { Edit } from 'lucide-react';
+import { Edit, Trash2 } from 'lucide-react';
+import ConfirmDialog from '../components/common/ConfirmDialog';
 import './Ocorrencias.css';
 
 interface Filtros {
@@ -18,6 +19,7 @@ const Ocorrencias: React.FC = () => {
   const [carregando, setCarregando] = useState<boolean>(true);
   const [mostrarForm, setMostrarForm] = useState<boolean>(false);
   const [ocorrenciaEdit, setOcorrenciaEdit] = useState<Ocorrencia | null>(null);
+  const [ocorrenciaParaExcluir, setOcorrenciaParaExcluir] = useState<number | null>(null);
   const [filtros, setFiltros] = useState<Filtros>({
     status: '',
     gravidade: '',
@@ -58,6 +60,23 @@ const Ocorrencias: React.FC = () => {
   const handleCancelar = (): void => {
     setMostrarForm(false);
     setOcorrenciaEdit(null);
+  };
+
+  const confirmarExclusao = (id: number) => {
+    setOcorrenciaParaExcluir(id);
+  };
+
+  const handleExcluir = async () => {
+    if (ocorrenciaParaExcluir) {
+      try {
+        await ocorrenciaService.excluir(ocorrenciaParaExcluir);
+        setOcorrenciaParaExcluir(null);
+        await carregarOcorrencias();
+      } catch (error) {
+        console.error('Erro ao excluir ocorrência:', error);
+        alert('Erro ao excluir ocorrência.');
+      }
+    }
   };
 
   const ocorrenciasFiltradas = ocorrencias.filter((o) => {
@@ -189,13 +208,24 @@ const Ocorrencias: React.FC = () => {
                           </span>
                         </td>
                         <td>
-                          <button
-                            className="btn-action btn-edit"
-                            onClick={() => handleEditar(ocorrencia)}
-                            title="Editar"
-                          >
-                            <Edit size={16} />
-                          </button>
+                          <div style={{ display: 'flex', gap: '8px' }}>
+                            <button
+                              className="btn-icon"
+                              onClick={() => handleEditar(ocorrencia)}
+                              title="Editar"
+                              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--primary)' }}
+                            >
+                              <Edit size={18} />
+                            </button>
+                            <button
+                              className="btn-icon"
+                              onClick={() => ocorrencia.id && confirmarExclusao(ocorrencia.id)}
+                              title="Excluir"
+                              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--danger)' }}
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))
@@ -206,6 +236,16 @@ const Ocorrencias: React.FC = () => {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={!!ocorrenciaParaExcluir}
+        title="Excluir Ocorrência"
+        message="Tem certeza que deseja excluir esta ocorrência? Esta ação não pode ser desfeita."
+        onConfirm={handleExcluir}
+        onCancel={() => setOcorrenciaParaExcluir(null)}
+        isDangerous
+        type="warning"
+      />
     </div>
   );
 };

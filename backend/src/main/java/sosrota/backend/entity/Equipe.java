@@ -23,6 +23,9 @@ public class Equipe {
     @JoinColumn(name = "ambulancia_id")
     private Ambulancia ambulancia;
 
+    @Enumerated(EnumType.STRING)
+    private Turno turno;
+
     @ManyToMany
     @JoinTable(name = "equipe_profissional", joinColumns = @JoinColumn(name = "equipe_id"), inverseJoinColumns = @JoinColumn(name = "profissional_id"))
     private List<Profissional> profissionais;

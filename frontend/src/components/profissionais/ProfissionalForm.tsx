@@ -16,6 +16,7 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
     funcao: 'MEDICO',
     contato: '',
     ativo: true,
+    turno: 'MATUTINO',
   });
 
   const [salvando, setSalvando] = React.useState(false);
@@ -31,6 +32,7 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
         funcao: 'MEDICO',
         contato: '',
         ativo: true,
+        turno: 'MATUTINO',
       });
     }
   }, [profissional, isOpen]);
@@ -132,6 +134,21 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
               <option value="CONDUTOR">Condutor</option>
             </select>
           </div>
+
+          <div className="form-group">
+            <label htmlFor="turno">Turno *</label>
+            <select
+              id="turno"
+              name="turno"
+              value={formData.turno || 'MATUTINO'}
+              onChange={handleChange}
+              required
+            >
+              <option value="MATUTINO">Matutino</option>
+              <option value="VESPERTINO">Vespertino</option>
+              <option value="NOTURNO">Noturno</option>
+            </select>
+          </div>
         </div>
 
         <div className="form-row">
@@ -148,17 +165,19 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
             />
           </div>
 
-          <div className="form-group" style={{ display: 'flex', alignItems: 'center', marginTop: '24px' }}>
-            <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '8px' }}>
-              <input
-                type="checkbox"
-                name="ativo"
-                checked={formData.ativo}
-                onChange={handleChange}
-              />
-              Ativo
-            </label>
-          </div>
+          {profissional && (
+            <div className="form-group" style={{ display: 'flex', alignItems: 'center', marginTop: '24px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '8px' }}>
+                <input
+                  type="checkbox"
+                  name="ativo"
+                  checked={formData.ativo}
+                  onChange={handleChange}
+                />
+                Ativo
+              </label>
+            </div>
+          )}
         </div>
       </form>
     </Modal>

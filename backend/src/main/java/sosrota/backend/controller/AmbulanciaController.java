@@ -33,6 +33,16 @@ public class AmbulanciaController {
         return ambulanciaService.save(ambulancia);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Ambulancia> update(@PathVariable Integer id, @RequestBody Ambulancia ambulancia) {
+        Ambulancia existing = ambulanciaService.findById(id);
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
+        ambulancia.setId(id);
+        return ResponseEntity.ok(ambulanciaService.save(ambulancia));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         ambulanciaService.delete(id);

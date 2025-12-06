@@ -96,4 +96,24 @@ export class FormValidator {
     }
     return { valid: true, message: '' };
   }
+
+  // Valida placa de veículo (ABC-1234 ou Mercosul ABC1D23)
+  static validatePlaca(placa: string): { valid: boolean; message: string } {
+    const cleanPlaca = placa.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+
+    // Verifica tamanho (7 caracteres)
+    if (cleanPlaca.length !== 7) {
+      return { valid: false, message: 'Placa deve ter 7 caracteres' };
+    }
+
+    // Regex para formato antigo (ABC1234) e Mercosul (ABC1D23)
+    // Ajustado para aceitar com ou sem hífen na entrada, mas valida o conteúdo
+    const placaRegex = /^([A-Z]{3}\d{4}|[A-Z]{3}\d[A-Z]\d{2})$/;
+
+    if (!placaRegex.test(cleanPlaca)) {
+      return { valid: false, message: 'Formato inválido. Use ABC-1234 ou Mercosul' };
+    }
+
+    return { valid: true, message: '' };
+  }
 }
