@@ -69,7 +69,17 @@ const EquipeForm: React.FC<EquipeFormProps> = ({ isOpen, equipe, onSalvar, onCan
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.currentTarget;
-    setFormData(prev => ({ ...prev, [name]: value }));
+
+    if (name === 'turno') {
+      // Se mudar o turno, limpa os profissionais selecionados
+      setFormData(prev => ({
+        ...prev,
+        [name]: value as 'MATUTINO' | 'VESPERTINO' | 'NOTURNO',
+        profissionais: []
+      }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleAmbulanciaChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
