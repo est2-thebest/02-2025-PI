@@ -5,7 +5,6 @@ import {
   Siren,
   Ambulance,
   Users,
-  MapPin,
   BarChart3,
   Radio,
   LogOut,
@@ -15,7 +14,6 @@ import {
   Sun,
 } from 'lucide-react';
 
-// TODO: ajustar cor para entrar na paleta
 import logo from '../../assets/logo-p.svg';
 import { useTheme } from '../../hooks/useTheme';
 import { useAuth } from '../../hooks/useAuth';

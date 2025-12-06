@@ -8,6 +8,7 @@ import EquipeForm from '../components/equipes/EquipeForm';
 import EquipeList from '../components/equipes/EquipeList';
 import { Stethoscope, Syringe, Ambulance, User, Phone, LayoutGrid, List as ListIcon, Edit, Trash2 } from 'lucide-react';
 import ConfirmDialog from '../components/common/ConfirmDialog';
+import AlertDialog from '../components/common/AlertDialog';
 import './Profissionais.css';
 
 const Profissionais: React.FC = () => {
@@ -26,6 +27,13 @@ const Profissionais: React.FC = () => {
   // Estado Equipes
   const [mostrarFormEquipe, setMostrarFormEquipe] = useState<boolean>(false);
   const [equipeEdit, setEquipeEdit] = useState<Equipe | null>(null);
+
+  const [alertInfo, setAlertInfo] = useState<{ isOpen: boolean; title: string; message: string; type: 'error' | 'success' | 'info' }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'info'
+  });
 
   useEffect(() => {
     carregarDados();
@@ -82,9 +90,15 @@ const Profissionais: React.FC = () => {
         await profissionalService.excluir(profissionalParaExcluir);
         setProfissionalParaExcluir(null);
         await carregarDados();
-      } catch (error) {
+      } catch (error: any) {
         console.error('Erro ao excluir profissional:', error);
-        alert('Erro ao excluir profissional. Verifique se ele não está vinculado a uma equipe.');
+        const message = error.response?.data?.message || error.response?.data || 'Erro ao excluir profissional.';
+        setAlertInfo({
+          isOpen: true,
+          title: 'Erro ao Excluir',
+          message: message,
+          type: 'error'
+        });
       }
     }
   };
@@ -376,6 +390,14 @@ const Profissionais: React.FC = () => {
         onCancel={() => setProfissionalParaExcluir(null)}
         isDangerous
         type="warning"
+      />
+
+      <AlertDialog
+        isOpen={alertInfo.isOpen}
+        title={alertInfo.title}
+        message={alertInfo.message}
+        type={alertInfo.type}
+        onClose={() => setAlertInfo({ ...alertInfo, isOpen: false })}
       />
     </div>
   );

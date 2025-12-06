@@ -11,6 +11,9 @@ import sosrota.backend.entity.Ocorrencia;
 import sosrota.backend.repository.AmbulanciaRepository;
 import sosrota.backend.repository.AtendimentoRepository;
 import sosrota.backend.repository.OcorrenciaRepository;
+import sosrota.backend.repository.EquipeRepository;
+import sosrota.backend.entity.Equipe;
+import sosrota.backend.entity.Profissional;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,6 +31,9 @@ class DispatchTest {
 
     @Mock
     private AtendimentoRepository atendimentoRepository;
+
+    @Mock
+    private EquipeRepository equipeRepository;
 
     @Mock
     private DijsktraService dijsktraService;
@@ -52,20 +58,38 @@ class DispatchTest {
         ocorrencia.setId(1);
         ocorrencia.setBairro(bairroOcorrencia);
         ocorrencia.setStatus("ABERTA");
+        ocorrencia.setGravidade("BAIXA");
 
         // Setup Ambulancias
         Ambulancia amb1 = new Ambulancia();
         amb1.setId(1);
         amb1.setBairro(bairroAmb1);
+        amb1.setBairro(bairroAmb1);
         amb1.setStatus("DISPONIVEL");
+        amb1.setTipo("USB");
 
         Ambulancia amb2 = new Ambulancia();
         amb2.setId(2);
         amb2.setBairro(bairroAmb2);
         amb2.setStatus("DISPONIVEL");
+        amb2.setTipo("USB");
 
         when(ambulanciaRepository.findByStatus("DISPONIVEL")).thenReturn(Arrays.asList(amb1, amb2));
         when(ocorrenciaRepository.save(any(Ocorrencia.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        // Mock Equipe
+        Profissional motorista = new Profissional();
+        motorista.setFuncao("MOTORISTA");
+        motorista.setAtivo(true);
+        
+        Profissional enfermeiro = new Profissional();
+        enfermeiro.setFuncao("ENFERMEIRO");
+        enfermeiro.setAtivo(true);
+
+        Equipe equipe = new Equipe();
+        equipe.setProfissionais(Arrays.asList(motorista, enfermeiro));
+
+        when(equipeRepository.findByAmbulancia(any(Ambulancia.class))).thenReturn(java.util.Optional.of(equipe));
 
         // Mock Dijkstra
         // Amb1 is 10km away

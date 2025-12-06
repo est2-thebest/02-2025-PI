@@ -3,6 +3,7 @@ import { Ambulancia } from '../../services/ambulancia';
 import ambulanciaService from '../../services/ambulancia';
 import { Ambulance, MapPin, Activity, Edit, Trash2 } from 'lucide-react';
 import ConfirmDialog from '../common/ConfirmDialog';
+import AlertDialog from '../common/AlertDialog';
 
 interface AmbulanciaListProps {
   ambulancias: Ambulancia[];
@@ -12,6 +13,12 @@ interface AmbulanciaListProps {
 
 const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, viewMode }) => {
   const [ambulanciaParaExcluir, setAmbulanciaParaExcluir] = useState<number | null>(null);
+  const [alertInfo, setAlertInfo] = useState<{ isOpen: boolean; title: string; message: string; type: 'error' | 'success' | 'info' }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'info'
+  });
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -33,9 +40,15 @@ const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, vi
         setAmbulanciaParaExcluir(null);
         // Recarregar a página para atualizar a lista (idealmente seria via prop de refresh)
         window.location.reload();
-      } catch (error) {
+      } catch (error: any) {
         console.error('Erro ao excluir ambulância:', error);
-        alert('Erro ao excluir ambulância. Verifique se ela não está vinculada a uma equipe.');
+        const message = error.response?.data?.message || error.response?.data || 'Erro ao excluir ambulância.';
+        setAlertInfo({
+          isOpen: true,
+          title: 'Erro ao Excluir',
+          message: message,
+          type: 'error'
+        });
       }
     }
   };
@@ -181,6 +194,14 @@ const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, vi
         onCancel={() => setAmbulanciaParaExcluir(null)}
         isDangerous
         type="warning"
+      />
+
+      <AlertDialog
+        isOpen={alertInfo.isOpen}
+        title={alertInfo.title}
+        message={alertInfo.message}
+        type={alertInfo.type}
+        onClose={() => setAlertInfo({ ...alertInfo, isOpen: false })}
       />
     </>
   );
