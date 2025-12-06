@@ -4,7 +4,7 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import Banner from '../components/common/Banner';
 import OcorrenciaForm from '../components/ocorrencias/OcorrenciaForm';
 import { getCorGravidade, getCorStatus } from '../utils/helpers';
-import { Edit, Trash2 } from 'lucide-react';
+import { Edit, Trash2, Play, Check, XCircle } from 'lucide-react';
 import ConfirmDialog from '../components/common/ConfirmDialog';
 import './Ocorrencias.css';
 
@@ -77,6 +77,43 @@ const Ocorrencias: React.FC = () => {
         alert('Erro ao excluir ocorrência.');
       }
     }
+  }
+
+
+  const handleConfirmarSaida = async (id: number) => {
+    if (window.confirm('Confirmar saída da ambulância para o local?')) {
+      try {
+        await ocorrenciaService.confirmarSaida(id);
+        await carregarOcorrencias();
+      } catch (error) {
+        console.error('Erro ao confirmar saída:', error);
+        alert('Erro ao confirmar saída.');
+      }
+    }
+  };
+
+  const handleConcluir = async (id: number) => {
+    if (window.confirm('Confirmar conclusão do atendimento? A ambulância será liberada.')) {
+      try {
+        await ocorrenciaService.concluir(id);
+        await carregarOcorrencias();
+      } catch (error) {
+        console.error('Erro ao concluir ocorrência:', error);
+        alert('Erro ao concluir ocorrência.');
+      }
+    }
+  };
+
+  const handleCancelarOcorrencia = async (id: number) => {
+    if (window.confirm('Tem certeza que deseja cancelar esta ocorrência?')) {
+      try {
+        await ocorrenciaService.cancelar(id);
+        await carregarOcorrencias();
+      } catch (error) {
+        console.error('Erro ao cancelar ocorrência:', error);
+        alert('Erro ao cancelar ocorrência.');
+      }
+    }
   };
 
   const ocorrenciasFiltradas = ocorrencias.filter((o) => {
@@ -134,7 +171,7 @@ const Ocorrencias: React.FC = () => {
               <option value="">Todos os Status</option>
               <option value="ABERTA">Aberta</option>
               <option value="DESPACHADA">Despachada</option>
-              <option value="ATENDENDO">Em Atendimento</option>
+              <option value="EM_ATENDIMENTO">Em Atendimento</option>
               <option value="CONCLUIDA">Concluída</option>
               <option value="CANCELADA">Cancelada</option>
             </select>
@@ -225,6 +262,39 @@ const Ocorrencias: React.FC = () => {
                             >
                               <Trash2 size={18} />
                             </button>
+
+                            {ocorrencia.status === 'DESPACHADA' && (
+                              <button
+                                className="btn-icon"
+                                onClick={() => ocorrencia.id && handleConfirmarSaida(ocorrencia.id)}
+                                title="Confirmar Saída"
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--warning)' }}
+                              >
+                                <Play size={18} />
+                              </button>
+                            )}
+
+                            {ocorrencia.status === 'EM_ATENDIMENTO' && (
+                              <button
+                                className="btn-icon"
+                                onClick={() => ocorrencia.id && handleConcluir(ocorrencia.id)}
+                                title="Concluir Atendimento"
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--success)' }}
+                              >
+                                <Check size={18} />
+                              </button>
+                            )}
+
+                            {['ABERTA', 'DESPACHADA', 'EM_ATENDIMENTO'].includes(ocorrencia.status) && (
+                              <button
+                                className="btn-icon"
+                                onClick={() => ocorrencia.id && handleCancelarOcorrencia(ocorrencia.id)}
+                                title="Cancelar Ocorrência"
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)' }}
+                              >
+                                <XCircle size={18} />
+                              </button>
+                            )}
                           </div>
                         </td>
                       </tr>

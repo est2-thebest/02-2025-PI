@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 export interface Profissional {
   id?: number;
   nome: string;
-  funcao: 'MEDICO' | 'ENFERMEIRO' | 'CONDUTOR';
+  funcao: 'MEDICO' | 'ENFERMEIRO' | 'MOTORISTA';
   cref?: string;
   contato?: string;
   ativo: boolean;

@@ -8,7 +8,7 @@ export interface Ocorrencia {
 	bairro?: Bairro | null;
 	tipo: string;
 	gravidade: 'ALTA' | 'MEDIA' | 'BAIXA';
-	status: 'ABERTA' | 'DESPACHADA' | 'ATENDENDO' | 'CONCLUIDA' | 'CANCELADA';
+	status: 'ABERTA' | 'DESPACHADA' | 'EM_ATENDIMENTO' | 'CONCLUIDA' | 'CANCELADA';
 	observacao: string;
 }
 
@@ -40,6 +40,18 @@ const ocorrenciaService = {
 
 	async excluir(id: number): Promise<void> {
 		await api.delete(`/ocorrencias/${id}`);
+	},
+
+	async confirmarSaida(id: number): Promise<void> {
+		await api.post(`/ocorrencias/${id}/confirmar-saida`);
+	},
+
+	async concluir(id: number): Promise<void> {
+		await api.post(`/ocorrencias/${id}/concluir`);
+	},
+
+	async cancelar(id: number): Promise<void> {
+		await api.post(`/ocorrencias/${id}/cancelar`);
 	}
 };
 

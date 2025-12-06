@@ -6,7 +6,7 @@ import { Bairro } from './bairro';
 export interface Ambulancia {
   id?: number;
   placa: string;
-  tipo: 'BASICA' | 'UTI';
+  tipo: 'USA' | 'USB';
   status: 'DISPONIVEL' | 'EM_ATENDIMENTO' | 'EM_MANUTENCAO';
   bairro?: Bairro;
 }

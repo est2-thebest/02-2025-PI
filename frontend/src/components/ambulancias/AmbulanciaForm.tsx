@@ -19,7 +19,7 @@ const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({
 }) => {
   const [formData, setFormData] = useState<Partial<Ambulancia>>({
     placa: '',
-    tipo: 'BASICA',
+    tipo: 'USB',
     status: 'DISPONIVEL',
     bairro: undefined
   });
@@ -36,7 +36,7 @@ const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({
       } else {
         setFormData({
           placa: '',
-          tipo: 'BASICA',
+          tipo: 'USB',
           status: 'DISPONIVEL',
           bairro: undefined
         });
@@ -174,12 +174,12 @@ const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({
           <label>Tipo</label>
           <select
             name="tipo"
-            value={formData.tipo || 'BASICA'}
+            value={formData.tipo || 'USB'}
             onChange={handleChange}
             className="form-control"
           >
-            <option value="BASICA">Básica (Suporte Básico)</option>
-            <option value="UTI">UTI (Suporte Avançado)</option>
+            <option value="USB">Básica (USB)</option>
+            <option value="USA">UTI (USA)</option>
           </select>
         </div>
 

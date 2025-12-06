@@ -10,6 +10,8 @@ import java.util.List;
 @Service
 public class ProfissionalService {
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(ProfissionalService.class);
+
     private final ProfissionalRepository profissionalRepository;
     private final EquipeRepository equipeRepository;
 
@@ -27,6 +29,7 @@ public class ProfissionalService {
     }
 
     public Profissional save(Profissional profissional) {
+        logger.info("Tentando salvar Profissional: Nome={}, Funcao={}, Turno={}", profissional.getNome(), profissional.getFuncao(), profissional.getTurno());
         if (Boolean.FALSE.equals(profissional.getAtivo())) {
              if (profissional.getId() != null && equipeRepository.existsByProfissionaisContaining(profissional)) {
                  throw new IllegalStateException("Não é possível inativar um profissional vinculado a uma equipe.");

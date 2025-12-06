@@ -28,5 +28,9 @@ public class Ocorrencia {
     private LocalDateTime dataHoraAbertura;
 
     private String status; // ABERTA, EM_ANDAMENTO, CONCLUIDA, CANCELADA
+    
+    @Column(name = "data_hora_fechamento")
+    private LocalDateTime dataHoraFechamento;
+
     private String observacao;
 }

@@ -74,19 +74,23 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setErro('');
+    console.log('Tentando salvar ocorrência:', formData);
 
     if (!formData.bairro || !formData.tipo) {
       setErro('Bairro e Tipo são obrigatórios');
+      console.warn('Validação do formulário falhou: Bairro e Tipo são obrigatórios');
       return;
     }
 
     setSalvando(true);
     try {
+      console.log('Enviando requisição para salvar ocorrência...');
       if (ocorrencia?.id) {
         await ocorrenciaService.atualizar(ocorrencia.id, formData);
       } else {
         await ocorrenciaService.criar(formData);
       }
+      console.log('Ocorrência salva com sucesso!');
       onSalvar();
     } catch (error: any) {
       console.error('Erro ao salvar ocorrência:', error);

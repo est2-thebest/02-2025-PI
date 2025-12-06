@@ -18,6 +18,8 @@ import java.util.List;
 @Service
 public class OcorrenciaService {
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(OcorrenciaService.class);
+
     private final OcorrenciaRepository ocorrenciaRepository;
     private final AmbulanciaRepository ambulanciaRepository;
     private final AtendimentoRepository atendimentoRepository;
@@ -56,7 +58,14 @@ public class OcorrenciaService {
     }
 
     private void dispatchAmbulance(Ocorrencia ocorrencia) {
+        List<Ambulancia> allAmbulances = ambulanciaRepository.findAll();
+        logger.info("Total de ambulâncias no banco: {}", allAmbulances.size());
+        for (Ambulancia a : allAmbulances) {
+            logger.info("Ambulancia DB: ID={}, Placa={}, Status='{}', Base={}", a.getId(), a.getPlaca(), a.getStatus(), (a.getBairro() != null ? a.getBairro().getNome() : "null"));
+        }
+
         List<Ambulancia> availableAmbulances = ambulanciaRepository.findByStatus("DISPONIVEL");
+        logger.info("Encontradas {} ambulâncias com status DISPONIVEL", availableAmbulances.size());
 
         Ambulancia bestAmbulancia = null;
         double minDistance = Double.MAX_VALUE;
@@ -64,14 +73,19 @@ public class OcorrenciaService {
         // SLA Rules (in minutes/km)
         double slaLimit = getSlaLimit(ocorrencia.getGravidade());
         
+        logger.info("Iniciando despacho para Ocorrencia {}. Gravidade: {}, Bairro: {}", ocorrencia.getId(), ocorrencia.getGravidade(), ocorrencia.getBairro().getId());
         for (Ambulancia ambulancia : availableAmbulances) {
+            logger.debug("Verificando Ambulancia {}. Tipo: {}, Bairro: {}", ambulancia.getId(), ambulancia.getTipo(), (ambulancia.getBairro() != null ? ambulancia.getBairro().getId() : "null"));
+            
             // 1. Validate Ambulance Type
             if (!isTypeCompatible(ambulancia.getTipo(), ocorrencia.getGravidade())) {
+                logger.debug("Ambulancia {} rejeitada: Tipo incompatível.", ambulancia.getId());
                 continue;
             }
 
             // 2. Validate Team Composition
             if (!validateTeamComposition(ambulancia)) {
+                logger.debug("Ambulancia {} rejeitada: Equipe inválida ou incompleta.", ambulancia.getId());
                 continue;
             }
 
@@ -81,6 +95,8 @@ public class OcorrenciaService {
                         ambulancia.getBairro().getId(),
                         ocorrencia.getBairro().getId());
 
+                logger.debug("Distância calculada para Ambulancia {}: {} km", ambulancia.getId(), result.totalDistance);
+
                 if (!Double.isNaN(result.totalDistance)) {
                     // 3. Validate SLA
                     if (result.totalDistance <= slaLimit) {
@@ -88,9 +104,14 @@ public class OcorrenciaService {
                         if (result.totalDistance < minDistance) {
                             minDistance = result.totalDistance;
                             bestAmbulancia = ambulancia;
+                            logger.debug("Ambulancia {} é a melhor candidata até agora.", ambulancia.getId());
                         }
+                    } else {
+                        logger.debug("Ambulancia {} rejeitada: Fora do SLA ({} > {})", ambulancia.getId(), result.totalDistance, slaLimit);
                     }
                 }
+            } else {
+                logger.debug("Ambulancia {} rejeitada: Sem base definida.", ambulancia.getId());
             }
         }
 
@@ -108,10 +129,12 @@ public class OcorrenciaService {
             ambulanciaRepository.save(bestAmbulancia);
 
             // Update Ocorrencia Status
-            ocorrencia.setStatus("EM_ANDAMENTO");
+            ocorrencia.setStatus("DESPACHADA");
             ocorrenciaRepository.save(ocorrencia);
+            logger.info("Ocorrencia {} despachada com sucesso. Ambulancia: {}", ocorrencia.getId(), bestAmbulancia.getId());
         } else {
             // Log failure to dispatch (optional: could set status to PENDING_RESOURCE)
+            logger.warn("Nenhuma ambulância disponível para a Ocorrencia {}", ocorrencia.getId());
             System.out.println("No suitable ambulance found for Ocorrencia " + ocorrencia.getId());
         }
     }
@@ -163,5 +186,69 @@ public class OcorrenciaService {
     }
     public void delete(Integer id) {
         ocorrenciaRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void confirmDeparture(Integer id) {
+        logger.info("Tentando confirmar saída para Ocorrencia {}", id);
+        Ocorrencia ocorrencia = findById(id);
+        if (ocorrencia != null && "DESPACHADA".equals(ocorrencia.getStatus())) {
+            ocorrencia.setStatus("EM_ATENDIMENTO");
+            ocorrenciaRepository.save(ocorrencia);
+            logger.info("Saída confirmada para Ocorrencia {}. Status atualizado para EM_ATENDIMENTO", id);
+        } else {
+            logger.error("Falha ao confirmar saída. Ocorrencia {} não encontrada ou status inválido: {}", id, (ocorrencia != null ? ocorrencia.getStatus() : "null"));
+            throw new IllegalStateException("Ocorrência não encontrada ou não está no status DESPACHADA.");
+        }
+    }
+
+    @Transactional
+    public void finishOccurrence(Integer id) {
+        logger.info("Tentando concluir Ocorrencia {}", id);
+        Ocorrencia ocorrencia = findById(id);
+        if (ocorrencia != null && "EM_ATENDIMENTO".equals(ocorrencia.getStatus())) {
+            ocorrencia.setStatus("CONCLUIDA");
+            ocorrencia.setDataHoraFechamento(LocalDateTime.now());
+            ocorrenciaRepository.save(ocorrencia);
+            logger.info("Ocorrencia {} concluída.", id);
+
+            freeAmbulance(ocorrencia);
+        } else {
+            logger.error("Falha ao concluir. Ocorrencia {} não encontrada ou status inválido: {}", id, (ocorrencia != null ? ocorrencia.getStatus() : "null"));
+            throw new IllegalStateException("Ocorrência não encontrada ou não está em atendimento.");
+        }
+    }
+
+    @Transactional
+    public void cancelOccurrence(Integer id) {
+        logger.info("Tentando cancelar Ocorrencia {}", id);
+        Ocorrencia ocorrencia = findById(id);
+        if (ocorrencia != null && !"CONCLUIDA".equals(ocorrencia.getStatus())) {
+            ocorrencia.setStatus("CANCELADA");
+            ocorrencia.setDataHoraFechamento(LocalDateTime.now());
+            ocorrenciaRepository.save(ocorrencia);
+            logger.info("Ocorrencia {} cancelada.", id);
+
+            freeAmbulance(ocorrencia);
+        } else {
+             logger.error("Falha ao cancelar. Ocorrencia {} não encontrada ou já concluída.", id);
+             throw new IllegalStateException("Ocorrência não encontrada ou já concluída.");
+        }
+    }
+
+    private void freeAmbulance(Ocorrencia ocorrencia) {
+        Atendimento atendimento = atendimentoRepository.findByOcorrencia(ocorrencia);
+        if (atendimento != null) {
+            Ambulancia ambulancia = atendimento.getAmbulancia();
+            if (ambulancia != null) {
+                ambulancia.setStatus("DISPONIVEL");
+                ambulanciaRepository.save(ambulancia);
+                logger.info("Ambulancia {} liberada (DISPONIVEL) após fim da Ocorrencia {}", ambulancia.getId(), ocorrencia.getId());
+            } else {
+                logger.warn("Atendimento {} não tem ambulância vinculada.", atendimento.getId());
+            }
+        } else {
+            logger.warn("Nenhum atendimento encontrado para Ocorrencia {} ao tentar liberar ambulância.", ocorrencia.getId());
+        }
     }
 }

@@ -11,6 +11,8 @@ import java.util.List;
 @RequestMapping("/api/ocorrencias")
 public class OcorrenciaController {
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(OcorrenciaController.class);
+
     private final OcorrenciaService ocorrenciaService;
 
     public OcorrenciaController(OcorrenciaService ocorrenciaService) {
@@ -30,6 +32,7 @@ public class OcorrenciaController {
 
     @PostMapping
     public Ocorrencia create(@RequestBody Ocorrencia ocorrencia) {
+        logger.info("Recebida requisição para criar Ocorrencia: {}", ocorrencia);
         return ocorrenciaService.createOcorrencia(ocorrencia);
     }
 
@@ -51,5 +54,26 @@ public class OcorrenciaController {
         }
         ocorrenciaService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/confirmar-saida")
+    public ResponseEntity<Void> confirmDeparture(@PathVariable Integer id) {
+        logger.info("Recebida requisição para confirmar saída da Ocorrencia {}", id);
+        ocorrenciaService.confirmDeparture(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/concluir")
+    public ResponseEntity<Void> finishOccurrence(@PathVariable Integer id) {
+        logger.info("Recebida requisição para concluir Ocorrencia {}", id);
+        ocorrenciaService.finishOccurrence(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/cancelar")
+    public ResponseEntity<Void> cancelOccurrence(@PathVariable Integer id) {
+        logger.info("Recebida requisição para cancelar Ocorrencia {}", id);
+        ocorrenciaService.cancelOccurrence(id);
+        return ResponseEntity.ok().build();
     }
 }

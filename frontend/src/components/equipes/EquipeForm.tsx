@@ -106,18 +106,18 @@ const EquipeForm: React.FC<EquipeFormProps> = ({ isOpen, equipe, onSalvar, onCan
 
     const medicos = formData.profissionais.filter(p => p.funcao === 'MEDICO').length;
     const enfermeiros = formData.profissionais.filter(p => p.funcao === 'ENFERMEIRO').length;
-    const condutores = formData.profissionais.filter(p => p.funcao === 'CONDUTOR').length;
+    const condutores = formData.profissionais.filter(p => p.funcao === 'MOTORISTA').length;
 
-    if (formData.ambulancia.tipo === 'UTI') {
-      // UTI: Exatamente 1 Medico, 1 Enfermeiro, 1 Condutor
-      if (medicos !== 1) return 'Ambulância UTI requer 1 Médico';
-      if (enfermeiros !== 1) return 'Ambulância UTI requer 1 Enfermeiro';
-      if (condutores !== 1) return 'Ambulância UTI requer 1 Condutor';
+    if (formData.ambulancia.tipo === 'USA') {
+      // USA: Exatamente 1 Medico, 1 Enfermeiro, 1 Motorista
+      if (medicos !== 1) return 'Ambulância USA requer 1 Médico';
+      if (enfermeiros !== 1) return 'Ambulância USA requer 1 Enfermeiro';
+      if (condutores !== 1) return 'Ambulância USA requer 1 Motorista';
     } else {
-      // BASICA: Exatamente 1 Enfermeiro, 1 Condutor (Sem médico)
-      if (medicos > 0) return 'Ambulância Básica não deve ter Médico';
-      if (enfermeiros !== 1) return 'Ambulância Básica requer 1 Enfermeiro';
-      if (condutores !== 1) return 'Ambulância Básica requer 1 Condutor';
+      // USB: Exatamente 1 Enfermeiro, 1 Motorista (Sem médico)
+      if (medicos > 0) return 'Ambulância USB não deve ter Médico';
+      if (enfermeiros !== 1) return 'Ambulância USB requer 1 Enfermeiro';
+      if (condutores !== 1) return 'Ambulância USB requer 1 Motorista';
     }
 
     return null;
