@@ -310,6 +310,7 @@ const Profissionais: React.FC = () => {
                     <tr style={{ borderBottom: '1px solid var(--border)', textAlign: 'left' }}>
                       <th style={{ padding: '12px' }}>Nome</th>
                       <th style={{ padding: '12px' }}>Função</th>
+                      <th style={{ padding: '12px' }}>Turno</th>
                       <th style={{ padding: '12px' }}>Contato</th>
                       <th style={{ padding: '12px' }}>Status</th>
                       <th style={{ padding: '12px' }}>Ações</th>
@@ -323,6 +324,9 @@ const Profissionais: React.FC = () => {
                           <span className={`badge ${getBadgeClass(profissional.funcao)}`}>
                             {profissional.funcao}
                           </span>
+                        </td>
+                        <td style={{ padding: '12px' }}>
+                          <span className="badge" style={{ backgroundColor: 'var(--primary)', color: 'white' }}>{profissional.turno || '-'}</span>
                         </td>
                         <td style={{ padding: '12px' }}>{profissional.contato || '-'}</td>
                         <td style={{ padding: '12px' }}>

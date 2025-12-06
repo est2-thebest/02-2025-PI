@@ -80,21 +80,21 @@ const EquipeList: React.FC<EquipeListProps> = ({ onEdit, viewMode }) => {
                 <tr key={equipe.id} style={{ borderBottom: '1px solid var(--border)' }}>
                   <td style={{ padding: '12px' }}>{equipe.descricao}</td>
                   <td style={{ padding: '12px' }}>
-                    <span className="badge badge-secondary">{equipe.turno}</span>
+                    <span className="badge" style={{ backgroundColor: 'var(--primary)', color: 'white' }}>{equipe.turno}</span>
                   </td>
                   <td style={{ padding: '12px' }}>
                     {equipe.ambulancia ? (
-                      <span className="badge badge-condutor" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                      <span className="badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', backgroundColor: 'var(--warning)', color: 'black' }}>
                         <AmbulanceIcon size={14} /> {equipe.ambulancia.placa}
                       </span>
                     ) : (
-                      <span className="badge badge-secondary">Sem Ambulância</span>
+                      <span className="badge" style={{ backgroundColor: 'var(--text-secondary)', color: 'white' }}>Sem Ambulância</span>
                     )}
                   </td>
                   <td style={{ padding: '12px' }}>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
                       {equipe.profissionais.map((p) => (
-                        <span key={p.id} className="badge badge-secondary" style={{ fontSize: '0.75rem' }}>
+                        <span key={p.id} className="badge" style={{ fontSize: '0.75rem', backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}>
                           {p.nome.split(' ')[0]} ({p.funcao[0]})
                         </span>
                       ))}
@@ -141,11 +141,11 @@ const EquipeList: React.FC<EquipeListProps> = ({ onEdit, viewMode }) => {
             <h3>{equipe.descricao}</h3>
             <span className="badge badge-secondary" style={{ fontSize: '0.75rem', marginTop: '4px' }}>{equipe.turno}</span>
             {equipe.ambulancia ? (
-              <span className="badge badge-condutor" style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center', marginTop: '8px' }}>
+              <span className="badge" style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center', marginTop: '8px', backgroundColor: 'var(--warning)', color: 'black' }}>
                 <AmbulanceIcon size={14} /> {equipe.ambulancia.placa}
               </span>
             ) : (
-              <span className="badge badge-secondary" style={{ marginTop: '8px' }}>Sem Ambulância</span>
+              <span className="badge" style={{ marginTop: '8px', backgroundColor: 'var(--text-secondary)', color: 'white' }}>Sem Ambulância</span>
             )}
           </div>
 
@@ -154,7 +154,7 @@ const EquipeList: React.FC<EquipeListProps> = ({ onEdit, viewMode }) => {
               <span className="detalhe-label">Profissionais:</span>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
                 {equipe.profissionais.map((p) => (
-                  <span key={p.id} className="badge badge-secondary" style={{ fontSize: '0.75rem' }}>
+                  <span key={p.id} className="badge" style={{ fontSize: '0.75rem', backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}>
                     {p.nome.split(' ')[0]} ({p.funcao[0]})
                   </span>
                 ))}

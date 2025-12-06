@@ -106,7 +106,7 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
       <form id="profissional-form" onSubmit={handleSubmit}>
         {erro && <div className="alert alert-error">{erro}</div>}
 
-        <div className="form-row">
+        <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px', marginBottom: '16px' }}>
           <div className="form-group">
             <label htmlFor="nome">Nome *</label>
             <input
@@ -117,6 +117,7 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
               onChange={handleChange}
               placeholder="Nome completo"
               required
+              className="form-control"
             />
           </div>
 
@@ -128,13 +129,16 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
               value={formData.funcao}
               onChange={handleChange}
               required
+              className="form-control"
             >
               <option value="MEDICO">Médico</option>
               <option value="ENFERMEIRO">Enfermeiro</option>
               <option value="CONDUTOR">Condutor</option>
             </select>
           </div>
+        </div>
 
+        <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
           <div className="form-group">
             <label htmlFor="turno">Turno *</label>
             <select
@@ -143,15 +147,14 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
               value={formData.turno || 'MATUTINO'}
               onChange={handleChange}
               required
+              className="form-control"
             >
               <option value="MATUTINO">Matutino</option>
               <option value="VESPERTINO">Vespertino</option>
               <option value="NOTURNO">Noturno</option>
             </select>
           </div>
-        </div>
 
-        <div className="form-row">
           <div className="form-group">
             <label htmlFor="contato">Contato *</label>
             <input
@@ -162,23 +165,28 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
               onChange={handleChange}
               placeholder="(00) 00000-0000"
               required
+              className="form-control"
             />
           </div>
-
-          {profissional && (
-            <div className="form-group" style={{ display: 'flex', alignItems: 'center', marginTop: '24px' }}>
-              <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '8px' }}>
-                <input
-                  type="checkbox"
-                  name="ativo"
-                  checked={formData.ativo}
-                  onChange={handleChange}
-                />
-                Ativo
-              </label>
-            </div>
-          )}
         </div>
+
+        {profissional && (
+          <div className="form-group" style={{ marginTop: '16px', padding: '12px', background: 'var(--bg-secondary)', borderRadius: '6px' }}>
+            <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '12px', fontWeight: 500 }}>
+              <input
+                type="checkbox"
+                name="ativo"
+                checked={formData.ativo}
+                onChange={handleChange}
+                style={{ width: '18px', height: '18px' }}
+              />
+              Profissional Ativo
+            </label>
+            <small style={{ display: 'block', marginTop: '4px', color: 'var(--text-secondary)', marginLeft: '30px' }}>
+              Desative para impedir que este profissional seja escalado em novas equipes.
+            </small>
+          </div>
+        )}
       </form>
     </Modal>
   );

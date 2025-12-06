@@ -40,9 +40,9 @@ const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, vi
     }
   };
 
-  if (viewMode === 'list') {
-    return (
-      <>
+  return (
+    <>
+      {viewMode === 'list' ? (
         <div className="card">
           <div className="card-body" style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -91,7 +91,10 @@ const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, vi
                         </button>
                         <button
                           className="btn-icon"
-                          onClick={() => ambulancia.id && confirmarExclusao(ambulancia.id)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (ambulancia.id) confirmarExclusao(ambulancia.id);
+                          }}
                           title="Excluir"
                           style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--danger)' }}
                         >
@@ -105,75 +108,71 @@ const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, vi
             </table>
           </div>
         </div>
-
-      </>
-    );
-  }
-
-  return (
-    <>
-      <div className="grid-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
-        {ambulancias.map((ambulancia) => (
-          <div key={ambulancia.id} className="card" style={{ padding: '1.5rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <div style={{
-                  background: 'var(--bg-secondary)',
-                  padding: '0.75rem',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  <Ambulance size={24} color="var(--primary)" />
+      ) : (
+        <div className="grid-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
+          {ambulancias.map((ambulancia) => (
+            <div key={ambulancia.id} className="card" style={{ padding: '1.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <div style={{
+                    background: 'var(--bg-secondary)',
+                    padding: '0.75rem',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <Ambulance size={24} color="var(--primary)" />
+                  </div>
+                  <div>
+                    <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{ambulancia.placa}</h3>
+                    <span className={`badge badge-${ambulancia.tipo.toLowerCase()}`} style={{ marginTop: '0.25rem', display: 'inline-block' }}>
+                      {ambulancia.tipo}
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{ambulancia.placa}</h3>
-                  <span className={`badge badge-${ambulancia.tipo.toLowerCase()}`} style={{ marginTop: '0.25rem', display: 'inline-block' }}>
-                    {ambulancia.tipo}
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
+                  <Activity size={16} />
+                  <span
+                    style={{
+                      color: getStatusColor(ambulancia.status),
+                      fontWeight: 500
+                    }}
+                  >
+                    {ambulancia.status}
                   </span>
                 </div>
-              </div>
-            </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
-                <Activity size={16} />
-                <span
-                  style={{
-                    color: getStatusColor(ambulancia.status),
-                    fontWeight: 500
-                  }}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
+                  <MapPin size={16} />
+                  <span>Localização: {ambulancia.bairro?.nome || 'Sem localização definida'}</span>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  className="btn btn-secondary"
+                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                  onClick={() => onEdit(ambulancia)}
                 >
-                  {ambulancia.status}
-                </span>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
-                <MapPin size={16} />
-                <span>Localização: {ambulancia.bairro?.nome || 'Sem localização definida'}</span>
+                  <Edit size={16} /> Editar
+                </button>
+                <button
+                  className="btn btn-danger"
+                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: 'var(--danger)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  onClick={() => ambulancia.id && confirmarExclusao(ambulancia.id)}
+                >
+                  <Trash2 size={16} /> Excluir
+                </button>
               </div>
             </div>
+          ))}
+        </div>
+      )}
 
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <button
-                className="btn btn-secondary"
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-                onClick={() => onEdit(ambulancia)}
-              >
-                <Edit size={16} /> Editar
-              </button>
-              <button
-                className="btn btn-danger"
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: 'var(--danger)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                onClick={() => ambulancia.id && confirmarExclusao(ambulancia.id)}
-              >
-                <Trash2 size={16} /> Excluir
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
       <ConfirmDialog
         isOpen={!!ambulanciaParaExcluir}
         title="Excluir Ambulância"
