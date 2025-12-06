@@ -21,5 +21,5 @@ public class Ambulancia {
 
     @ManyToOne
     @JoinColumn(name = "base_id")
-    private Bairro base;
+    private Bairro bairro;
 }

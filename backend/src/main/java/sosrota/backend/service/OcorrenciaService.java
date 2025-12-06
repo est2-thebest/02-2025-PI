@@ -56,9 +56,9 @@ public class OcorrenciaService {
         double minDistance = Double.MAX_VALUE;
 
         for (Ambulancia ambulancia : availableAmbulances) {
-            if (ambulancia.getBase() != null) {
+            if (ambulancia.getBairro() != null) {
                 DijsktraService.PathResult result = dijsktraService.findShortestPath(
-                        ambulancia.getBase().getId(),
+                        ambulancia.getBairro().getId(),
                         ocorrencia.getBairro().getId());
 
                 if (!Double.isNaN(result.totalDistance) && result.totalDistance < minDistance) {

@@ -56,12 +56,12 @@ class DispatchTest {
         // Setup Ambulancias
         Ambulancia amb1 = new Ambulancia();
         amb1.setId(1);
-        amb1.setBase(bairroAmb1);
+        amb1.setBairro(bairroAmb1);
         amb1.setStatus("DISPONIVEL");
 
         Ambulancia amb2 = new Ambulancia();
         amb2.setId(2);
-        amb2.setBase(bairroAmb2);
+        amb2.setBairro(bairroAmb2);
         amb2.setStatus("DISPONIVEL");
 
         when(ambulanciaRepository.findByStatus("DISPONIVEL")).thenReturn(Arrays.asList(amb1, amb2));
