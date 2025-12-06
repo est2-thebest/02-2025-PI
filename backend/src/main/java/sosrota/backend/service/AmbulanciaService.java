@@ -38,22 +38,21 @@ public class AmbulanciaService {
         
         if (ambulancia.getId() != null) {
             Ambulancia existing = findById(ambulancia.getId());
-            if (existing != null && !"DISPONIVEL".equals(existing.getStatus())) {
-                 // Allow only if status is changing back to DISPONIVEL (manual release fallback) ??
-                 // User agreed to strict blocking because we have "Concluir" now.
-                 // But wait, what if "Concluir" fails?
-                 // Let's stick to the plan: "Strictly restrict".
-                 // However, to be safe, I will allow if the NEW status is DISPONIVEL.
-                 // Actually, the user said "permitir editar apenas se estiver disponível".
-                 // This implies: if existing status != DISPONIVEL, BLOCK.
-                 // Unless the system is doing it? The system calls save() too.
-                 // OcorrenciaService calls save() to update status to EM_ATENDIMENTO/DISPONIVEL.
-                 // So I must allow status changes if they are valid transitions.
-                 // But OcorrenciaService uses the same repository/service?
-                 // OcorrenciaService uses AmbulanciaRepository directly. So it bypasses this service check!
-                 // So I can safely block here in Service (which is used by Controller/User).
-                 
-                 throw new IllegalStateException("Não é possível editar uma ambulância que não está disponível.");
+            if (existing != null) {
+                // Allow update if:
+                // 1. Existing status is DISPONIVEL
+                // 2. New status is INATIVA (user wants to inactivate)
+                // 3. Existing status is MANUTENCAO and New status is DISPONIVEL (user fixing it)
+                // 4. Existing status is INATIVA and New status is DISPONIVEL (reactivating)
+                
+                boolean isAvailable = "DISPONIVEL".equals(existing.getStatus());
+                boolean isInactivating = "INATIVA".equals(ambulancia.getStatus());
+                boolean isFixing = "MANUTENCAO".equals(existing.getStatus()) && "DISPONIVEL".equals(ambulancia.getStatus());
+                boolean isReactivating = "INATIVA".equals(existing.getStatus()) && "DISPONIVEL".equals(ambulancia.getStatus());
+
+                if (!isAvailable && !isInactivating && !isFixing && !isReactivating) {
+                     throw new IllegalStateException("Não é possível editar uma ambulância que está " + existing.getStatus() + ".");
+                }
             }
         }
 

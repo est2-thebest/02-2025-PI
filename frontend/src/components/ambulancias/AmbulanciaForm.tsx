@@ -122,8 +122,9 @@ const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({
 
     try {
       await onSalvar(formData as Ambulancia);
-    } catch (error) {
-      setErro('Erro ao salvar ambulância. Verifique os dados.');
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || 'Erro ao salvar ambulância. Verifique os dados.';
+      setErro(errorMessage);
       console.error(error);
     } finally {
       setLoading(false);
@@ -177,9 +178,10 @@ const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({
             value={formData.tipo || 'USB'}
             onChange={handleChange}
             className="form-control"
+            disabled={!!ambulancia}
           >
-            <option value="USB">Básica (USB)</option>
-            <option value="USA">UTI (USA)</option>
+            <option value="USB">USB - Unidade de Saúde Básica</option>
+            <option value="USA">USA - Unidade de Saúde Avançada</option>
           </select>
         </div>
 
@@ -193,7 +195,7 @@ const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({
               className="form-control"
             >
               <option value="DISPONIVEL">Disponível</option>
-              {/*<option value="OCUPADA">Ocupada</option> */}
+              <option value="INATIVA">Inativa</option>
               <option value="MANUTENCAO">Manutenção</option>
             </select>
           </div>
@@ -206,6 +208,7 @@ const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({
             value={formData.bairro?.id || ''}
             onChange={handleChange}
             className={`form-control ${validationErrors.bairroId ? 'is-invalid' : ''}`}
+            disabled={!!ambulancia}
           >
             <option value="">Selecione um bairro...</option>
             {bairros.map(bairro => (

@@ -70,10 +70,27 @@ public class OcorrenciaController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{id}/detalhes")
+    public ResponseEntity<sosrota.backend.dto.OcorrenciaDetalhesDTO> getDetalhes(@PathVariable Integer id) {
+        sosrota.backend.dto.OcorrenciaDetalhesDTO detalhes = ocorrenciaService.getOcorrenciaDetalhes(id);
+        if (detalhes != null) {
+            return ResponseEntity.ok(detalhes);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping("/{id}/cancelar")
-    public ResponseEntity<Void> cancelOccurrence(@PathVariable Integer id) {
-        logger.info("Recebida requisição para cancelar Ocorrencia {}", id);
-        ocorrenciaService.cancelOccurrence(id);
+    public ResponseEntity<Void> cancelOccurrence(@PathVariable Integer id, @RequestBody(required = false) java.util.Map<String, String> payload) {
+        String justificativa = (payload != null) ? payload.get("justificativa") : "Sem justificativa";
+        logger.info("Recebida requisição para cancelar Ocorrencia {} com justificativa: {}", id, justificativa);
+        ocorrenciaService.cancelOccurrence(id, justificativa);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}/historico")
+    public ResponseEntity<List<sosrota.backend.entity.OcorrenciaHistorico>> getHistorico(@PathVariable Integer id) {
+        List<sosrota.backend.entity.OcorrenciaHistorico> historico = ocorrenciaService.findHistoricoByOcorrenciaId(id);
+        return ResponseEntity.ok(historico);
     }
 }

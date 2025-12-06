@@ -43,13 +43,22 @@
 /* ============================== */
 
 .filtros-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .filtro-busca {
-  flex: 1 1 240px;
+  width: 100%;
+  height: 42px;
   padding: 0.6rem 1rem;
   border-radius: var(--border-radius);
   border: 1px solid var(--border);
@@ -59,7 +68,9 @@
 }
 
 .filtro-select {
-  padding: 0.6rem 1rem;
+  width: 100%;
+  height: 42px;
+  padding: 0 1rem;
   border-radius: var(--border-radius);
   border: 1px solid var(--border);
   font-size: 1rem;

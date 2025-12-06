@@ -9,7 +9,45 @@ export interface Ocorrencia {
 	tipo: string;
 	gravidade: 'ALTA' | 'MEDIA' | 'BAIXA';
 	status: 'ABERTA' | 'DESPACHADA' | 'EM_ATENDIMENTO' | 'CONCLUIDA' | 'CANCELADA';
+	dataHoraAbertura: string;
+	dataHoraFechamento?: string;
 	observacao: string;
+}
+
+export interface OcorrenciaHistorico {
+	id: number;
+	statusAnterior: string | null;
+	statusNovo: string;
+	dataHora: string;
+	observacao: string;
+}
+
+export interface OcorrenciaDetalhes {
+	ocorrencia: Ocorrencia;
+	atendimento?: {
+		id: number;
+		dataHoraDespacho: string;
+		dataHoraChegada?: string;
+		distanciaKm?: number;
+		tempoEstimado?: number;
+		ambulancia?: {
+			id: number;
+			placa: string;
+			tipo: string;
+			bairro?: {
+				nome: string;
+			};
+		};
+		rota?: string;
+	};
+	equipe?: {
+		descricao: string;
+		profissionais: Array<{
+			nome: string;
+			funcao: string;
+		}>;
+	};
+	historico: OcorrenciaHistorico[];
 }
 
 const ocorrenciaService = {
@@ -46,12 +84,22 @@ const ocorrenciaService = {
 		await api.post(`/ocorrencias/${id}/confirmar-saida`);
 	},
 
-	async concluir(id: number): Promise<void> {
+	async concluirAtendimento(id: number): Promise<void> {
 		await api.post(`/ocorrencias/${id}/concluir`);
 	},
 
-	async cancelar(id: number): Promise<void> {
-		await api.post(`/ocorrencias/${id}/cancelar`);
+	async cancelar(id: number, justificativa?: string): Promise<void> {
+		await api.post(`/ocorrencias/${id}/cancelar`, { justificativa });
+	},
+
+	async buscarDetalhes(id: number): Promise<OcorrenciaDetalhes> {
+		const response: AxiosResponse<OcorrenciaDetalhes> = await api.get(`/ocorrencias/${id}/detalhes`);
+		return response.data;
+	},
+
+	async buscarHistorico(id: number): Promise<OcorrenciaHistorico[]> {
+		const response: AxiosResponse<OcorrenciaHistorico[]> = await api.get(`/ocorrencias/${id}/historico`);
+		return response.data;
 	}
 };
 

@@ -133,7 +133,7 @@ const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissiona
             >
               <option value="MEDICO">Médico</option>
               <option value="ENFERMEIRO">Enfermeiro</option>
-              <option value="MOTORISTA">Condutor (Motorista)</option>
+              <option value="MOTORISTA">Condutor</option>
             </select>
           </div>
         </div>

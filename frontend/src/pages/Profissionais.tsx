@@ -13,70 +13,138 @@ import './Profissionais.css';
 
 const Profissionais: React.FC = () => {
   // Estado Geral
-  const [activeTab, setActiveTab] = useState<'profissionais' | 'equipes'>('profissionais');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [carregando, setCarregando] = useState<boolean>(true);
-
-  // Estado Profissionais
-  const [profissionais, setProfissionais] = useState<Profissional[]>([]);
-  const [mostrarFormProfissional, setMostrarFormProfissional] = useState<boolean>(false);
-  const [profissionalEdit, setProfissionalEdit] = useState<Profissional | null>(null);
-  const [filtroFuncao, setFiltroFuncao] = useState<string>('');
-  const [profissionalParaExcluir, setProfissionalParaExcluir] = useState<number | null>(null);
-
-  // Estado Equipes
-  const [mostrarFormEquipe, setMostrarFormEquipe] = useState<boolean>(false);
-  const [equipeEdit, setEquipeEdit] = useState<Equipe | null>(null);
-
-  const [alertInfo, setAlertInfo] = useState<{ isOpen: boolean; title: string; message: string; type: 'error' | 'success' | 'info' }>({
-    isOpen: false,
-    title: '',
-    message: '',
-    type: 'info'
+  const [activeTab, setActiveTab] = useState<'profissionais' | 'equipes'>(() => {
+    return (localStorage.getItem('activeTab') as 'profissionais' | 'equipes') || 'profissionais';
   });
 
   useEffect(() => {
-    carregarDados();
+    localStorage.setItem('activeTab', activeTab);
   }, [activeTab]);
 
-  const carregarDados = async (): Promise<void> => {
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
+  const [carregando, setCarregando] = useState<boolean>(true);
+  const [profissionais, setProfissionais] = useState<Profissional[]>([]);
+  const [equipes, setEquipes] = useState<Equipe[]>([]);
+  const [mostrarFormProfissional, setMostrarFormProfissional] = useState<boolean>(false);
+  const [profissionalEdit, setProfissionalEdit] = useState<Profissional | null>(null);
+  const [mostrarFormEquipe, setMostrarFormEquipe] = useState<boolean>(false);
+  const [equipeEdit, setEquipeEdit] = useState<Equipe | null>(null);
+  const [profissionalParaExcluir, setProfissionalParaExcluir] = useState<number | null>(null);
+  const [equipeParaExcluir, setEquipeParaExcluir] = useState<number | null>(null);
+  const [filtros, setFiltros] = useState({
+    busca: '',
+    funcao: '',
+    status: '',
+    turno: '',
+    tipoAmbulancia: ''
+  });
+  const [alertInfo, setAlertInfo] = useState<{ isOpen: boolean; title: string; message: string; type: 'success' | 'error' | 'warning' }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'success',
+  });
+
+  // Helpers UI
+  const getIconeFuncao = (funcao: string): React.ReactNode => {
+    const icones: Record<string, React.ReactNode> = {
+      MEDICO: <Stethoscope size={40} color="var(--primary)" />,
+      ENFERMEIRO: <Syringe size={40} color="var(--secondary)" />,
+      CONDUTOR: <Ambulance size={40} color="var(--warning)" />,
+      MOTORISTA: <Ambulance size={40} color="var(--warning)" />,
+    };
+    return icones[funcao] || <User size={40} color="var(--text-secondary)" />;
+  };
+
+  const getBadgeClass = (funcao: string): string => {
+    return funcao;
+  };
+
+  // Funções de Carregamento
+  const carregarProfissionais = async () => {
     setCarregando(true);
     try {
-      if (activeTab === 'profissionais') {
-        const dados = await profissionalService.listar();
-        setProfissionais(dados);
-      }
-      // Equipes são carregadas pelo componente EquipeList, mas poderíamos carregar aqui se quiséssemos centralizar
+      const data = await profissionalService.listar();
+      setProfissionais(data);
     } catch (error) {
-      console.error('Erro ao carregar dados:', error);
+      console.error('Erro ao carregar profissionais:', error);
+      setAlertInfo({
+        isOpen: true,
+        title: 'Erro',
+        message: 'Não foi possível carregar os profissionais.',
+        type: 'error',
+      });
     } finally {
       setCarregando(false);
     }
   };
 
-  // Handlers Profissionais
-  const handleNovoProfissional = (): void => {
+  const carregarEquipes = async () => {
+    setCarregando(true);
+    try {
+      const data = await equipeService.listar();
+      setEquipes(data);
+    } catch (error) {
+      console.error('Erro ao carregar equipes:', error);
+      setAlertInfo({
+        isOpen: true,
+        title: 'Erro',
+        message: 'Não foi possível carregar as equipes.',
+        type: 'error',
+      });
+    } finally {
+      setCarregando(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'profissionais') {
+      carregarProfissionais();
+    } else {
+      carregarEquipes();
+    }
+  }, [activeTab]);
+
+  // Funções de Profissional
+  const handleNovoProfissional = () => {
     setProfissionalEdit(null);
     setMostrarFormProfissional(true);
   };
 
-  const handleEditarProfissional = (profissional: Profissional): void => {
+  const handleEditarProfissional = (profissional: Profissional) => {
     setProfissionalEdit(profissional);
     setMostrarFormProfissional(true);
   };
 
-  const handleSalvarProfissional = async (dados: Profissional): Promise<void> => {
+  const handleSalvarProfissional = async (profissional: Profissional) => {
     try {
-      if (profissionalEdit && profissionalEdit.id) {
-        await profissionalService.atualizar(profissionalEdit.id, dados);
+      if (profissional.id) {
+        await profissionalService.atualizar(profissional.id, profissional);
+        setAlertInfo({
+          isOpen: true,
+          title: 'Sucesso',
+          message: 'Profissional atualizado com sucesso!',
+          type: 'success',
+        });
       } else {
-        await profissionalService.criar(dados);
+        await profissionalService.criar(profissional);
+        setAlertInfo({
+          isOpen: true,
+          title: 'Sucesso',
+          message: 'Profissional criado com sucesso!',
+          type: 'success',
+        });
       }
       setMostrarFormProfissional(false);
-      await carregarDados();
+      carregarProfissionais();
     } catch (error) {
       console.error('Erro ao salvar profissional:', error);
-      throw error;
+      setAlertInfo({
+        isOpen: true,
+        title: 'Erro',
+        message: 'Não foi possível salvar o profissional.',
+        type: 'error',
+      });
     }
   };
 
@@ -88,70 +156,124 @@ const Profissionais: React.FC = () => {
     if (profissionalParaExcluir) {
       try {
         await profissionalService.excluir(profissionalParaExcluir);
-        setProfissionalParaExcluir(null);
-        await carregarDados();
-      } catch (error: any) {
-        console.error('Erro ao excluir profissional:', error);
-        const message = error.response?.data?.message || error.response?.data || 'Erro ao excluir profissional.';
         setAlertInfo({
           isOpen: true,
-          title: 'Erro ao Excluir',
-          message: message,
-          type: 'error'
+          title: 'Sucesso',
+          message: 'Profissional excluído com sucesso!',
+          type: 'success',
         });
+        carregarProfissionais();
+      } catch (error) {
+        console.error('Erro ao excluir profissional:', error);
+        setAlertInfo({
+          isOpen: true,
+          title: 'Erro',
+          message: 'Não foi possível excluir o profissional.',
+          type: 'error',
+        });
+      } finally {
+        setProfissionalParaExcluir(null);
       }
     }
   };
 
-  // Handlers Equipes
-  const handleNovaEquipe = (): void => {
+  // Funções de Equipe
+  const handleNovaEquipe = () => {
     setEquipeEdit(null);
     setMostrarFormEquipe(true);
   };
 
-  const handleEditarEquipe = (equipe: Equipe): void => {
+  const handleEditarEquipe = (equipe: Equipe) => {
     setEquipeEdit(equipe);
     setMostrarFormEquipe(true);
   };
 
-  const handleSalvarEquipe = async (dados: Equipe): Promise<void> => {
+  const handleSalvarEquipe = async (equipe: Equipe) => {
     try {
-      if (equipeEdit && equipeEdit.id) {
-        await equipeService.atualizar(equipeEdit.id, dados);
+      if (equipe.id) {
+        await equipeService.atualizar(equipe.id, equipe);
+        setAlertInfo({
+          isOpen: true,
+          title: 'Sucesso',
+          message: 'Equipe atualizada com sucesso!',
+          type: 'success',
+        });
       } else {
-        await equipeService.criar(dados);
+        await equipeService.criar(equipe);
+        setAlertInfo({
+          isOpen: true,
+          title: 'Sucesso',
+          message: 'Equipe criada com sucesso!',
+          type: 'success',
+        });
       }
       setMostrarFormEquipe(false);
-      // Recarregar equipes (será feito pelo EquipeList se passarmos uma prop de refresh ou key)
-      // Por simplicidade, forçamos um reload de página ou usamos um key no componente
-      window.location.reload();
+      carregarEquipes();
     } catch (error) {
       console.error('Erro ao salvar equipe:', error);
-      throw error;
+      setAlertInfo({
+        isOpen: true,
+        title: 'Erro',
+        message: 'Não foi possível salvar a equipe.',
+        type: 'error',
+      });
     }
   };
 
-  // Helpers UI
-  const getIconeFuncao = (funcao: string): React.ReactNode => {
-    const icones: Record<string, React.ReactNode> = {
-      MEDICO: <Stethoscope size={40} color="var(--primary)" />,
-      ENFERMEIRO: <Syringe size={40} color="var(--secondary)" />,
-      CONDUTOR: <Ambulance size={40} color="var(--warning)" />,
-    };
-    return icones[funcao] || <User size={40} color="var(--text-secondary)" />;
+  const confirmarExclusaoEquipe = (id: number) => {
+    setEquipeParaExcluir(id);
   };
 
-  const getBadgeClass = (funcao: string): string => {
-    const classes: Record<string, string> = {
-      MEDICO: 'badge-medico',
-      ENFERMEIRO: 'badge-enfermeiro',
-      CONDUTOR: 'badge-condutor',
-    };
-    return classes[funcao] || 'badge-secondary';
+  const handleExcluirEquipe = async () => {
+    if (equipeParaExcluir) {
+      try {
+        await equipeService.excluir(equipeParaExcluir);
+        setAlertInfo({
+          isOpen: true,
+          title: 'Sucesso',
+          message: 'Equipe excluída com sucesso!',
+          type: 'success',
+        });
+        carregarEquipes();
+      } catch (error: any) {
+        console.error('Erro ao excluir equipe:', error);
+        const errorMessage = error.response?.data?.message || 'Não foi possível excluir a equipe. Verifique se existem dependências.';
+        setAlertInfo({
+          isOpen: true,
+          title: 'Erro',
+          message: errorMessage,
+          type: 'error',
+        });
+      } finally {
+        setEquipeParaExcluir(null);
+      }
+    }
   };
+
+
 
   const profissionaisFiltrados = profissionais.filter((p) => {
-    return !filtroFuncao || p.funcao === filtroFuncao;
+    const matchFuncao = !filtros.funcao || p.funcao === filtros.funcao || (filtros.funcao === 'CONDUTOR' && p.funcao === 'MOTORISTA');
+    const matchStatus = !filtros.status || (filtros.status === 'ATIVO' ? p.ativo : !p.ativo);
+    const matchBusca = !filtros.busca ||
+      p.nome.toLowerCase().includes(filtros.busca.toLowerCase()) ||
+      (p.contato || '').toLowerCase().includes(filtros.busca.toLowerCase()) ||
+      (p.turno || '').toLowerCase().includes(filtros.busca.toLowerCase());
+    return matchFuncao && matchStatus && matchBusca;
+  });
+
+  const equipesFiltradas = equipes.filter((e) => {
+    const matchTurno = !filtros.turno || e.turno === filtros.turno;
+    const matchTipoAmbulancia = !filtros.tipoAmbulancia || e.ambulancia?.tipo === filtros.tipoAmbulancia;
+
+    if (!filtros.busca) return matchTurno && matchTipoAmbulancia;
+
+    const term = filtros.busca.toLowerCase();
+    const matchBusca =
+      (e.descricao || '').toLowerCase().includes(term) ||
+      e.profissionais.some(p => p.nome.toLowerCase().includes(term));
+
+    return matchTurno && matchTipoAmbulancia && matchBusca;
   });
 
   return (
@@ -182,32 +304,23 @@ const Profissionais: React.FC = () => {
           {/* View Toggle */}
           <div style={{ display: 'flex', background: 'var(--bg-secondary)', borderRadius: '6px', padding: '4px' }}>
             <button
-              onClick={() => setViewMode('grid')}
+              onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+              title={viewMode === 'grid' ? 'Mudar para Lista' : 'Mudar para Grade'}
               style={{
-                background: viewMode === 'grid' ? 'white' : 'transparent',
+                background: 'white',
                 border: 'none',
                 padding: '6px',
                 borderRadius: '4px',
                 cursor: 'pointer',
                 display: 'flex',
-                boxShadow: viewMode === 'grid' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none'
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
               }}
             >
-              <LayoutGrid size={20} color={viewMode === 'grid' ? 'var(--primary)' : 'var(--text-secondary)'} />
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              style={{
-                background: viewMode === 'list' ? 'white' : 'transparent',
-                border: 'none',
-                padding: '6px',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                display: 'flex',
-                boxShadow: viewMode === 'list' ? '0 2px 4px rgba(0,0,0,0.1)' : 'none'
-              }}
-            >
-              <ListIcon size={20} color={viewMode === 'list' ? 'var(--primary)' : 'var(--text-secondary)'} />
+              {viewMode === 'grid' ? (
+                <ListIcon size={20} color="var(--primary)" />
+              ) : (
+                <LayoutGrid size={20} color="var(--primary)" />
+              )}
             </button>
           </div>
 
@@ -232,27 +345,87 @@ const Profissionais: React.FC = () => {
         onCancelar={() => setMostrarFormEquipe(false)}
       />
 
+      {/* Filtros */}
+      <div className="card">
+        <div className="card-body">
+          <div
+            className="filtros-container"
+          >
+            <div className="form-group">
+              <label>Buscar</label>
+              <input
+                type="text"
+                className="filtro-busca"
+                placeholder={activeTab === 'profissionais' ? "Buscar por nome, contato, turno..." : "Buscar por profissionais, descrição..."}
+                value={filtros.busca}
+                onChange={(e) => setFiltros({ ...filtros, busca: e.target.value })}
+              />
+            </div>
+
+            {activeTab === 'profissionais' ? (
+              <>
+                <div className="form-group">
+                  <label>Status</label>
+                  <select
+                    value={filtros.status}
+                    onChange={(e) => setFiltros({ ...filtros, status: e.target.value })}
+                    className="filtro-select"
+                  >
+                    <option value="">Todos</option>
+                    <option value="ATIVO">Ativo</option>
+                    <option value="INATIVO">Inativo</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label>Função</label>
+                  <select
+                    value={filtros.funcao}
+                    onChange={(e) => setFiltros({ ...filtros, funcao: e.target.value })}
+                    className="filtro-select"
+                  >
+                    <option value="">Todas as Funções</option>
+                    <option value="MEDICO">Médico</option>
+                    <option value="ENFERMEIRO">Enfermeiro</option>
+                    <option value="CONDUTOR">Motorista</option>
+                  </select>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="form-group">
+                  <label>Turno</label>
+                  <select
+                    value={filtros.turno}
+                    onChange={(e) => setFiltros({ ...filtros, turno: e.target.value })}
+                    className="filtro-select"
+                  >
+                    <option value="">Todos</option>
+                    <option value="MATUTINO">Matutino</option>
+                    <option value="VESPERTINO">Vespertino</option>
+                    <option value="NOTURNO">Noturno</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label>Tipo Amb.</label>
+                  <select
+                    value={filtros.tipoAmbulancia}
+                    onChange={(e) => setFiltros({ ...filtros, tipoAmbulancia: e.target.value })}
+                    className="filtro-select"
+                  >
+                    <option value="">Todos</option>
+                    <option value="USB">USB</option>
+                    <option value="USA">USA</option>
+                  </select>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Conteúdo */}
       {activeTab === 'profissionais' && (
         <>
-          <div className="card">
-            <div className="card-body">
-              <div className="filtro-funcao">
-                <label>Filtrar por função:</label>
-                <select
-                  value={filtroFuncao}
-                  onChange={(e) => setFiltroFuncao(e.target.value)}
-                  className="filtro-select"
-                >
-                  <option value="">Todas as Funções</option>
-                  <option value="MEDICO">Médico</option>
-                  <option value="ENFERMEIRO">Enfermeiro</option>
-                  <option value="CONDUTOR">Condutor</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
           {carregando ? (
             <LoadingSpinner message="Carregando profissionais..." />
           ) : viewMode === 'grid' ? (
@@ -379,7 +552,12 @@ const Profissionais: React.FC = () => {
       )}
 
       {activeTab === 'equipes' && (
-        <EquipeList onEdit={handleEditarEquipe} viewMode={viewMode} />
+        <EquipeList
+          equipes={equipesFiltradas}
+          onEdit={handleEditarEquipe}
+          onDelete={confirmarExclusaoEquipe}
+          viewMode={viewMode}
+        />
       )}
 
       <ConfirmDialog
@@ -392,6 +570,16 @@ const Profissionais: React.FC = () => {
         type="warning"
       />
 
+      <ConfirmDialog
+        isOpen={!!equipeParaExcluir}
+        title="Excluir Equipe"
+        message="Tem certeza que deseja excluir esta equipe? Esta ação não pode ser desfeita."
+        onConfirm={handleExcluirEquipe}
+        onCancel={() => setEquipeParaExcluir(null)}
+        isDangerous
+        type="warning"
+      />
+
       <AlertDialog
         isOpen={alertInfo.isOpen}
         title={alertInfo.title}
@@ -399,7 +587,7 @@ const Profissionais: React.FC = () => {
         type={alertInfo.type}
         onClose={() => setAlertInfo({ ...alertInfo, isOpen: false })}
       />
-    </div>
+    </div >
   );
 };
 

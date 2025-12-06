@@ -3,6 +3,13 @@
   grid-template-columns: 2fr 1fr 1fr;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  align-items: end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .filtro-busca {
@@ -13,6 +20,9 @@
   transition: var(--transition);
   background: var(--bg-primary);
   color: var(--text-primary);
+  width: 100%;
+  height: 42px;
+  /* Standard height */
 }
 
 .filtro-busca:focus {
@@ -22,7 +32,8 @@
 }
 
 .filtro-select {
-  padding: 0.625rem;
+  padding: 0 0.625rem;
+  /* Adjust padding for select with fixed height */
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
   font-size: 0.95rem;
@@ -30,6 +41,9 @@
   color: var(--text-primary);
   cursor: pointer;
   transition: var(--transition);
+  width: 100%;
+  height: 42px;
+  /* Standard height */
 }
 
 .filtro-select:focus {

@@ -3,9 +3,11 @@ import ocorrenciaService, { Ocorrencia } from '../services/ocorrencia';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import Banner from '../components/common/Banner';
 import OcorrenciaForm from '../components/ocorrencias/OcorrenciaForm';
-import { getCorGravidade, getCorStatus } from '../utils/helpers';
-import { Edit, Trash2, Play, Check, XCircle } from 'lucide-react';
+import OcorrenciaDetailsModal from '../components/ocorrencias/OcorrenciaDetailsModal';
+
+import { Eye, Trash2, XCircle } from 'lucide-react';
 import ConfirmDialog from '../components/common/ConfirmDialog';
+import InputDialog from '../components/common/InputDialog';
 import './Ocorrencias.css';
 
 interface Filtros {
@@ -18,7 +20,8 @@ const Ocorrencias: React.FC = () => {
   const [ocorrencias, setOcorrencias] = useState<Ocorrencia[]>([]);
   const [carregando, setCarregando] = useState<boolean>(true);
   const [mostrarForm, setMostrarForm] = useState<boolean>(false);
-  const [ocorrenciaEdit, setOcorrenciaEdit] = useState<Ocorrencia | null>(null);
+  const [mostrarDetalhes, setMostrarDetalhes] = useState<boolean>(false);
+  const [ocorrenciaSelecionada, setOcorrenciaSelecionada] = useState<number | null>(null);
   const [ocorrenciaParaExcluir, setOcorrenciaParaExcluir] = useState<number | null>(null);
   const [filtros, setFiltros] = useState<Filtros>({
     status: '',
@@ -28,27 +31,28 @@ const Ocorrencias: React.FC = () => {
 
   useEffect(() => {
     carregarOcorrencias();
+
+    // Poll every 5 seconds to update status from simulation
+    const interval = setInterval(() => {
+      carregarOcorrencias(true);
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
-  const carregarOcorrencias = async (): Promise<void> => {
+  const carregarOcorrencias = async (silent = false): Promise<void> => {
     try {
-      setCarregando(true);
+      if (!silent) setCarregando(true);
       const dados = await ocorrenciaService.listarTodas();
       setOcorrencias(dados);
     } catch (error) {
       console.error('Erro ao carregar ocorrências:', error);
     } finally {
-      setCarregando(false);
+      if (!silent) setCarregando(false);
     }
   };
 
   const handleNovo = (): void => {
-    setOcorrenciaEdit(null);
-    setMostrarForm(true);
-  };
-
-  const handleEditar = (ocorrencia: Ocorrencia): void => {
-    setOcorrenciaEdit(ocorrencia);
     setMostrarForm(true);
   };
 
@@ -59,7 +63,11 @@ const Ocorrencias: React.FC = () => {
 
   const handleCancelar = (): void => {
     setMostrarForm(false);
-    setOcorrenciaEdit(null);
+  };
+
+  const handleVerDetalhes = (id: number) => {
+    setOcorrenciaSelecionada(id);
+    setMostrarDetalhes(true);
   };
 
   const confirmarExclusao = (id: number) => {
@@ -74,120 +82,100 @@ const Ocorrencias: React.FC = () => {
         await carregarOcorrencias();
       } catch (error) {
         console.error('Erro ao excluir ocorrência:', error);
-        alert('Erro ao excluir ocorrência.');
+        alert('Erro ao excluir ocorrência. Verifique se ela já não possui atendimentos.');
       }
     }
   }
 
+  const [ocorrenciaParaCancelar, setOcorrenciaParaCancelar] = useState<number | null>(null);
 
-  const handleConfirmarSaida = async (id: number) => {
-    if (window.confirm('Confirmar saída da ambulância para o local?')) {
-      try {
-        await ocorrenciaService.confirmarSaida(id);
-        await carregarOcorrencias();
-      } catch (error) {
-        console.error('Erro ao confirmar saída:', error);
-        alert('Erro ao confirmar saída.');
-      }
-    }
+  // ... (existing useEffect and other handlers)
+
+  const handleCancelarList = (id: number) => {
+    setOcorrenciaParaCancelar(id);
   };
 
-  const handleConcluir = async (id: number) => {
-    if (window.confirm('Confirmar conclusão do atendimento? A ambulância será liberada.')) {
+  const confirmarCancelamento = async (justificativa: string) => {
+    if (ocorrenciaParaCancelar) {
       try {
-        await ocorrenciaService.concluir(id);
-        await carregarOcorrencias();
-      } catch (error) {
-        console.error('Erro ao concluir ocorrência:', error);
-        alert('Erro ao concluir ocorrência.');
-      }
-    }
-  };
-
-  const handleCancelarOcorrencia = async (id: number) => {
-    if (window.confirm('Tem certeza que deseja cancelar esta ocorrência?')) {
-      try {
-        await ocorrenciaService.cancelar(id);
+        await ocorrenciaService.cancelar(ocorrenciaParaCancelar, justificativa);
         await carregarOcorrencias();
       } catch (error) {
         console.error('Erro ao cancelar ocorrência:', error);
         alert('Erro ao cancelar ocorrência.');
+      } finally {
+        setOcorrenciaParaCancelar(null);
       }
     }
   };
 
-  const ocorrenciasFiltradas = ocorrencias.filter((o) => {
-    const matchStatus = !filtros.status || o.status === filtros.status;
-    const matchGravidade =
-      !filtros.gravidade || o.gravidade === filtros.gravidade;
-    const matchBusca =
-      !filtros.busca ||
-      o.bairro?.nome.toLowerCase().includes(filtros.busca.toLowerCase()) ||
-      o.tipo?.toLowerCase().includes(filtros.busca.toLowerCase());
+  // ... (rest of component)
 
+  const ocorrenciasFiltradas = ocorrencias.filter((ocorrencia) => {
+    const matchStatus = !filtros.status || ocorrencia.status === filtros.status;
+    const matchGravidade = !filtros.gravidade || ocorrencia.gravidade === filtros.gravidade;
+    const matchBusca = !filtros.busca ||
+      ocorrencia.bairro?.nome.toLowerCase().includes(filtros.busca.toLowerCase()) ||
+      ocorrencia.tipo.toLowerCase().includes(filtros.busca.toLowerCase()) ||
+      ocorrencia.observacao.toLowerCase().includes(filtros.busca.toLowerCase());
     return matchStatus && matchGravidade && matchBusca;
-  });
+  }).sort((a, b) => (b.id || 0) - (a.id || 0));
 
   return (
     <div className="page-container">
       <Banner
-        title="Ocorrências"
-        subtitle="Gerenciamento de ocorrências de emergência"
+        title="Central de Ocorrências"
+        subtitle="Gerenciamento de chamados de emergência"
       />
-      <div className="flex-between" style={{ marginBottom: '2rem' }}>
+
+      <div className="flex-between" style={{ marginBottom: '1rem' }}>
         <div></div>
         <button className="btn btn-primary" onClick={handleNovo}>
           + Nova Ocorrência
         </button>
       </div>
 
-      <OcorrenciaForm
-        isOpen={mostrarForm}
-        ocorrencia={ocorrenciaEdit || undefined}
-        onSalvar={handleSalvar}
-        onCancelar={handleCancelar}
-      />
-
       <div className="card">
         <div className="card-body">
           <div className="filtros-container">
-            <input
-              type="text"
-              placeholder="Buscar por local ou tipo..."
-              value={filtros.busca}
-              onChange={(e) =>
-                setFiltros({ ...filtros, busca: e.target.value })
-              }
-              className="filtro-busca"
-            />
-
-            <select
-              value={filtros.status}
-              onChange={(e) =>
-                setFiltros({ ...filtros, status: e.target.value })
-              }
-              className="filtro-select"
-            >
-              <option value="">Todos os Status</option>
-              <option value="ABERTA">Aberta</option>
-              <option value="DESPACHADA">Despachada</option>
-              <option value="EM_ATENDIMENTO">Em Atendimento</option>
-              <option value="CONCLUIDA">Concluída</option>
-              <option value="CANCELADA">Cancelada</option>
-            </select>
-
-            <select
-              value={filtros.gravidade}
-              onChange={(e) =>
-                setFiltros({ ...filtros, gravidade: e.target.value })
-              }
-              className="filtro-select"
-            >
-              <option value="">Todas as Gravidades</option>
-              <option value="ALTA">Alta</option>
-              <option value="MEDIA">Média</option>
-              <option value="BAIXA">Baixa</option>
-            </select>
+            <div className="form-group">
+              <label>Buscar</label>
+              <input
+                type="text"
+                className="filtro-busca"
+                placeholder="Buscar por bairro, tipo..."
+                value={filtros.busca}
+                onChange={(e) => setFiltros({ ...filtros, busca: e.target.value })}
+              />
+            </div>
+            <div className="form-group">
+              <label>Status</label>
+              <select
+                className="filtro-select"
+                value={filtros.status}
+                onChange={(e) => setFiltros({ ...filtros, status: e.target.value })}
+              >
+                <option value="">Todos</option>
+                <option value="ABERTA">Aberta</option>
+                <option value="DESPACHADA">Despachada</option>
+                <option value="EM_ATENDIMENTO">Em Atendimento</option>
+                <option value="CONCLUIDA">Concluída</option>
+                <option value="CANCELADA">Cancelada</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Gravidade</label>
+              <select
+                className="filtro-select"
+                value={filtros.gravidade}
+                onChange={(e) => setFiltros({ ...filtros, gravidade: e.target.value })}
+              >
+                <option value="">Todas</option>
+                <option value="ALTA">Alta</option>
+                <option value="MEDIA">Média</option>
+                <option value="BAIXA">Baixa</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -202,7 +190,7 @@ const Ocorrencias: React.FC = () => {
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Local</th>
+                    <th>Bairro</th>
                     <th>Tipo</th>
                     <th>Gravidade</th>
                     <th>Status</th>
@@ -219,78 +207,36 @@ const Ocorrencias: React.FC = () => {
                   ) : (
                     ocorrenciasFiltradas.map((ocorrencia) => (
                       <tr key={ocorrencia.id}>
-                        <td>#{ocorrencia.id}</td>
+                        <td>{ocorrencia.id}</td>
                         <td>{ocorrencia.bairro?.nome || '-'}</td>
                         <td>{ocorrencia.tipo}</td>
                         <td>
-                          <span
-                            className="badge"
-                            style={{
-                              backgroundColor: getCorGravidade(
-                                ocorrencia.gravidade,
-                              ),
-                            }}
-                          >
+                          <span className={`badge ${ocorrencia.gravidade}`}>
                             {ocorrencia.gravidade}
                           </span>
                         </td>
                         <td>
-                          <span
-                            className="badge"
-                            style={{
-                              backgroundColor: getCorStatus(ocorrencia.status),
-                            }}
-                          >
-                            {ocorrencia.status}
+                          <span className={`badge ${ocorrencia.status}`}>
+                            {ocorrencia.status.replace('_', ' ')}
                           </span>
                         </td>
                         <td>
                           <div style={{ display: 'flex', gap: '8px' }}>
                             <button
                               className="btn-icon"
-                              onClick={() => handleEditar(ocorrencia)}
-                              title="Editar"
+                              onClick={() => ocorrencia.id && handleVerDetalhes(ocorrencia.id)}
+                              title="Ver Detalhes"
                               style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--primary)' }}
                             >
-                              <Edit size={18} />
-                            </button>
-                            <button
-                              className="btn-icon"
-                              onClick={() => ocorrencia.id && confirmarExclusao(ocorrencia.id)}
-                              title="Excluir"
-                              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--danger)' }}
-                            >
-                              <Trash2 size={18} />
+                              <Eye size={18} />
                             </button>
 
-                            {ocorrencia.status === 'DESPACHADA' && (
+                            {(ocorrencia.status === 'ABERTA' || ocorrencia.status === 'DESPACHADA') && (
                               <button
                                 className="btn-icon"
-                                onClick={() => ocorrencia.id && handleConfirmarSaida(ocorrencia.id)}
-                                title="Confirmar Saída"
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--warning)' }}
-                              >
-                                <Play size={18} />
-                              </button>
-                            )}
-
-                            {ocorrencia.status === 'EM_ATENDIMENTO' && (
-                              <button
-                                className="btn-icon"
-                                onClick={() => ocorrencia.id && handleConcluir(ocorrencia.id)}
-                                title="Concluir Atendimento"
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--success)' }}
-                              >
-                                <Check size={18} />
-                              </button>
-                            )}
-
-                            {['ABERTA', 'DESPACHADA', 'EM_ATENDIMENTO'].includes(ocorrencia.status) && (
-                              <button
-                                className="btn-icon"
-                                onClick={() => ocorrencia.id && handleCancelarOcorrencia(ocorrencia.id)}
+                                onClick={() => ocorrencia.id && handleCancelarList(ocorrencia.id)}
                                 title="Cancelar Ocorrência"
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)' }}
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--danger)' }}
                               >
                                 <XCircle size={18} />
                               </button>
@@ -307,6 +253,20 @@ const Ocorrencias: React.FC = () => {
         </div>
       )}
 
+      <OcorrenciaForm
+        isOpen={mostrarForm}
+        onSalvar={handleSalvar}
+        onCancelar={handleCancelar}
+      />
+
+      {mostrarDetalhes && ocorrenciaSelecionada && (
+        <OcorrenciaDetailsModal
+          onClose={() => setMostrarDetalhes(false)}
+          ocorrenciaId={ocorrenciaSelecionada}
+          onUpdate={carregarOcorrencias}
+        />
+      )}
+
       <ConfirmDialog
         isOpen={!!ocorrenciaParaExcluir}
         title="Excluir Ocorrência"
@@ -315,6 +275,18 @@ const Ocorrencias: React.FC = () => {
         onCancel={() => setOcorrenciaParaExcluir(null)}
         isDangerous
         type="warning"
+      />
+
+      <InputDialog
+        isOpen={!!ocorrenciaParaCancelar}
+        title="Cancelar Ocorrência"
+        message="Por favor, informe o motivo do cancelamento."
+        label="Justificativa"
+        placeholder="Ex: Trote, duplicidade, resolvido no local..."
+        confirmText="Cancelar Ocorrência"
+        onConfirm={confirmarCancelamento}
+        onCancel={() => setOcorrenciaParaCancelar(null)}
+        required
       />
     </div>
   );

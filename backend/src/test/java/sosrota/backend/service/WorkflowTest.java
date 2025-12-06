@@ -70,7 +70,7 @@ class WorkflowTest {
         atendimento.setAmbulancia(ambulancia);
 
         when(ocorrenciaRepository.findById(1)).thenReturn(Optional.of(ocorrencia));
-        when(atendimentoRepository.findByOcorrencia(ocorrencia)).thenReturn(atendimento);
+        when(atendimentoRepository.findFirstByOcorrenciaOrderByIdDesc(ocorrencia)).thenReturn(atendimento);
 
         ocorrenciaService.finishOccurrence(1);
 

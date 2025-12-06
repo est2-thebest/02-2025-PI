@@ -110,14 +110,14 @@ const EquipeForm: React.FC<EquipeFormProps> = ({ isOpen, equipe, onSalvar, onCan
 
     if (formData.ambulancia.tipo === 'USA') {
       // USA: Exatamente 1 Medico, 1 Enfermeiro, 1 Motorista
-      if (medicos !== 1) return 'Ambulância USA requer 1 Médico';
-      if (enfermeiros !== 1) return 'Ambulância USA requer 1 Enfermeiro';
-      if (condutores !== 1) return 'Ambulância USA requer 1 Motorista';
+      if (medicos !== 1) return 'USA requer 1 Médico';
+      if (enfermeiros !== 1) return 'USA requer 1 Enfermeiro';
+      if (condutores !== 1) return 'USA requer 1 Motorista';
     } else {
       // USB: Exatamente 1 Enfermeiro, 1 Motorista (Sem médico)
-      if (medicos > 0) return 'Ambulância USB não deve ter Médico';
-      if (enfermeiros !== 1) return 'Ambulância USB requer 1 Enfermeiro';
-      if (condutores !== 1) return 'Ambulância USB requer 1 Motorista';
+      if (medicos > 0) return 'USB não deve ter Médico';
+      if (enfermeiros !== 1) return 'USB requer 1 Enfermeiro';
+      if (condutores !== 1) return 'USB requer 1 Motorista';
     }
 
     return null;
@@ -323,7 +323,7 @@ const EquipeForm: React.FC<EquipeFormProps> = ({ isOpen, equipe, onSalvar, onCan
                     <div style={{ flex: 1 }}>
                       <div style={{ fontWeight: 500 }}>{prof.nome}</div>
                       <span className={`badge badge-${prof.funcao.toLowerCase()}`} style={{ fontSize: '0.7rem', padding: '2px 6px', marginTop: '4px' }}>
-                        {prof.funcao}
+                        {(prof.funcao as string) === 'CONDUTOR' ? 'MOTORISTA' : prof.funcao}
                       </span>
                     </div>
                   </div>

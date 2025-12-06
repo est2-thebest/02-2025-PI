@@ -20,12 +20,12 @@
   --error: #f50014;
   --warning: #e59800;
   --info: #0014f5;
-  
+
   /* Cores de texto */
   --text-primary: #1a1a2e;
   --text-secondary: #666666;
   --text-light: #999999;
-  
+
   /* Cores de fundo */
   --bg-primary: #f2f2f2;
   --bg-secondary: #ebebeb;
@@ -33,28 +33,28 @@
   --bg-secondary: #F1EBE4; */
   /* --bg-primary: #ffffff;
   --bg-secondary: #f5f7fa; */
-  
+
   /* Bordas */
   --border: #e0e0e0;
   --border-radius: 6px;
   --border-radius-lg: 12px;
-  
+
   /* Sombras */
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-md: 0 2px 8px rgba(0,0,0,0.1);
-  --shadow-lg: 0 4px 12px rgba(0,0,0,0.15);
-  
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
+
   /* Transições */
   --transition: all 0.3s ease;
-  
+
   /* Fontes */
   --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  
+
   font-family: var(--font-family);
   line-height: 1.6;
   font-weight: 400;
-  
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -74,28 +74,29 @@
   --error: #ff6b6b;
   --warning: #ffa726;
   --info: #29b6f6;
-  
+
   /* Cores de texto */
   --text-primary: #e0e0e0;
   --text-secondary: #b0b0b0;
   --text-light: #808080;
-  
+
   /* Cores de fundo */
   --bg-primary: #1e1e2e;
   --bg-secondary: #2a2a3e;
   --bg-light: #323245;
   --bg-tertiary: #3a3a52;
-  
+
   /* Bordas */
   --border: #404060;
-  
+
   /* Sombras */
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
-  --shadow-md: 0 2px 8px rgba(0,0,0,0.4);
-  --shadow-lg: 0 4px 12px rgba(0,0,0,0.5);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
-html, body {
+html,
+body {
   font-family: var(--font-family);
 }
 
@@ -111,18 +112,40 @@ body {
 }
 
 /* Tipografia */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--text-primary);
   font-weight: 600;
   line-height: 1.2;
 }
 
-h1 { font-size: 2rem; }
-h2 { font-size: 1.75rem; }
-h3 { font-size: 1.5rem; }
-h4 { font-size: 1.25rem; }
-h5 { font-size: 1.1rem; }
-h6 { font-size: 1rem; }
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+h5 {
+  font-size: 1.1rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
 
 p {
   margin-bottom: 1rem;
@@ -196,4 +219,113 @@ textarea:focus {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+/* Global Badge Styles */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--bg-primary);
+  text-transform: uppercase;
+}
+
+.badge.ALTA {
+  background-color: var(--danger);
+  color: white;
+}
+
+.badge.MEDIA {
+  background-color: var(--warning);
+  color: white;
+}
+
+.badge.BAIXA {
+  background-color: var(--success);
+  color: white;
+}
+
+.badge.ABERTA {
+  background-color: var(--secondary);
+  color: white;
+}
+
+.badge.DESPACHADA {
+  background-color: var(--warning);
+  color: white;
+}
+
+.badge.EM_ATENDIMENTO {
+  background-color: var(--primary);
+  color: white;
+}
+
+.badge.CONCLUIDA {
+  background-color: var(--success);
+  color: white;
+}
+
+.badge.CANCELADA {
+  background-color: var(--text-secondary);
+  color: white;
+}
+
+.badge.MEDICO {
+  background-color: var(--primary);
+  color: white;
+}
+
+.badge.ENFERMEIRO {
+  background-color: var(--secondary);
+  color: white;
+}
+
+.badge.MOTORISTA {
+  background-color: var(--warning);
+  color: white;
+}
+
+.badge.CONDUTOR {
+  background-color: var(--warning);
+  color: white;
+}
+
+.badge.USA {
+  background-color: var(--primary);
+  color: white;
+}
+
+.badge.UTI {
+  background-color: var(--primary);
+  color: white;
+}
+
+.badge.USB {
+  background-color: var(--secondary);
+  color: white;
+}
+
+.badge.BASICA {
+  background-color: var(--secondary);
+  color: white;
+}
+
+.badge-success {
+  background-color: var(--success);
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-danger {
+  background-color: var(--danger);
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
 }

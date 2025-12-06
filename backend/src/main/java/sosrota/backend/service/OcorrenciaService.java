@@ -9,8 +9,11 @@ import sosrota.backend.repository.AmbulanciaRepository;
 import sosrota.backend.repository.AtendimentoRepository;
 import sosrota.backend.repository.OcorrenciaRepository;
 import sosrota.backend.repository.EquipeRepository;
+import sosrota.backend.repository.OcorrenciaHistoricoRepository;
 import sosrota.backend.entity.Equipe;
 import sosrota.backend.entity.Profissional;
+import sosrota.backend.entity.OcorrenciaHistorico;
+import sosrota.backend.dto.OcorrenciaDetalhesDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,17 +28,22 @@ public class OcorrenciaService {
     private final AtendimentoRepository atendimentoRepository;
     private final DijsktraService dijsktraService;
     private final EquipeRepository equipeRepository;
+    private final sosrota.backend.repository.OcorrenciaHistoricoRepository ocorrenciaHistoricoRepository;
+
+    private static final double AVERAGE_SPEED_KMH = 60.0;
 
     public OcorrenciaService(OcorrenciaRepository ocorrenciaRepository,
             AmbulanciaRepository ambulanciaRepository,
             AtendimentoRepository atendimentoRepository,
             DijsktraService dijsktraService,
-            EquipeRepository equipeRepository) {
+            EquipeRepository equipeRepository,
+            OcorrenciaHistoricoRepository ocorrenciaHistoricoRepository) {
         this.ocorrenciaRepository = ocorrenciaRepository;
         this.ambulanciaRepository = ambulanciaRepository;
         this.atendimentoRepository = atendimentoRepository;
         this.dijsktraService = dijsktraService;
         this.equipeRepository = equipeRepository;
+        this.ocorrenciaHistoricoRepository = ocorrenciaHistoricoRepository;
     }
 
     public List<Ocorrencia> findAll() {
@@ -46,24 +54,62 @@ public class OcorrenciaService {
         return ocorrenciaRepository.findById(id).orElse(null);
     }
 
+    public List<OcorrenciaHistorico> findHistoricoByOcorrenciaId(Integer id) {
+        Ocorrencia ocorrencia = findById(id);
+        if (ocorrencia == null) {
+            return List.of();
+        }
+        return ocorrenciaHistoricoRepository.findByOcorrenciaOrderByDataHoraDesc(ocorrencia);
+    }
+
+    public sosrota.backend.dto.OcorrenciaDetalhesDTO getOcorrenciaDetalhes(Integer id) {
+        Ocorrencia ocorrencia = findById(id);
+        if (ocorrencia == null) {
+            return null;
+        }
+
+        sosrota.backend.dto.OcorrenciaDetalhesDTO dto = new sosrota.backend.dto.OcorrenciaDetalhesDTO();
+        dto.setOcorrencia(ocorrencia);
+        dto.setHistorico(findHistoricoByOcorrenciaId(id));
+
+        Atendimento atendimento = atendimentoRepository.findFirstByOcorrenciaOrderByIdDesc(ocorrencia);
+        dto.setAtendimento(atendimento);
+
+        if (atendimento != null && atendimento.getAmbulancia() != null) {
+            sosrota.backend.entity.Equipe equipe = equipeRepository.findByAmbulancia(atendimento.getAmbulancia()).orElse(null);
+            dto.setEquipe(equipe);
+        }
+
+        return dto;
+    }
+
     @Transactional
     public Ocorrencia createOcorrencia(Ocorrencia ocorrencia) {
         ocorrencia.setDataHoraAbertura(LocalDateTime.now());
         ocorrencia.setStatus("ABERTA");
         Ocorrencia savedOcorrencia = ocorrenciaRepository.save(ocorrencia);
 
+        registrarHistorico(savedOcorrencia, null, "ABERTA", "Ocorrência criada.");
+
         dispatchAmbulance(savedOcorrencia);
 
         return savedOcorrencia;
     }
 
+    private void registrarHistorico(Ocorrencia ocorrencia, String statusAnterior, String statusNovo, String observacao) {
+        sosrota.backend.entity.OcorrenciaHistorico historico = new sosrota.backend.entity.OcorrenciaHistorico();
+        historico.setOcorrencia(ocorrencia);
+        historico.setStatusAnterior(statusAnterior);
+        historico.setStatusNovo(statusNovo);
+        historico.setDataHora(LocalDateTime.now());
+        historico.setObservacao(observacao);
+        ocorrenciaHistoricoRepository.save(historico);
+    }
+
     private void dispatchAmbulance(Ocorrencia ocorrencia) {
         List<Ambulancia> allAmbulances = ambulanciaRepository.findAll();
         logger.info("Total de ambulâncias no banco: {}", allAmbulances.size());
-        for (Ambulancia a : allAmbulances) {
-            logger.info("Ambulancia DB: ID={}, Placa={}, Status='{}', Base={}", a.getId(), a.getPlaca(), a.getStatus(), (a.getBairro() != null ? a.getBairro().getNome() : "null"));
-        }
-
+        
         List<Ambulancia> availableAmbulances = ambulanciaRepository.findByStatus("DISPONIVEL");
         logger.info("Encontradas {} ambulâncias com status DISPONIVEL", availableAmbulances.size());
 
@@ -75,17 +121,14 @@ public class OcorrenciaService {
         
         logger.info("Iniciando despacho para Ocorrencia {}. Gravidade: {}, Bairro: {}", ocorrencia.getId(), ocorrencia.getGravidade(), ocorrencia.getBairro().getId());
         for (Ambulancia ambulancia : availableAmbulances) {
-            logger.debug("Verificando Ambulancia {}. Tipo: {}, Bairro: {}", ambulancia.getId(), ambulancia.getTipo(), (ambulancia.getBairro() != null ? ambulancia.getBairro().getId() : "null"));
             
             // 1. Validate Ambulance Type
             if (!isTypeCompatible(ambulancia.getTipo(), ocorrencia.getGravidade())) {
-                logger.debug("Ambulancia {} rejeitada: Tipo incompatível.", ambulancia.getId());
                 continue;
             }
 
             // 2. Validate Team Composition
             if (!validateTeamComposition(ambulancia)) {
-                logger.debug("Ambulancia {} rejeitada: Equipe inválida ou incompleta.", ambulancia.getId());
                 continue;
             }
 
@@ -95,8 +138,6 @@ public class OcorrenciaService {
                         ambulancia.getBairro().getId(),
                         ocorrencia.getBairro().getId());
 
-                logger.debug("Distância calculada para Ambulancia {}: {} km", ambulancia.getId(), result.totalDistance);
-
                 if (!Double.isNaN(result.totalDistance)) {
                     // 3. Validate SLA
                     if (result.totalDistance <= slaLimit) {
@@ -104,14 +145,9 @@ public class OcorrenciaService {
                         if (result.totalDistance < minDistance) {
                             minDistance = result.totalDistance;
                             bestAmbulancia = ambulancia;
-                            logger.debug("Ambulancia {} é a melhor candidata até agora.", ambulancia.getId());
                         }
-                    } else {
-                        logger.debug("Ambulancia {} rejeitada: Fora do SLA ({} > {})", ambulancia.getId(), result.totalDistance, slaLimit);
                     }
                 }
-            } else {
-                logger.debug("Ambulancia {} rejeitada: Sem base definida.", ambulancia.getId());
             }
         }
 
@@ -122,6 +158,26 @@ public class OcorrenciaService {
             atendimento.setAmbulancia(bestAmbulancia);
             atendimento.setDataHoraDespacho(LocalDateTime.now());
             atendimento.setDistanciaKm(minDistance);
+            
+            // Calculate Estimated Time (Time = Distance / Speed * 60)
+            double estimatedTimeMinutes = (minDistance / AVERAGE_SPEED_KMH) * 60;
+            atendimento.setTempoEstimado(estimatedTimeMinutes);
+            
+            // Build Route String
+            if (dijsktraService.findShortestPath(bestAmbulancia.getBairro().getId(), ocorrencia.getBairro().getId()) != null) {
+                DijsktraService.PathResult path = dijsktraService.findShortestPath(bestAmbulancia.getBairro().getId(), ocorrencia.getBairro().getId());
+                if (path.nodes != null && !path.nodes.isEmpty()) {
+                    StringBuilder routeBuilder = new StringBuilder();
+                    for (int i = 0; i < path.nodes.size(); i++) {
+                        routeBuilder.append(dijsktraService.getNodeName(path.nodes.get(i)));
+                        if (i < path.nodes.size() - 1) {
+                            routeBuilder.append(" -> ");
+                        }
+                    }
+                    atendimento.setRota(routeBuilder.toString());
+                }
+            }
+            
             atendimentoRepository.save(atendimento);
 
             // Update Ambulancia Status
@@ -129,13 +185,15 @@ public class OcorrenciaService {
             ambulanciaRepository.save(bestAmbulancia);
 
             // Update Ocorrencia Status
+            String oldStatus = ocorrencia.getStatus();
             ocorrencia.setStatus("DESPACHADA");
             ocorrenciaRepository.save(ocorrencia);
+            
+            registrarHistorico(ocorrencia, oldStatus, "DESPACHADA", "Ambulância " + bestAmbulancia.getPlaca() + " despachada automaticamente.");
+            
             logger.info("Ocorrencia {} despachada com sucesso. Ambulancia: {}", ocorrencia.getId(), bestAmbulancia.getId());
         } else {
-            // Log failure to dispatch (optional: could set status to PENDING_RESOURCE)
             logger.warn("Nenhuma ambulância disponível para a Ocorrencia {}", ocorrencia.getId());
-            System.out.println("No suitable ambulance found for Ocorrencia " + ocorrencia.getId());
         }
     }
 
@@ -184,7 +242,12 @@ public class OcorrenciaService {
                 })
                 .orElse(false);
     }
+    
     public void delete(Integer id) {
+        Ocorrencia ocorrencia = findById(id);
+        if (ocorrencia != null && !"ABERTA".equals(ocorrencia.getStatus())) {
+             throw new IllegalStateException("Não é permitido excluir uma ocorrência que já possui despacho/atendimento.");
+        }
         ocorrenciaRepository.deleteById(id);
     }
 
@@ -193,8 +256,19 @@ public class OcorrenciaService {
         logger.info("Tentando confirmar saída para Ocorrencia {}", id);
         Ocorrencia ocorrencia = findById(id);
         if (ocorrencia != null && "DESPACHADA".equals(ocorrencia.getStatus())) {
+            String oldStatus = ocorrencia.getStatus();
             ocorrencia.setStatus("EM_ATENDIMENTO");
             ocorrenciaRepository.save(ocorrencia);
+            
+            registrarHistorico(ocorrencia, oldStatus, "EM_ATENDIMENTO", "Saída da ambulância confirmada.");
+            
+            // Update Atendimento with arrival time
+            Atendimento atendimento = atendimentoRepository.findFirstByOcorrenciaOrderByIdDesc(ocorrencia);
+            if (atendimento != null) {
+                atendimento.setDataHoraChegada(LocalDateTime.now());
+                atendimentoRepository.save(atendimento);
+            }
+
             logger.info("Saída confirmada para Ocorrencia {}. Status atualizado para EM_ATENDIMENTO", id);
         } else {
             logger.error("Falha ao confirmar saída. Ocorrencia {} não encontrada ou status inválido: {}", id, (ocorrencia != null ? ocorrencia.getStatus() : "null"));
@@ -207,9 +281,13 @@ public class OcorrenciaService {
         logger.info("Tentando concluir Ocorrencia {}", id);
         Ocorrencia ocorrencia = findById(id);
         if (ocorrencia != null && "EM_ATENDIMENTO".equals(ocorrencia.getStatus())) {
+            String oldStatus = ocorrencia.getStatus();
             ocorrencia.setStatus("CONCLUIDA");
             ocorrencia.setDataHoraFechamento(LocalDateTime.now());
             ocorrenciaRepository.save(ocorrencia);
+            
+            registrarHistorico(ocorrencia, oldStatus, "CONCLUIDA", "Atendimento concluído.");
+            
             logger.info("Ocorrencia {} concluída.", id);
 
             freeAmbulance(ocorrencia);
@@ -220,24 +298,45 @@ public class OcorrenciaService {
     }
 
     @Transactional
-    public void cancelOccurrence(Integer id) {
+    public void cancelOccurrence(Integer id, String justificativa) {
         logger.info("Tentando cancelar Ocorrencia {}", id);
         Ocorrencia ocorrencia = findById(id);
-        if (ocorrencia != null && !"CONCLUIDA".equals(ocorrencia.getStatus())) {
-            ocorrencia.setStatus("CANCELADA");
-            ocorrencia.setDataHoraFechamento(LocalDateTime.now());
-            ocorrenciaRepository.save(ocorrencia);
-            logger.info("Ocorrencia {} cancelada.", id);
-
-            freeAmbulance(ocorrencia);
-        } else {
-             logger.error("Falha ao cancelar. Ocorrencia {} não encontrada ou já concluída.", id);
-             throw new IllegalStateException("Ocorrência não encontrada ou já concluída.");
+        
+        if (ocorrencia == null) {
+             throw new IllegalStateException("Ocorrência não encontrada.");
         }
+        
+        if ("CONCLUIDA".equals(ocorrencia.getStatus()) || "CANCELADA".equals(ocorrencia.getStatus())) {
+             throw new IllegalStateException("Não é possível cancelar uma ocorrência já concluída ou cancelada.");
+        }
+        
+        // Allow cancellation only if ABERTA or DESPACHADA
+        if (!"ABERTA".equals(ocorrencia.getStatus()) && !"DESPACHADA".equals(ocorrencia.getStatus())) {
+             throw new IllegalStateException("Cancelamento permitido apenas para ocorrências Abertas ou Despachadas.");
+        }
+
+        String oldStatus = ocorrencia.getStatus();
+        ocorrencia.setStatus("CANCELADA");
+        ocorrencia.setDataHoraFechamento(LocalDateTime.now());
+        ocorrenciaRepository.save(ocorrencia);
+        
+        registrarHistorico(ocorrencia, oldStatus, "CANCELADA", "Cancelamento: " + justificativa);
+        
+        logger.info("Ocorrencia {} cancelada.", id);
+
+        // If it was dispatched, free the ambulance
+        if ("DESPACHADA".equals(oldStatus)) {
+             freeAmbulance(ocorrencia);
+        }
+    }
+    
+    // Overload for backward compatibility if needed, but we should update controller
+    public void cancelOccurrence(Integer id) {
+        cancelOccurrence(id, "Cancelamento solicitado sem justificativa.");
     }
 
     private void freeAmbulance(Ocorrencia ocorrencia) {
-        Atendimento atendimento = atendimentoRepository.findByOcorrencia(ocorrencia);
+        Atendimento atendimento = atendimentoRepository.findFirstByOcorrenciaOrderByIdDesc(ocorrencia);
         if (atendimento != null) {
             Ambulancia ambulancia = atendimento.getAmbulancia();
             if (ambulancia != null) {

@@ -7,7 +7,7 @@ export interface Ambulancia {
   id?: number;
   placa: string;
   tipo: 'USA' | 'USB';
-  status: 'DISPONIVEL' | 'EM_ATENDIMENTO' | 'EM_MANUTENCAO';
+  status: 'DISPONIVEL' | 'EM_ATENDIMENTO' | 'EM_MANUTENCAO' | 'INATIVA';
   bairro?: Bairro;
 }
 

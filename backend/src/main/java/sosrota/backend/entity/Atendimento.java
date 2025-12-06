@@ -33,4 +33,18 @@ public class Atendimento {
 
     @Column(name = "distancia_km")
     private Double distanciaKm;
+
+    @Column(name = "tempo_estimado")
+    private Double tempoEstimado;
+
+    @Column(name = "rota", columnDefinition = "TEXT")
+    private String rota;
+
+    public String getRota() {
+        return rota;
+    }
+
+    public void setRota(String rota) {
+        this.rota = rota;
+    }
 }

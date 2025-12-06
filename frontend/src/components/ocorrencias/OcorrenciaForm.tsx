@@ -128,6 +128,7 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
               value={formData.bairro?.id || ''}
               onChange={handleBairroChange}
               required
+              disabled={!!ocorrencia}
             >
               <option value="">Selecione um bairro</option>
               {bairros.map(bairro => (
@@ -146,6 +147,7 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
               value={formData.tipo}
               onChange={handleChange}
               required
+              disabled={!!ocorrencia}
             >
               <option value="">Selecione o tipo</option>
               <option value="ACIDENTE_TRANSITO">Acidente de Trânsito</option>
@@ -167,6 +169,7 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
               value={formData.gravidade}
               onChange={handleChange}
               required
+              disabled={!!ocorrencia}
             >
               <option value="ALTA">Alta</option>
               <option value="MEDIA">Média</option>
@@ -174,24 +177,25 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
             </select>
           </div>
 
-          {ocorrencia && (
+          {/* {ocorrencia && (
             <div className="form-group">
-              <label htmlFor="status">Status *</label>
+              <label htmlFor="status">Status</label>
               <select
                 id="status"
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
                 required
+                disabled={true} // Always disabled in edit mode as requested
               >
                 <option value="ABERTA">Aberta</option>
                 <option value="DESPACHADA">Despachada</option>
-                <option value="ATENDENDO">Atendendo</option>
+                <option value="EM_ATENDIMENTO">Atendendo</option>
                 <option value="CONCLUIDA">Concluída</option>
                 <option value="CANCELADA">Cancelada</option>
               </select>
             </div>
-          )}
+          )}  */}
         </div>
 
         <div className="form-row">
@@ -204,6 +208,7 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
               onChange={handleChange}
               placeholder="Digite observações relevantes..."
               rows={4}
+              disabled={!!ocorrencia}
             />
           </div>
         </div>

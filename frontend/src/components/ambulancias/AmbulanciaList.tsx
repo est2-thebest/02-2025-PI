@@ -8,10 +8,11 @@ import AlertDialog from '../common/AlertDialog';
 interface AmbulanciaListProps {
   ambulancias: Ambulancia[];
   onEdit: (ambulancia: Ambulancia) => void;
+  onInativar: (ambulancia: Ambulancia) => void;
   viewMode: 'grid' | 'list';
 }
 
-const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, viewMode }) => {
+const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, onInativar, viewMode }) => {
   const [ambulanciaParaExcluir, setAmbulanciaParaExcluir] = useState<number | null>(null);
   const [alertInfo, setAlertInfo] = useState<{ isOpen: boolean; title: string; message: string; type: 'error' | 'success' | 'info' }>({
     isOpen: false,
@@ -73,7 +74,7 @@ const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, vi
                   <tr key={ambulancia.id} style={{ borderBottom: '1px solid var(--border)' }}>
                     <td style={{ padding: '12px', fontWeight: 'bold' }}>{ambulancia.placa}</td>
                     <td style={{ padding: '12px' }}>
-                      <span className={`badge badge-${ambulancia.tipo.toLowerCase()}`}>
+                      <span className={`badge ${ambulancia.tipo}`}>
                         {ambulancia.tipo}
                       </span>
                     </td>
@@ -122,7 +123,7 @@ const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, vi
           </div>
         </div>
       ) : (
-        <div className="grid-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
+        <div className="grid-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem', paddingBottom: '1rem' }}>
           {ambulancias.map((ambulancia) => (
             <div key={ambulancia.id} className="card" style={{ padding: '1.5rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
@@ -139,7 +140,7 @@ const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, vi
                   </div>
                   <div>
                     <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{ambulancia.placa}</h3>
-                    <span className={`badge badge-${ambulancia.tipo.toLowerCase()}`} style={{ marginTop: '0.25rem', display: 'inline-block' }}>
+                    <span className={`badge ${ambulancia.tipo}`} style={{ marginTop: '0.25rem', display: 'inline-block' }}>
                       {ambulancia.tipo}
                     </span>
                   </div>
@@ -165,25 +166,25 @@ const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, vi
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: '8px' }}>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 <button
                   className="btn btn-secondary"
-                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                  style={{ flex: 1, minWidth: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', fontSize: '0.9rem', padding: '0.5rem' }}
                   onClick={() => onEdit(ambulancia)}
                 >
-                  <Edit size={16} /> Editar
+                  <Edit size={14} /> Editar
                 </button>
                 <button
                   className="btn btn-danger"
-                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', background: 'var(--danger)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                  style={{ flex: 1, minWidth: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', background: 'var(--danger)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.9rem', padding: '0.5rem' }}
                   onClick={() => ambulancia.id && confirmarExclusao(ambulancia.id)}
                 >
-                  <Trash2 size={16} /> Excluir
+                  <Trash2 size={14} /> Excluir
                 </button>
               </div>
             </div>
           ))}
-        </div>
+        </div >
       )}
 
       <ConfirmDialog

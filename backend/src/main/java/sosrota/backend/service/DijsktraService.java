@@ -30,6 +30,13 @@ public class DijsktraService {
   }
 
   // Public API: find shortest path from sourceId to targetId
+  public String getNodeName(int id) {
+      if (nodes.containsKey(id)) {
+          return nodes.get(id).name;
+      }
+      return "Unknown (" + id + ")";
+  }
+
   public PathResult findShortestPath(int sourceId, int targetId) {
     if (!nodes.containsKey(sourceId) || !nodes.containsKey(targetId)) {
       return new PathResult(Collections.emptyList(), Collections.emptyList(), Double.NaN);

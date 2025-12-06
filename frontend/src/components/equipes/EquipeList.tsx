@@ -1,55 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import equipeService, { Equipe } from '../../services/equipe';
-import LoadingSpinner from '../common/LoadingSpinner';
+import { Equipe } from '../../services/equipe';
 import { Users, Ambulance as AmbulanceIcon, Edit, Trash2 } from 'lucide-react';
 import ConfirmDialog from '../common/ConfirmDialog';
 
 interface EquipeListProps {
+  equipes: Equipe[];
   onEdit: (equipe: Equipe) => void;
+  onDelete: (id: number) => void;
   viewMode: 'grid' | 'list';
 }
 
-const EquipeList: React.FC<EquipeListProps> = ({ onEdit, viewMode }) => {
-  const [equipes, setEquipes] = useState<Equipe[]>([]);
-  const [carregando, setCarregando] = useState<boolean>(true);
+const EquipeList: React.FC<EquipeListProps> = ({ equipes, onEdit, onDelete, viewMode }) => {
   const [equipeParaExcluir, setEquipeParaExcluir] = useState<number | null>(null);
-
-  useEffect(() => {
-    carregarEquipes();
-  }, []);
-
-  const carregarEquipes = async (): Promise<void> => {
-    try {
-      setCarregando(true);
-      const dados = await equipeService.listar();
-      setEquipes(dados);
-    } catch (error) {
-      console.error('Erro ao carregar equipes:', error);
-    } finally {
-      setCarregando(false);
-    }
-  };
 
   const confirmarExclusao = (id: number) => {
     setEquipeParaExcluir(id);
   };
 
-  const handleExcluir = async () => {
+  const handleExcluir = () => {
     if (equipeParaExcluir) {
-      try {
-        await equipeService.excluir(equipeParaExcluir);
-        setEquipeParaExcluir(null);
-        carregarEquipes();
-      } catch (error) {
-        console.error('Erro ao excluir equipe:', error);
-        alert('Erro ao excluir equipe');
-      }
+      onDelete(equipeParaExcluir);
+      setEquipeParaExcluir(null);
     }
   };
-
-  if (carregando) {
-    return <LoadingSpinner message="Carregando equipes..." />;
-  }
 
   if (equipes.length === 0) {
     return (

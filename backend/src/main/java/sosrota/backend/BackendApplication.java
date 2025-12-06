@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"sosrota.backend"})
+@org.springframework.scheduling.annotation.EnableScheduling
 public class BackendApplication {
 
 	public static void main(String[] args) {
