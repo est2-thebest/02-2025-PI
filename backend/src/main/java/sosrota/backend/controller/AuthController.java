@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 // [Interface de Comunicacao] API REST para Autenticacao e Seguranca
 public class AuthController {
 

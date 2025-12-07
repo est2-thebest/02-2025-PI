@@ -162,7 +162,7 @@ const OcorrenciaDetailsModal: React.FC<OcorrenciaDetailsModalProps> = ({ ocorren
                 <div className="info-row">
                   <span className="label">Deslocamento Simulado:</span>
                   <span className="value">
-                    {atendimento.distanciaKm ? atendimento.distanciaKm.toFixed(1) : '-'} min
+                    {atendimento.tempoEstimado !== undefined ? atendimento.tempoEstimado.toFixed(1) : '-'} min
                   </span>
                 </div>
               </>
@@ -180,9 +180,6 @@ const OcorrenciaDetailsModal: React.FC<OcorrenciaDetailsModalProps> = ({ ocorren
                         </span>
                       );
                     }
-
-                    // SLA is usually based on Response Time (Call -> Arrival), not Total Time (Call -> Finish)
-                    // We calculate the Simulated Response Time
 
                     let responseSimMin = 0;
 
@@ -244,7 +241,7 @@ const OcorrenciaDetailsModal: React.FC<OcorrenciaDetailsModalProps> = ({ ocorren
                   <strong>Base:</strong> {atendimento.ambulancia?.bairro?.nome || 'N/A'}
                 </div>
                 <div className="resource-info">
-                  <strong>Distância:</strong> {atendimento.distanciaKm ? `${atendimento.distanciaKm.toFixed(2)} km` : 'N/A'}
+                  <strong>Distância:</strong> {atendimento.distanciaKm !== undefined ? `${atendimento.distanciaKm.toFixed(2)} km` : 'N/A'}
                 </div>
               </div>
               {equipe && (
