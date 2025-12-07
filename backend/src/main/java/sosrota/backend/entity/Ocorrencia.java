@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// [Requisitos Especificos - RF01] O sistema deve permitir o cadastro de ocorrencias
+// [Problema - 4] Registro e Triagem de Ocorrencias
 public class Ocorrencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +29,7 @@ public class Ocorrencia {
     @Column(name = "data_hora_abertura")
     private LocalDateTime dataHoraAbertura;
 
-    private String status; // ABERTA, EM_ANDAMENTO, CONCLUIDA, CANCELADA
+    private String status; // ABERTA, DESPACHADA, EM_ANDAMENTO, CONCLUIDA, CANCELADA
     
     @Column(name = "data_hora_fechamento")
     private LocalDateTime dataHoraFechamento;

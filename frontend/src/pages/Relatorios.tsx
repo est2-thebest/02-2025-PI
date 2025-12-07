@@ -115,6 +115,7 @@ const Relatorios: React.FC = () => {
       <div className="dashboard-content">
 
         {/* OCORRÊNCIAS POR BAIRRO */}
+        {/* [Banco de Dados II - Exibicao de Resultados] Grafico gerado a partir da consulta SQL de ocorrencias por bairro */}
         <div className="card">
           <div className="card-header">
             <h2>Ocorrências por Bairro</h2>

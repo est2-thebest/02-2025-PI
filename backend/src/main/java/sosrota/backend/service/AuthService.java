@@ -17,8 +17,10 @@ public class AuthService {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
+    // [Regras de Negocio - 1] Acesso e Login - Autenticacao por login e senha
     public JwtResponse authenticate(LoginRequest request) {
         User user = userService.getUserByUsername(request.getUsername());
+        // [Requisitos Nao Funcionais - RNF01] O sistema deve armazenar senhas com uso de hash criptografico
         if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid username or password");
         }

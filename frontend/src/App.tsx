@@ -57,11 +57,11 @@ function AppRoutes(): React.ReactElement {
       <Route
         path="/dashboard"
         element={
-          <MainLayout>
-            <Dashboard />
-          </MainLayout>
-          // <PrivateRoute>
-          // </PrivateRoute>
+          <PrivateRoute>
+            <MainLayout>
+              <Dashboard />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 

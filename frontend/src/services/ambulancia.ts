@@ -12,6 +12,7 @@ export interface Ambulancia {
 }
 
 const ambulanciaService = {
+  // [Requisitos Especificos - RF02] Listar todas as ambulancias
   async listar(): Promise<Ambulancia[]> {
     const response: AxiosResponse<Ambulancia[]> = await api.get('/ambulancias');
     return response.data;
@@ -27,6 +28,7 @@ const ambulanciaService = {
     return response.data;
   },
 
+  // [Requisitos Especificos - RF02] Cadastrar nova ambulancia
   async criar(ambulancia: Ambulancia): Promise<Ambulancia> {
     const response: AxiosResponse<Ambulancia> = await api.post('/ambulancias', ambulancia);
     return response.data;

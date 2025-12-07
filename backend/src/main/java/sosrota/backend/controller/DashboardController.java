@@ -9,6 +9,7 @@ import sosrota.backend.service.DashboardService;
 
 @RestController
 @RequestMapping("/api/dashboard")
+// [Interface de Comunicacao] API REST para Agregacao de Dados (BFF - Backend For Frontend)
 public class DashboardController {
 
     private final DashboardService dashboardService;
@@ -17,7 +18,9 @@ public class DashboardController {
         this.dashboardService = dashboardService;
     }
 
-    @GetMapping
+    // [Requisitos Especificos - RF07] Dados consolidados para o Dashboard
+    // [Frontend] Cards de Estatisticas da Home
+    @GetMapping("/stats")
     public ResponseEntity<DashboardDTO> getStats() {
         return ResponseEntity.ok(dashboardService.getDashboardStats());
     }

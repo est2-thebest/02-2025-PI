@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/ocorrencias")
+// [Interface de Comunicacao] API REST para gerenciamento de ocorrencias
 public class OcorrenciaController {
 
     private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(OcorrenciaController.class);
@@ -19,6 +20,8 @@ public class OcorrenciaController {
         this.ocorrenciaService = ocorrenciaService;
     }
 
+    // [Requisitos Especificos - RF01] Listar ocorrencias
+    // [Frontend] Utilizado na tela de Dashboard e Lista de Ocorrencias
     @GetMapping
     public List<Ocorrencia> findAll() {
         return ocorrenciaService.findAll();
@@ -30,6 +33,8 @@ public class OcorrenciaController {
         return ocorrencia != null ? ResponseEntity.ok(ocorrencia) : ResponseEntity.notFound().build();
     }
 
+    // [Requisitos Especificos - RF01] Criar nova ocorrencia
+    // [Frontend] Formulario de abertura de chamado (Modal)
     @PostMapping
     public Ocorrencia create(@RequestBody Ocorrencia ocorrencia) {
         logger.info("Recebida requisição para criar Ocorrencia: {}", ocorrencia);
@@ -70,6 +75,8 @@ public class OcorrenciaController {
         return ResponseEntity.ok().build();
     }
 
+    // [Requisitos Especificos - RF01] Detalhes da ocorrencia (incluindo historico e atendimento)
+    // [Frontend] Modal de Detalhes da Ocorrencia
     @GetMapping("/{id}/detalhes")
     public ResponseEntity<sosrota.backend.dto.OcorrenciaDetalhesDTO> getDetalhes(@PathVariable Integer id) {
         sosrota.backend.dto.OcorrenciaDetalhesDTO detalhes = ocorrenciaService.getOcorrenciaDetalhes(id);

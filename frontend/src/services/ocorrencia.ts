@@ -51,6 +51,7 @@ export interface OcorrenciaDetalhes {
 }
 
 const ocorrenciaService = {
+	// [Requisitos Especificos - RF01] Listar ocorrencias abertas para monitoramento
 	async listarAbertas(): Promise<Ocorrencia[]> {
 		const response: AxiosResponse<Ocorrencia[]> = await api.get('/ocorrencias?status=ABERTA');
 		return response.data;
@@ -66,6 +67,7 @@ const ocorrenciaService = {
 		return response.data;
 	},
 
+	// [Requisitos Especificos - RF01] Cadastro de nova ocorrencia
 	async criar(payload: Ocorrencia): Promise<Ocorrencia> {
 		const response: AxiosResponse<Ocorrencia> = await api.post('/ocorrencias', payload);
 		return response.data;
@@ -92,6 +94,7 @@ const ocorrenciaService = {
 		await api.post(`/ocorrencias/${id}/cancelar`, { justificativa });
 	},
 
+	// [Requisitos Especificos - RF07] Consulta detalhada com historico
 	async buscarDetalhes(id: number): Promise<OcorrenciaDetalhes> {
 		const response: AxiosResponse<OcorrenciaDetalhes> = await api.get(`/ocorrencias/${id}/detalhes`);
 		return response.data;

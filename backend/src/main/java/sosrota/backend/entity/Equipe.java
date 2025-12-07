@@ -12,6 +12,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// [Requisitos Especificos - RF03] O sistema deve permitir o cadastro de profissionais e montagem de equipes
+// [Problema - 2] Cadastro de Profissionais e Montagem de Equipes
 public class Equipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

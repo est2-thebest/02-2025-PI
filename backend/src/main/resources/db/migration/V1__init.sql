@@ -3,6 +3,8 @@
 -- Estrutura inicial completa do banco SOS-Rota
 -- ============================================================
 
+-- [Banco de Dados II - Criacao de Tabelas] Definicao de Schema e Chaves
+-- [Requisitos Especificos - RF01/RF02/RF03] Tabelas para Ocorrencia, Ambulancia, Equipe
 -- Tabela de bairros (vértices do grafo)
 CREATE TABLE IF NOT EXISTS bairro (
   id INTEGER PRIMARY KEY,

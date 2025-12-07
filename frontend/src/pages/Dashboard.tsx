@@ -3,8 +3,7 @@ import ocorrenciaService, { Ocorrencia } from '../services/ocorrencia';
 import dashboardService, { DashboardStats } from '../services/dashboard';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import Banner from '../components/common/Banner';
-import { Ambulance, CheckCircle, Timer, Users, UserCheck } from 'lucide-react';
-
+import { Ambulance, CheckCircle, Users, UserCheck } from 'lucide-react';
 import './Dashboard.css';
 
 const Dashboard: React.FC = () => {
@@ -13,7 +12,6 @@ const Dashboard: React.FC = () => {
     ambulanciasDisponiveis: 0,
     ambulanciasTotal: 0,
     atendimentosHoje: 0,
-    tempoMedioResposta: 0,
     equipesAtivas: 0,
     profissionaisCadastrados: 0,
   });
@@ -65,6 +63,7 @@ const Dashboard: React.FC = () => {
       />
 
       <div className="stats-grid">
+        {/* [Requisitos Especificos - RF07] Exibicao de consultas de histórico de atendimentos */}
         {/* Profissionais Cadastrados – primário */}
         <div className="stat-card stat-primary">
           <UserCheck size={48} className="stat-icon stat-icon-primary" />

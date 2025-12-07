@@ -13,6 +13,9 @@ public class RelatorioService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    // [Banco de Dados II - Consultas SQL] Consulta que retorna valor de negocio relevante (Ocorrencias por bairro)
+    // [Teoria da Computacao - Demonstracao Numerica] Agregacao de dados para analise
+    // [Requisitos Especificos - RF07] Consultar mapa de ocorrencias (quantidade por bairro)
     public List<Object[]> getAtendimentosPorBairro() {
         String sql = "SELECT b.nome, COUNT(o.id) " +
                 "FROM ocorrencia o " +
@@ -22,13 +25,9 @@ public class RelatorioService {
         return query.getResultList();
     }
 
+    // [Banco de Dados II - Consultas SQL] Consulta que retorna valor de negocio relevante (Media de distancia/tempo)
+    // [Requisitos Especificos - RF07] Consultar tempo medio de resposta
     public List<Object[]> getTempoMedioAtendimento() {
-        // Assuming we calculate time from dispatch to arrival (if arrival is set)
-        // Or just listing some stats. Let's do a simple count for now or average
-        // distance.
-        // The requirement says "Implementar e exibir resultados de duas consultas SQL
-        // relevantes".
-        // Let's do Average Distance per Ambulance Type.
         String sql = "SELECT a.tipo, AVG(at.distancia_km) " +
                 "FROM atendimento at " +
                 "JOIN ambulancia a ON at.ambulancia_id = a.id " +

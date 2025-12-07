@@ -11,13 +11,14 @@ interface LoginResponse {
 	message?: string;
 }
 
+// [Regras de Negocio - 1] Autenticacao de usuario
 async function login(username: string, password: string): Promise<LoginResponse> {
 	try {
 		const resp = await api.post('/auth/login', { username, password });
 
 		// O backend deve retornar { token, user } ou similar
 		const token = resp.data.token;
-		const user = resp.data.user || {username};
+		const user = resp.data.user || { username };
 
 		if (!token) {
 			return { success: false, message: 'Token não encontrado na resposta' };
@@ -27,24 +28,24 @@ async function login(username: string, password: string): Promise<LoginResponse>
 
 		try {
 			if (user) localStorage.setItem(USER_KEY, JSON.stringify(user));
-			} catch {
-				console.warn('Não foi possível salvar usuário no localStorage');
-			}
-
-			return {
-				success: true,
-				token,
-				user: {
-					username: user.username,
-					email: user.email,
-					role: user.role
-				}
-			};
-
-		} catch (err: any) {
-			const message = err?.response?.data?.message || err.message || 'Erro ao autenticar';
-			return { success: false, message };
+		} catch {
+			console.warn('Não foi possível salvar usuário no localStorage');
 		}
+
+		return {
+			success: true,
+			token,
+			user: {
+				username: user.username,
+				email: user.email,
+				role: user.role
+			}
+		};
+
+	} catch (err: any) {
+		const message = err?.response?.data?.message || err.message || 'Erro ao autenticar';
+		return { success: false, message };
+	}
 }
 
 async function register(username: string, email: string, password: string): Promise<LoginResponse> {

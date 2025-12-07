@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// [Requisitos Especificos - RF03] O sistema deve permitir o cadastro de profissionais
+// [Problema - 2] Cadastro de Profissionais e Montagem de Equipes
 public class Profissional {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +23,5 @@ public class Profissional {
     private Boolean ativo;
 
     @Enumerated(EnumType.STRING)
-    private Turno turno;
+    private Turno turno; // MATUTINO, VESPERTINO, NOTURNO
 }

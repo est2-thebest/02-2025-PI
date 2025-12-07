@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
+// [Interface de Comunicacao] API REST para Autenticacao e Seguranca
 public class AuthController {
 
     private final AuthService authService;
@@ -21,6 +21,8 @@ public class AuthController {
         return ResponseEntity.ok(authService.register(request));
     }
 
+    // [Regras de Negocio - 1] Login de usuario
+    // [Frontend] Tela de Login (JWT Storage)
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> authenticate(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.authenticate(request));

@@ -46,6 +46,7 @@ public class OcorrenciaService {
         this.ocorrenciaHistoricoRepository = ocorrenciaHistoricoRepository;
     }
 
+    // [Requisitos Especificos - RF01] O sistema deve permitir a consulta de ocorrencias
     public List<Ocorrencia> findAll() {
         return ocorrenciaRepository.findAll();
     }
@@ -54,6 +55,7 @@ public class OcorrenciaService {
         return ocorrenciaRepository.findById(id).orElse(null);
     }
 
+    // [Requisitos Especificos - RF07] O sistema deve permitir consultas de historico de atendimentos
     public List<OcorrenciaHistorico> findHistoricoByOcorrenciaId(Integer id) {
         Ocorrencia ocorrencia = findById(id);
         if (ocorrencia == null) {
@@ -86,6 +88,7 @@ public class OcorrenciaService {
     }
 
     @Transactional
+    // [Requisitos Especificos - RF01] O sistema deve permitir o cadastro de ocorrencias
     public Ocorrencia createOcorrencia(Ocorrencia ocorrencia) {
         ocorrencia.setDataHoraAbertura(LocalDateTime.now());
         ocorrencia.setStatus("ABERTA");
@@ -108,6 +111,8 @@ public class OcorrenciaService {
         ocorrenciaHistoricoRepository.save(historico);
     }
 
+    // [Requisitos Especificos - RF05] O sistema deve sugerir ambulancias aptas para uma ocorrencia
+    // [Regras de Negocio - 4] Despacho e Atendimento (Logica Central)
     private void dispatchAmbulance(Ocorrencia ocorrencia) {
         List<Ambulancia> allAmbulances = ambulanciaRepository.findAll();
         logger.info("Total de ambulâncias no banco: {}", allAmbulances.size());
@@ -119,31 +124,36 @@ public class OcorrenciaService {
         double minDistance = Double.MAX_VALUE;
 
         // SLA Rules (in minutes/km)
+        // [Regras de Negocio - 2] Cadastro de Ocorrencias - Gravidade define SLA
         double slaLimit = getSlaLimit(ocorrencia.getGravidade());
         
         logger.info("Iniciando despacho para Ocorrencia {}. Gravidade: {}, Bairro: {}", ocorrencia.getId(), ocorrencia.getGravidade(), ocorrencia.getBairro().getId());
         for (Ambulancia ambulancia : availableAmbulances) {
             
-            // 1. Validate Ambulance Type
+            // 1. Valida Tipo da Ambulância
+            // [Regras de Negocio - 4] O tipo da ambulancia deve ser compativel com o tipo requerido
             if (!isTypeCompatible(ambulancia.getTipo(), ocorrencia.getGravidade())) {
                 continue;
             }
 
-            // 2. Validate Team Composition
+            // 2. Valida Composicao da Equipe
+            // [Regras de Negocio - 3] Uma ambulancia so pode estar disponivel se possuir equipe completa
             if (!validateTeamComposition(ambulancia)) {
                 continue;
             }
 
-            // 3. Calculate Distance (Dijkstra)
+            // 3. Calcula Distancia (Dijkstra)
+            // [Requisitos Especificos - RF04] O sistema deve calcular o caminho minimo (Dijkstra)
             if (ambulancia.getBairro() != null) {
                 DijsktraService.PathResult result = dijsktraService.findShortestPath(
                         ambulancia.getBairro().getId(),
                         ocorrencia.getBairro().getId());
 
                 if (!Double.isNaN(result.totalDistance)) {
-                    // 3. Validate SLA
+                    // 3. Valida SLA
+                    // [Regras de Negocio - 4] A distancia calculada deve ser menor ou igual ao SLA
                     if (result.totalDistance <= slaLimit) {
-                        // Find the nearest one among those that satisfy SLA
+                        // 4. Encontra a mais proxima entre as que atendem ao SLA
                         if (result.totalDistance < minDistance) {
                             minDistance = result.totalDistance;
                             bestAmbulancia = ambulancia;
@@ -154,18 +164,18 @@ public class OcorrenciaService {
         }
 
         if (bestAmbulancia != null) {
-            // Create Atendimento
+            // 5. Cria Atendimento
             Atendimento atendimento = new Atendimento();
             atendimento.setOcorrencia(ocorrencia);
             atendimento.setAmbulancia(bestAmbulancia);
             atendimento.setDataHoraDespacho(LocalDateTime.now());
             atendimento.setDistanciaKm(minDistance);
             
-            // Calculate Estimated Time (Time = Distance / Speed * 60)
+            // 6. Calcula Tempo Estimado (Tempo = Distancia / Velocidade * 60)
             double estimatedTimeMinutes = (minDistance / AVERAGE_SPEED_KMH) * 60;
             atendimento.setTempoEstimado(estimatedTimeMinutes);
             
-            // Build Route String
+            // 7. Constroi String de Rota
             if (dijsktraService.findShortestPath(bestAmbulancia.getBairro().getId(), ocorrencia.getBairro().getId()) != null) {
                 DijsktraService.PathResult path = dijsktraService.findShortestPath(bestAmbulancia.getBairro().getId(), ocorrencia.getBairro().getId());
                 if (path.nodes != null && !path.nodes.isEmpty()) {
@@ -182,11 +192,12 @@ public class OcorrenciaService {
             
             atendimentoRepository.save(atendimento);
 
-            // Update Ambulancia Status
+            // 8. Atualiza Status da Ambulancia
             bestAmbulancia.setStatus("EM_ATENDIMENTO");
             ambulanciaRepository.save(bestAmbulancia);
 
-            // Update Ocorrencia Status
+            // 9. Atualiza Status da Ocorrencia
+            // [Requisitos Especificos - RF06] O sistema deve registrar o despacho e atualizar status
             String oldStatus = ocorrencia.getStatus();
             ocorrencia.setStatus("DESPACHADA");
             ocorrenciaRepository.save(ocorrencia);
@@ -199,8 +210,9 @@ public class OcorrenciaService {
         }
     }
 
+    // [Regras de Negocio - 2] Cadastro de Ocorrencias - Definicao de SLA por gravidade
     private double getSlaLimit(String gravidade) {
-        if (gravidade == null) return 30.0; // Default to lowest severity
+        if (gravidade == null) return 30.0;
         switch (gravidade.toUpperCase()) {
             case "ALTA": return 8.0;
             case "MEDIA": return 15.0;
@@ -209,6 +221,9 @@ public class OcorrenciaService {
         }
     }
 
+    // [Regras de Negocio - 2] Cadastro de Ocorrencias - Tipo de ambulancia requerido
+    // [Teoria da Computacao - Teoria Aplicada] Logica de Predicados para validacao de compatibilidade
+    // Predicado: P(tipo, gravidade) = (gravidade == ALTA -> tipo \in {USA, UTI}) AND (gravidade != ALTA -> True)
     private boolean isTypeCompatible(String ambulanciaTipo, String gravidade) {
         if (ambulanciaTipo == null || gravidade == null) return false;
         
@@ -216,13 +231,14 @@ public class OcorrenciaService {
         String grav = gravidade.toUpperCase();
 
         if (grav.equals("ALTA")) {
-            return tipo.equals("USA") || tipo.equals("UTI"); // Accept both just in case
+            return tipo.equals("USA") || tipo.equals("UTI"); // Aceita os dos dois por precaução
         } else {
-            // MEDIA or BAIXA: Accept USA/UTI or USB/BASICA
+            // MEDIA or BAIXA: Aceita USA/UTI ou USB/BASICA
             return true; 
         }
     }
 
+    // [Regras de Negocio - 3] Cadastro de Ambulancias e Equipes - Equipe minima
     private boolean validateTeamComposition(Ambulancia ambulancia) {
         List<Equipe> equipes = equipeRepository.findByAmbulancia(ambulancia);
         return equipes.stream().anyMatch(equipe -> {
@@ -244,6 +260,7 @@ public class OcorrenciaService {
         });
     }
     
+    // [Regras de Negocio - 6] Restricoes e Validacoes Globais - Nao excluir ocorrencia com despacho
     public void delete(Integer id) {
         Ocorrencia ocorrencia = findById(id);
         if (ocorrencia != null && !"ABERTA".equals(ocorrencia.getStatus())) {
@@ -252,6 +269,7 @@ public class OcorrenciaService {
         ocorrenciaRepository.deleteById(id);
     }
 
+    // [Regras de Negocio - 6] Restricoes e Validacoes Globais - Confirmar saida
     @Transactional
     public void confirmDeparture(Integer id) {
         logger.info("Tentando confirmar saída para Ocorrencia {}", id);
@@ -263,7 +281,7 @@ public class OcorrenciaService {
             
             registrarHistorico(ocorrencia, oldStatus, "EM_ATENDIMENTO", "Saída da ambulância confirmada.");
             
-            // Update Atendimento with arrival time
+            // Atualiza Atendimento com hora de chegada
             Atendimento atendimento = atendimentoRepository.findFirstByOcorrenciaOrderByIdDesc(ocorrencia);
             if (atendimento != null) {
                 atendimento.setDataHoraChegada(LocalDateTime.now());
@@ -277,6 +295,7 @@ public class OcorrenciaService {
         }
     }
 
+    // [Regras de Negocio - 6] Restricoes e Validacoes Globais - Concluir atendimento
     @Transactional
     public void finishOccurrence(Integer id) {
         logger.info("Tentando concluir Ocorrencia {}", id);
@@ -298,6 +317,7 @@ public class OcorrenciaService {
         }
     }
 
+    // [Requisitos Especificos - RF01] O sistema deve permitir o cancelamento de ocorrencias
     @Transactional
     public void cancelOccurrence(Integer id, String justificativa) {
         logger.info("Tentando cancelar Ocorrencia {}", id);
@@ -311,7 +331,7 @@ public class OcorrenciaService {
              throw new IllegalStateException("Não é possível cancelar uma ocorrência já concluída ou cancelada.");
         }
         
-        // Allow cancellation only if ABERTA or DESPACHADA
+        // Permite cancelamento apenas para ocorrências Abertas ou Despachadas
         if (!"ABERTA".equals(ocorrencia.getStatus()) && !"DESPACHADA".equals(ocorrencia.getStatus())) {
              throw new IllegalStateException("Cancelamento permitido apenas para ocorrências Abertas ou Despachadas.");
         }
@@ -325,13 +345,12 @@ public class OcorrenciaService {
         
         logger.info("Ocorrencia {} cancelada.", id);
 
-        // If it was dispatched, free the ambulance
+        // Se foi despachada, libera a ambulância
         if ("DESPACHADA".equals(oldStatus)) {
              freeAmbulance(ocorrencia);
         }
     }
     
-    // Overload for backward compatibility if needed, but we should update controller
     public void cancelOccurrence(Integer id) {
         cancelOccurrence(id, "Cancelamento solicitado sem justificativa.");
     }

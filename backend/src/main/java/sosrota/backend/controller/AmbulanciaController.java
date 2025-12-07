@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/ambulancias")
+// [Interface de Comunicacao] API REST para gerenciamento de frota
 public class AmbulanciaController {
 
     private final AmbulanciaService ambulanciaService;
@@ -17,6 +18,8 @@ public class AmbulanciaController {
         this.ambulanciaService = ambulanciaService;
     }
 
+    // [Requisitos Especificos - RF02] Listar ambulancias
+    // [Frontend] Tela de Gestao de Frota
     @GetMapping
     public List<Ambulancia> findAll() {
         return ambulanciaService.findAll();

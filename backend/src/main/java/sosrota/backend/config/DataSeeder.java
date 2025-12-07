@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
+// [Contexto - 3] Problema - Carga de dados de arquivos CSV fornecidos (Bairros e Arestas)
 @Component
 public class DataSeeder implements CommandLineRunner {
 
@@ -48,9 +49,9 @@ public class DataSeeder implements CommandLineRunner {
                     bairroRepository.save(bairro);
                 }
             }
-            System.out.println("Bairros seeded successfully.");
+            System.out.println("Bairros populados com sucesso.");
         } catch (Exception e) {
-            System.err.println("Error seeding bairros: " + e.getMessage());
+            System.err.println("Erro ao popular bairros: " + e.getMessage());
         }
     }
 
@@ -68,7 +69,7 @@ public class DataSeeder implements CommandLineRunner {
                 String[] parts = line.split(",");
                 if (parts.length >= 4) {
                     Aresta aresta = new Aresta();
-                    // Use ID from CSV as 'aresta' table might expect it or we want consistency
+
                     aresta.setId(Integer.parseInt(parts[0].trim()));
                     
                     Bairro origem = new Bairro();
@@ -84,9 +85,9 @@ public class DataSeeder implements CommandLineRunner {
                     arestaRepository.save(aresta);
                 }
             }
-            System.out.println("Arestas seeded successfully.");
+            System.out.println("Arestas populadas com sucesso.");
         } catch (Exception e) {
-            System.err.println("Error seeding arestas: " + e.getMessage());
+            System.err.println("Erro ao popular arestas: " + e.getMessage());
         }
     }
 }

@@ -10,6 +10,8 @@ import sosrota.backend.repository.BairroRepository;
 import java.util.*;
 
 @Service
+// [Estrutura de Dados II - Implementacao de Algoritmo de Caminho unico (Dijsktra)]
+// [Requisitos Especificos - RF04] O sistema deve calcular o caminho minimo (Dijkstra)
 public class DijsktraService {
 
   private final BairroRepository bairroRepository;
@@ -37,6 +39,8 @@ public class DijsktraService {
       return "Unknown (" + id + ")";
   }
 
+  // [Estrutura de Dados II - Implementacao de Algoritmo de Caminho unico (Dijsktra)]
+  // [Teoria da Computacao - Contextualizacao Pratica] Calculo de rota otima em grafo ponderado
   public PathResult findShortestPath(int sourceId, int targetId) {
     if (!nodes.containsKey(sourceId) || !nodes.containsKey(targetId)) {
       return new PathResult(Collections.emptyList(), Collections.emptyList(), Double.NaN);
@@ -109,6 +113,7 @@ public class DijsktraService {
     adj.computeIfAbsent(e.from, k -> new ArrayList<>()).add(e);
   }
 
+  // [Contexto - 3] Cadastro de Mapa (Grafo) - Bairros como vertices
   private void loadNodes() {
     List<Bairro> bairros = bairroRepository.findAll();
     for (Bairro b : bairros) {
@@ -116,6 +121,7 @@ public class DijsktraService {
     }
   }
 
+  // [Contexto - 3] Cadastro de Mapa (Grafo) - Ruas como arestas ponderadas
   private void loadEdges() {
     List<Aresta> arestas = arestaRepository.findAll();
     for (Aresta a : arestas) {

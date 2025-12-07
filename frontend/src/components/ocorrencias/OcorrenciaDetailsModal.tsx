@@ -223,6 +223,7 @@ const OcorrenciaDetailsModal: React.FC<OcorrenciaDetailsModalProps> = ({ ocorren
           {atendimento?.rota && (
             <div className="detail-section" style={{ gridColumn: '1 / -1' }}>
               <h3><MapPin size={18} /> Rota Percorrida</h3>
+              {/* [Estrutura de Dados II - Visualizacao da rota calculada pelo Dijkstra */}
               <div className="route-container" style={{ padding: '0.5rem', background: 'var(--bg-secondary)', borderRadius: 'var(--border-radius)', fontSize: '0.9rem' }}>
                 {atendimento.rota}
               </div>
