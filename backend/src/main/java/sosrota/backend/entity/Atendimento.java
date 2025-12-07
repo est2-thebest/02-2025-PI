@@ -40,6 +40,15 @@ public class Atendimento {
     @Column(name = "rota", columnDefinition = "TEXT")
     private String rota;
 
+    @Column(name = "fora_do_sla")
+    private Boolean foraDoSla;
+
+    @Column(name = "sla_previsto")
+    private Double slaPrevisto;
+
+    @Column(name = "sla_real")
+    private Double slaReal;
+
     public String getRota() {
         return rota;
     }

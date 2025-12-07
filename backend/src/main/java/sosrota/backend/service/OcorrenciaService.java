@@ -122,6 +122,10 @@ public class OcorrenciaService {
 
         Ambulancia bestAmbulancia = null;
         double minDistance = Double.MAX_VALUE;
+        
+        // Fallback: keep track of the closest ambulance even if out of SLA
+        Ambulancia closestAmbulanciaOverall = null;
+        double minDistanceOverall = Double.MAX_VALUE;
 
         // SLA Rules (in minutes/km)
         // [Regras de Negocio - 2] Cadastro de Ocorrencias - Gravidade define SLA
@@ -150,6 +154,13 @@ public class OcorrenciaService {
                         ocorrencia.getBairro().getId());
 
                 if (!Double.isNaN(result.totalDistance)) {
+                    
+                    // Track closest overall (fallback)
+                    if (result.totalDistance < minDistanceOverall) {
+                        minDistanceOverall = result.totalDistance;
+                        closestAmbulanciaOverall = ambulancia;
+                    }
+
                     // 3. Valida SLA
                     // [Regras de Negocio - 4] A distancia calculada deve ser menor ou igual ao SLA
                     if (result.totalDistance <= slaLimit) {
@@ -163,6 +174,16 @@ public class OcorrenciaService {
             }
         }
 
+        boolean foraDoSla = false;
+        
+        // If no ambulance found within SLA, use the closest one overall
+        if (bestAmbulancia == null && closestAmbulanciaOverall != null) {
+            logger.warn("Nenhuma ambulância dentro do SLA ({} km) para Ocorrencia {}. Usando a mais próxima ({} km).", slaLimit, ocorrencia.getId(), minDistanceOverall);
+            bestAmbulancia = closestAmbulanciaOverall;
+            minDistance = minDistanceOverall;
+            foraDoSla = true;
+        }
+
         if (bestAmbulancia != null) {
             // 5. Cria Atendimento
             Atendimento atendimento = new Atendimento();
@@ -170,6 +191,11 @@ public class OcorrenciaService {
             atendimento.setAmbulancia(bestAmbulancia);
             atendimento.setDataHoraDespacho(LocalDateTime.now());
             atendimento.setDistanciaKm(minDistance);
+            
+            // Set SLA info
+            atendimento.setSlaPrevisto(slaLimit);
+            atendimento.setSlaReal(minDistance);
+            atendimento.setForaDoSla(foraDoSla);
             
             // 6. Calcula Tempo Estimado (Tempo = Distancia / Velocidade * 60)
             double estimatedTimeMinutes = (minDistance / AVERAGE_SPEED_KMH) * 60;
@@ -202,9 +228,13 @@ public class OcorrenciaService {
             ocorrencia.setStatus("DESPACHADA");
             ocorrenciaRepository.save(ocorrencia);
             
-            registrarHistorico(ocorrencia, oldStatus, "DESPACHADA", "Ambulância " + bestAmbulancia.getPlaca() + " despachada automaticamente.");
+            String obs = "Ambulância " + bestAmbulancia.getPlaca() + " despachada automaticamente.";
+            if (foraDoSla) {
+                obs += " (FORA DO SLA)";
+            }
+            registrarHistorico(ocorrencia, oldStatus, "DESPACHADA", obs);
             
-            logger.info("Ocorrencia {} despachada com sucesso. Ambulancia: {}", ocorrencia.getId(), bestAmbulancia.getId());
+            logger.info("Ocorrencia {} despachada com sucesso. Ambulancia: {}. Fora do SLA: {}", ocorrencia.getId(), bestAmbulancia.getId(), foraDoSla);
         } else {
             logger.warn("Nenhuma ambulância disponível para a Ocorrencia {}", ocorrencia.getId());
         }
@@ -363,11 +393,25 @@ public class OcorrenciaService {
                 ambulancia.setStatus("DISPONIVEL");
                 ambulanciaRepository.save(ambulancia);
                 logger.info("Ambulancia {} liberada (DISPONIVEL) após fim da Ocorrencia {}", ambulancia.getId(), ocorrencia.getId());
+                
+                // Trigger dispatch for pending occurrences
+                processPendingOccurrences();
             } else {
                 logger.warn("Atendimento {} não tem ambulância vinculada.", atendimento.getId());
             }
         } else {
             logger.warn("Nenhum atendimento encontrado para Ocorrencia {} ao tentar liberar ambulância.", ocorrencia.getId());
+        }
+    }
+
+    // [Regras de Negocio - 4] Despacho - Processamento de fila
+    private void processPendingOccurrences() {
+        List<Ocorrencia> pendingOccurrences = ocorrenciaRepository.findByStatus("ABERTA");
+        if (!pendingOccurrences.isEmpty()) {
+            logger.info("Processando fila de espera. {} ocorrências pendentes.", pendingOccurrences.size());
+            for (Ocorrencia pending : pendingOccurrences) {
+                dispatchAmbulance(pending);
+            }
         }
     }
 }

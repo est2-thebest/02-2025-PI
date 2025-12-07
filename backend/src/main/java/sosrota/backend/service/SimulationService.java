@@ -37,7 +37,7 @@ public class SimulationService {
     @Scheduled(fixedRate = 2000) // Run every 2 seconds
     public void runSimulation() {
         simulateTravel();
-        simulateService();
+        // simulateService(); // Disabled to allow manual conclusion
     }
 
     private void simulateTravel() {
@@ -66,53 +66,25 @@ public class SimulationService {
         }
     }
 
-    private void simulateService() {
-        List<Ocorrencia> emAtendimento = ocorrenciaRepository.findByStatus("EM_ATENDIMENTO");
-        for (Ocorrencia ocorrencia : emAtendimento) {
-            // We need to know when it arrived. 
-            // Since we don't store arrival time in Ocorrencia explicitly (only status change), 
-            // we can check Atendimento or assume it arrived recently.
-            // However, Atendimento has dataHoraChegada? Let's check Atendimento entity.
-            // If not, we can rely on the fact that confirmDeparture updates status.
-            // But wait, confirmDeparture doesn't update Atendimento with arrival time in my previous plan?
-            // Let's check OcorrenciaService.confirmDeparture again.
-            
-            // If confirmDeparture doesn't set arrival time, we might need to fetch it or infer it.
-            // Actually, let's look at Atendimento entity.
-            
-            // Assuming confirmDeparture sets it, or we can just use a simple heuristic:
-            // If we want to be precise, we should update confirmDeparture to set dataHoraChegada.
-            // For now, let's assume we can just check if enough time passed since the status changed? 
-            // No, Ocorrencia doesn't track "status change time".
-            
-            // Better approach: Update confirmDeparture to set dataHoraChegada in Atendimento.
-            // But I can't change OcorrenciaService right now without context.
-            // Let's check if Atendimento has dataHoraChegada.
-            
-            Atendimento atendimento = atendimentoRepository.findFirstByOcorrenciaOrderByIdDesc(ocorrencia);
-            if (atendimento != null) {
-                 // If dataHoraChegada is null, it means it just arrived or logic is missing.
-                 // If I can't rely on dataHoraChegada, I might be stuck.
-                 // Let's check Atendimento.java.
+    // private void simulateService() {
+    //     List<Ocorrencia> emAtendimento = ocorrenciaRepository.findByStatus("EM_ATENDIMENTO");
+    //     for (Ocorrencia ocorrencia : emAtendimento) {
+    //         Atendimento atendimento = atendimentoRepository.findFirstByOcorrenciaOrderByIdDesc(ocorrencia);
+    //         if (atendimento != null) {
                  
-                 // If I can't check Atendimento.java right now, I will assume it exists based on standard practices 
-                 // and the fact that I saw it in the implementation plan or previous files.
-                 // Wait, I saw V2__seed.sql inserting into atendimento (..., data_hora_chegada, ...).
-                 // So it exists.
-                 
-                 if (atendimento.getDataHoraChegada() != null) {
-                     LocalDateTime finishTime = atendimento.getDataHoraChegada().plusSeconds(SERVICE_DURATION_SECONDS);
-                     if (LocalDateTime.now().isAfter(finishTime)) {
-                         try {
-                             logger.info("Simulação: Atendimento da Ocorrencia {} concluído após {} segundos.", 
-                                     ocorrencia.getId(), SERVICE_DURATION_SECONDS);
-                             ocorrenciaService.finishOccurrence(ocorrencia.getId());
-                         } catch (Exception e) {
-                             logger.error("Erro na simulação de atendimento para Ocorrencia {}: {}", ocorrencia.getId(), e.getMessage());
-                         }
-                     }
-                 }
-            }
-        }
-    }
+    //              if (atendimento.getDataHoraChegada() != null) {
+    //                  LocalDateTime finishTime = atendimento.getDataHoraChegada().plusSeconds(SERVICE_DURATION_SECONDS);
+    //                  if (LocalDateTime.now().isAfter(finishTime)) {
+    //                      try {
+    //                          logger.info("Simulação: Atendimento da Ocorrencia {} concluído após {} segundos.", 
+    //                                  ocorrencia.getId(), SERVICE_DURATION_SECONDS);
+    //                          ocorrenciaService.finishOccurrence(ocorrencia.getId());
+    //                      } catch (Exception e) {
+    //                          logger.error("Erro na simulação de atendimento para Ocorrencia {}: {}", ocorrencia.getId(), e.getMessage());
+    //                      }
+    //                  }
+    //              }
+    //         }
+    //     }
+    // }
 }

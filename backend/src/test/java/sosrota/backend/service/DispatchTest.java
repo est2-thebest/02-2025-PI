@@ -38,6 +38,9 @@ class DispatchTest {
     @Mock
     private DijsktraService dijsktraService;
 
+    @Mock
+    private sosrota.backend.repository.OcorrenciaHistoricoRepository ocorrenciaHistoricoRepository;
+
     @InjectMocks
     private OcorrenciaService ocorrenciaService;
 
@@ -109,6 +112,69 @@ class DispatchTest {
 
         // Check if status updated
         assert amb2.getStatus().equals("EM_ATENDIMENTO");
-        assert ocorrencia.getStatus().equals("EM_ANDAMENTO");
+        assert ocorrencia.getStatus().equals("DESPACHADA");
+    }
+
+    @Test
+    void testDispatchAmbulanceOutOfSla() {
+        // Setup Bairros
+        Bairro bairroOcorrencia = new Bairro(1, "Bairro 1");
+        Bairro bairroAmb1 = new Bairro(2, "Bairro 2");
+
+        // Setup Ocorrencia
+        Ocorrencia ocorrencia = new Ocorrencia();
+        ocorrencia.setId(1);
+        ocorrencia.setBairro(bairroOcorrencia);
+        ocorrencia.setStatus("ABERTA");
+        ocorrencia.setGravidade("ALTA"); // SLA = 8.0
+
+        // Setup Ambulancia (Far away)
+        Ambulancia amb1 = new Ambulancia();
+        amb1.setId(1);
+        amb1.setBairro(bairroAmb1);
+        amb1.setStatus("DISPONIVEL");
+        amb1.setTipo("USA"); // Compatible with ALTA
+
+        when(ambulanciaRepository.findByStatus("DISPONIVEL")).thenReturn(Collections.singletonList(amb1));
+        when(ocorrenciaRepository.save(any(Ocorrencia.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        // Mock Equipe
+        Profissional motorista = new Profissional();
+        motorista.setFuncao("MOTORISTA");
+        motorista.setAtivo(true);
+        
+        Profissional enfermeiro = new Profissional();
+        enfermeiro.setFuncao("ENFERMEIRO");
+        enfermeiro.setAtivo(true);
+        
+        Profissional medico = new Profissional();
+        medico.setFuncao("MEDICO");
+        medico.setAtivo(true);
+
+        Equipe equipe = new Equipe();
+        equipe.setProfissionais(Arrays.asList(motorista, enfermeiro, medico));
+
+        when(equipeRepository.findByAmbulancia(any(Ambulancia.class))).thenReturn(Collections.singletonList(equipe));
+
+        // Mock Dijkstra
+        // Amb1 is 20km away (Above SLA of 8.0)
+        when(dijsktraService.findShortestPath(2, 1)).thenReturn(
+                new DijsktraService.PathResult(Collections.emptyList(), Collections.emptyList(), 20.0));
+
+        // Execute
+        ocorrenciaService.createOcorrencia(ocorrencia);
+
+        // Verify
+        verify(atendimentoRepository, times(1)).save(argThat(atendimento -> 
+            atendimento.getForaDoSla() == true &&
+            atendimento.getSlaPrevisto() == 8.0 &&
+            atendimento.getSlaReal() == 20.0
+        ));
+        verify(ambulanciaRepository, times(1)).save(amb1);
+        verify(ocorrenciaRepository, atLeastOnce()).save(ocorrencia);
+
+        // Check if status updated
+        assert amb1.getStatus().equals("EM_ATENDIMENTO");
+        assert ocorrencia.getStatus().equals("DESPACHADA");
     }
 }
