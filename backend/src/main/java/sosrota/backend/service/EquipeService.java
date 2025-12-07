@@ -10,9 +10,11 @@ import java.util.List;
 public class EquipeService {
 
     private final EquipeRepository equipeRepository;
+    private final sosrota.backend.repository.AmbulanciaRepository ambulanciaRepository;
 
-    public EquipeService(EquipeRepository equipeRepository) {
+    public EquipeService(EquipeRepository equipeRepository, sosrota.backend.repository.AmbulanciaRepository ambulanciaRepository) {
         this.equipeRepository = equipeRepository;
+        this.ambulanciaRepository = ambulanciaRepository;
     }
 
     public List<Equipe> findAll() {
@@ -46,10 +48,36 @@ public class EquipeService {
             }
         }
 
-        return equipeRepository.save(equipe);
+        Equipe savedEquipe = equipeRepository.save(equipe);
+
+        // Update Ambulance Status to DISPONIVEL if it was SEM_EQUIPE
+        if (savedEquipe.getAmbulancia() != null) {
+            sosrota.backend.entity.Ambulancia amb = savedEquipe.getAmbulancia();
+            if ("SEM_EQUIPE".equals(amb.getStatus())) {
+                amb.setStatus("DISPONIVEL");
+                ambulanciaRepository.save(amb);
+            }
+        }
+        
+        return savedEquipe;
     }
 
     public void delete(Integer id) {
-        equipeRepository.deleteById(id);
+        Equipe equipe = findById(id);
+        if (equipe != null && equipe.getAmbulancia() != null) {
+            sosrota.backend.entity.Ambulancia amb = equipe.getAmbulancia();
+            equipeRepository.deleteById(id);
+            
+            // Check if ambulance has other teams
+            List<Equipe> remainingTeams = equipeRepository.findByAmbulancia(amb);
+            if (remainingTeams.isEmpty()) {
+                if ("DISPONIVEL".equals(amb.getStatus())) {
+                    amb.setStatus("SEM_EQUIPE");
+                    ambulanciaRepository.save(amb);
+                }
+            }
+        } else {
+            equipeRepository.deleteById(id);
+        }
     }
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Ambulancia } from '../../services/ambulancia';
 import ambulanciaService from '../../services/ambulancia';
-import { Ambulance, MapPin, Activity, Edit, Trash2 } from 'lucide-react';
+import { Ambulance, MapPin, Activity, Edit, Trash2, RefreshCw } from 'lucide-react';
 import ConfirmDialog from '../common/ConfirmDialog';
 import AlertDialog from '../common/AlertDialog';
 
@@ -9,10 +9,11 @@ interface AmbulanciaListProps {
   ambulancias: Ambulancia[];
   onEdit: (ambulancia: Ambulancia) => void;
   onInativar: (ambulancia: Ambulancia) => void;
+  onReativar: (ambulancia: Ambulancia) => void;
   viewMode: 'grid' | 'list';
 }
 
-const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, onInativar, viewMode }) => {
+const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, onReativar, viewMode }) => {
   const [ambulanciaParaExcluir, setAmbulanciaParaExcluir] = useState<number | null>(null);
   const [alertInfo, setAlertInfo] = useState<{ isOpen: boolean; title: string; message: string; type: 'error' | 'success' | 'info' }>({
     isOpen: false,
@@ -26,6 +27,7 @@ const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, on
       case 'DISPONIVEL': return 'var(--success)';
       case 'OCUPADA': return 'var(--warning)';
       case 'MANUTENCAO': return 'var(--error)';
+      case 'SEM_EQUIPE': return 'var(--text-secondary)';
       default: return 'var(--text-secondary)';
     }
   };
@@ -103,17 +105,31 @@ const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, on
                         >
                           <Edit size={18} />
                         </button>
-                        <button
-                          className="btn-icon"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (ambulancia.id) confirmarExclusao(ambulancia.id);
-                          }}
-                          title="Excluir"
-                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--danger)' }}
-                        >
-                          <Trash2 size={18} />
-                        </button>
+                        {ambulancia.status === 'INATIVA' ? (
+                          <button
+                            className="btn-icon"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onReativar(ambulancia);
+                            }}
+                            title="Reativar"
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--success)' }}
+                          >
+                            <RefreshCw size={18} />
+                          </button>
+                        ) : (
+                          <button
+                            className="btn-icon"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (ambulancia.id) confirmarExclusao(ambulancia.id);
+                            }}
+                            title="Inativar/Excluir"
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--danger)' }}
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -174,13 +190,23 @@ const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, on
                 >
                   <Edit size={14} /> Editar
                 </button>
-                <button
-                  className="btn btn-danger"
-                  style={{ flex: 1, minWidth: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', background: 'var(--danger)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.9rem', padding: '0.5rem' }}
-                  onClick={() => ambulancia.id && confirmarExclusao(ambulancia.id)}
-                >
-                  <Trash2 size={14} /> Excluir
-                </button>
+                {ambulancia.status === 'INATIVA' ? (
+                  <button
+                    className="btn btn-success"
+                    style={{ flex: 1, minWidth: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', background: 'var(--success)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.9rem', padding: '0.5rem' }}
+                    onClick={() => onReativar(ambulancia)}
+                  >
+                    <RefreshCw size={14} /> Reativar
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-danger"
+                    style={{ flex: 1, minWidth: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', background: 'var(--danger)', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.9rem', padding: '0.5rem' }}
+                    onClick={() => ambulancia.id && confirmarExclusao(ambulancia.id)}
+                  >
+                    <Trash2 size={14} /> Inativar
+                  </button>
+                )}
               </div>
             </div>
           ))}

@@ -14,6 +14,7 @@ const Ambulancias: React.FC = () => {
   const [mostrarForm, setMostrarForm] = useState<boolean>(false);
   const [ambulanciaEdit, setAmbulanciaEdit] = useState<Ambulancia | null>(null);
   const [ambulanciaParaInativar, setAmbulanciaParaInativar] = useState<Ambulancia | null>(null);
+  const [ambulanciaParaReativar, setAmbulanciaParaReativar] = useState<Ambulancia | null>(null);
 
   const [filtros, setFiltros] = useState({
     busca: '',
@@ -77,6 +78,25 @@ const Ambulancias: React.FC = () => {
         alert(errorMessage);
       } finally {
         setAmbulanciaParaInativar(null);
+      }
+    }
+  };
+
+  const handleReativar = (ambulancia: Ambulancia) => {
+    setAmbulanciaParaReativar(ambulancia);
+  };
+
+  const confirmarReativacao = async () => {
+    if (ambulanciaParaReativar && ambulanciaParaReativar.id) {
+      try {
+        await ambulanciaService.atualizar(ambulanciaParaReativar.id, { ...ambulanciaParaReativar, status: 'SEM_EQUIPE' });
+        await carregarAmbulancias();
+      } catch (error: any) {
+        console.error('Erro ao reativar ambulância:', error);
+        const errorMessage = error.response?.data?.message || 'Erro ao reativar ambulância.';
+        alert(errorMessage);
+      } finally {
+        setAmbulanciaParaReativar(null);
       }
     }
   };
@@ -151,6 +171,7 @@ const Ambulancias: React.FC = () => {
               >
                 <option value="">Todos</option>
                 <option value="DISPONIVEL">Disponível</option>
+                <option value="SEM_EQUIPE">Sem Equipe</option>
                 <option value="EM_ATENDIMENTO">Em Atendimento</option>
                 <option value="INATIVA">Inativa</option>
                 <option value="MANUTENCAO">Manutenção</option>
@@ -186,6 +207,7 @@ const Ambulancias: React.FC = () => {
           ambulancias={ambulanciasFiltradas}
           onEdit={handleEditar}
           onInativar={handleInativar}
+          onReativar={handleReativar}
           viewMode={viewMode}
         />
       )}
@@ -198,6 +220,15 @@ const Ambulancias: React.FC = () => {
         onCancel={() => setAmbulanciaParaInativar(null)}
         isDangerous
         type="warning"
+      />
+
+      <ConfirmDialog
+        isOpen={!!ambulanciaParaReativar}
+        title="Reativar Ambulância"
+        message={`Deseja reativar a ambulância ${ambulanciaParaReativar?.placa}? Ela voltará com status SEM EQUIPE.`}
+        onConfirm={confirmarReativacao}
+        onCancel={() => setAmbulanciaParaReativar(null)}
+        type="info"
       />
     </div>
   );

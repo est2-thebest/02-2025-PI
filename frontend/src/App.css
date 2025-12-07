@@ -133,7 +133,7 @@
 
 .btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn:disabled {
@@ -307,13 +307,29 @@
   text-align: center;
 }
 
-.mt-1 { margin-top: 0.5rem; }
-.mt-2 { margin-top: 1rem; }
-.mt-3 { margin-top: 1.5rem; }
+.mt-1 {
+  margin-top: 0.5rem;
+}
 
-.mb-1 { margin-bottom: 0.5rem; }
-.mb-2 { margin-bottom: 1rem; }
-.mb-3 { margin-bottom: 1.5rem; }
+.mt-2 {
+  margin-top: 1rem;
+}
+
+.mt-3 {
+  margin-top: 1.5rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-2 {
+  margin-bottom: 1rem;
+}
+
+.mb-3 {
+  margin-bottom: 1.5rem;
+}
 
 .flex {
   display: flex;
@@ -353,4 +369,107 @@
   .form-row {
     grid-template-columns: 1fr;
   }
+}
+
+/* Stats Cards (Shared between Dashboard and Relatorios) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--bg-primary);
+  padding: 1.5rem;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stat-icon {
+  line-height: 1;
+}
+
+.stat-icon-primary {
+  color: var(--primary);
+}
+
+.stat-icon-secondary {
+  color: var(--secondary);
+}
+
+.stat-icon-success {
+  color: var(--success);
+}
+
+.stat-icon-danger {
+  color: var(--danger);
+}
+
+.stat-icon-warning {
+  color: var(--warning);
+}
+
+.stat-icon-info {
+  color: var(--info);
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.stat-card p {
+  margin: 0.25rem 0 0 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Stat Card Variants */
+.stat-primary {
+  border-left: 4px solid var(--primary);
+}
+
+.stat-secondary {
+  border-left: 4px solid var(--secondary);
+}
+
+.stat-success {
+  border-left: 4px solid var(--success);
+}
+
+.stat-danger {
+  border-left: 4px solid var(--danger);
+}
+
+.stat-warning {
+  border-left: 4px solid var(--warning);
+}
+
+.stat-info {
+  border-left: 4px solid var(--info);
+}
+
+.stat-info h3 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.stat-info p {
+  margin: 0.25rem 0 0 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
 }

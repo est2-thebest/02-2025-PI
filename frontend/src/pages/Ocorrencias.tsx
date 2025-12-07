@@ -5,7 +5,7 @@ import Banner from '../components/common/Banner';
 import OcorrenciaForm from '../components/ocorrencias/OcorrenciaForm';
 import OcorrenciaDetailsModal from '../components/ocorrencias/OcorrenciaDetailsModal';
 
-import { Eye, Trash2, XCircle } from 'lucide-react';
+import { Eye, XCircle } from 'lucide-react';
 import ConfirmDialog from '../components/common/ConfirmDialog';
 import InputDialog from '../components/common/InputDialog';
 import './Ocorrencias.css';
@@ -70,9 +70,7 @@ const Ocorrencias: React.FC = () => {
     setMostrarDetalhes(true);
   };
 
-  const confirmarExclusao = (id: number) => {
-    setOcorrenciaParaExcluir(id);
-  };
+
 
   const handleExcluir = async () => {
     if (ocorrenciaParaExcluir) {

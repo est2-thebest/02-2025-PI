@@ -76,8 +76,10 @@ public class OcorrenciaService {
         dto.setAtendimento(atendimento);
 
         if (atendimento != null && atendimento.getAmbulancia() != null) {
-            sosrota.backend.entity.Equipe equipe = equipeRepository.findByAmbulancia(atendimento.getAmbulancia()).orElse(null);
-            dto.setEquipe(equipe);
+            List<Equipe> equipes = equipeRepository.findByAmbulancia(atendimento.getAmbulancia());
+            if (!equipes.isEmpty()) {
+                dto.setEquipe(equipes.get(0)); // Takes the first one found. Ideally should match turn/time.
+            }
         }
 
         return dto;
@@ -222,25 +224,24 @@ public class OcorrenciaService {
     }
 
     private boolean validateTeamComposition(Ambulancia ambulancia) {
-        return equipeRepository.findByAmbulancia(ambulancia)
-                .map(equipe -> {
-                    List<Profissional> profissionais = equipe.getProfissionais();
-                    boolean hasMotorista = profissionais.stream()
-                            .anyMatch(p -> "MOTORISTA".equalsIgnoreCase(p.getFuncao()) && Boolean.TRUE.equals(p.getAtivo()));
-                    boolean hasMedico = profissionais.stream()
-                            .anyMatch(p -> "MEDICO".equalsIgnoreCase(p.getFuncao()) && Boolean.TRUE.equals(p.getAtivo()));
-                    boolean hasEnfermeiro = profissionais.stream()
-                            .anyMatch(p -> "ENFERMEIRO".equalsIgnoreCase(p.getFuncao()) && Boolean.TRUE.equals(p.getAtivo()));
+        List<Equipe> equipes = equipeRepository.findByAmbulancia(ambulancia);
+        return equipes.stream().anyMatch(equipe -> {
+            List<Profissional> profissionais = equipe.getProfissionais();
+            boolean hasMotorista = profissionais.stream()
+                    .anyMatch(p -> "MOTORISTA".equalsIgnoreCase(p.getFuncao()) && Boolean.TRUE.equals(p.getAtivo()));
+            boolean hasMedico = profissionais.stream()
+                    .anyMatch(p -> "MEDICO".equalsIgnoreCase(p.getFuncao()) && Boolean.TRUE.equals(p.getAtivo()));
+            boolean hasEnfermeiro = profissionais.stream()
+                    .anyMatch(p -> "ENFERMEIRO".equalsIgnoreCase(p.getFuncao()) && Boolean.TRUE.equals(p.getAtivo()));
 
-                    String tipo = ambulancia.getTipo().toUpperCase();
-                    if ("USA".equals(tipo) || "UTI".equals(tipo)) {
-                        return hasMotorista && hasMedico && hasEnfermeiro;
-                    } else {
-                        // USB / BASICA
-                        return hasMotorista && (hasMedico || hasEnfermeiro);
-                    }
-                })
-                .orElse(false);
+            String tipo = ambulancia.getTipo().toUpperCase();
+            if ("USA".equals(tipo) || "UTI".equals(tipo)) {
+                return hasMotorista && hasMedico && hasEnfermeiro;
+            } else {
+                // USB / BASICA
+                return hasMotorista && (hasMedico || hasEnfermeiro);
+            }
+        });
     }
     
     public void delete(Integer id) {

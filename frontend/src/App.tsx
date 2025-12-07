@@ -13,7 +13,6 @@ import Ocorrencias from './pages/Ocorrencias';
 import Ambulancias from './pages/Ambulancias';
 import Profissionais from './pages/Profissionais';
 import Relatorios from './pages/Relatorios';
-import Despacho from './pages/Despacho';
 
 import './App.css';
 
@@ -94,17 +93,6 @@ function AppRoutes(): React.ReactElement {
           <PrivateRoute>
             <MainLayout>
               <Profissionais />
-            </MainLayout>
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/despacho"
-        element={
-          <PrivateRoute>
-            <MainLayout>
-              <Despacho />
             </MainLayout>
           </PrivateRoute>
         }

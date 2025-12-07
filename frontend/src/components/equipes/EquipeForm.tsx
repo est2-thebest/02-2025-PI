@@ -154,6 +154,9 @@ const EquipeForm: React.FC<EquipeFormProps> = ({ isOpen, equipe, onSalvar, onCan
       // Se for a ambulância selecionada atualmente (edição), mantém
       if (formData.ambulancia?.id === amb.id) return true;
 
+      // Filtra inativas, mas permite SEM_EQUIPE e DISPONIVEL
+      if (amb.status === 'INATIVA') return false;
+
       // Verifica se a ambulância está em outra equipe NO MESMO TURNO
       const emUso = todasEquipes.some(eq =>
         eq.id !== formData.id && // Não é a equipe atual

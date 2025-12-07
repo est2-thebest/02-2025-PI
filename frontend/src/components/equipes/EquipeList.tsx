@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Equipe } from '../../services/equipe';
 import { Users, Ambulance as AmbulanceIcon, Edit, Trash2 } from 'lucide-react';
 import ConfirmDialog from '../common/ConfirmDialog';

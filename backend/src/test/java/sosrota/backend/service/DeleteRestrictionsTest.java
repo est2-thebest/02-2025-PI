@@ -59,7 +59,7 @@ class DeleteRestrictionsTest {
 
         when(ambulanciaRepository.findById(1)).thenReturn(Optional.of(ambulancia));
         when(atendimentoRepository.existsByAmbulancia(ambulancia)).thenReturn(false);
-        when(equipeRepository.findByAmbulancia(ambulancia)).thenReturn(Optional.of(new Equipe()));
+        when(equipeRepository.findByAmbulancia(ambulancia)).thenReturn(java.util.List.of(new Equipe()));
 
         assertThrows(IllegalStateException.class, () -> ambulanciaService.delete(1));
         verify(ambulanciaRepository, never()).deleteById(1);
@@ -83,7 +83,7 @@ class DeleteRestrictionsTest {
         ambulancia.setId(1);
         ambulancia.setStatus("INATIVA");
 
-        when(equipeRepository.findByAmbulancia(ambulancia)).thenReturn(Optional.of(new Equipe()));
+        when(equipeRepository.findByAmbulancia(ambulancia)).thenReturn(java.util.List.of(new Equipe()));
 
         assertThrows(IllegalStateException.class, () -> ambulanciaService.save(ambulancia));
         verify(ambulanciaRepository, never()).save(ambulancia);

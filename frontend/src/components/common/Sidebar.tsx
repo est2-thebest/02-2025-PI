@@ -99,11 +99,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
           <span className="sidebar-label">Profissionais</span>
         </NavLink>
 
-        <NavLink to="/despacho" className="sidebar-item">
-          <Radio className="sidebar-icon icon-despacho" />
-          <span className="sidebar-label">Despacho</span>
-        </NavLink>
-
         <NavLink to="/relatorios" className="sidebar-item">
           <BarChart3 className="sidebar-icon icon-relatorios" />
           <span className="sidebar-label">Relatórios</span>

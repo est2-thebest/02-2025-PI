@@ -29,11 +29,14 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     carregarDados();
+    const interval = setInterval(carregarDados, 5000); // Poll every 5 seconds
+    return () => clearInterval(interval);
   }, []);
 
   const carregarDados = async (): Promise<void> => {
     try {
-      setCarregando(true);
+      // Don't set loading to true on subsequent polls to avoid flickering
+      // setCarregando(true); 
 
       const [ocorrencias, ambulancias] = await Promise.all([
         ocorrenciaService.listarAbertas(),
@@ -43,8 +46,8 @@ const Dashboard: React.FC = () => {
       setStats({
         ocorrenciasAbertas: ocorrencias.length,
         ambulanciasDisponiveis: ambulancias.length,
-        atendimentosHoje: 0,
-        tempoMedioResposta: 0,
+        atendimentosHoje: 0, // Backend doesn't provide this yet, keeping 0 or could fetch from history
+        tempoMedioResposta: 0, // Backend doesn't provide this yet
       });
 
       setOcorrenciasRecentes(ocorrencias.slice(0, 5));
@@ -72,8 +75,8 @@ const Dashboard: React.FC = () => {
 
       <div className="stats-grid">
         {/* Ocorrências Abertas – vermelho */}
-        <div className="stat-card stat-red">
-          <Siren size={48} className="stat-icon" color="#d32f2f" />
+        <div className="stat-card stat-primary">
+          <Siren size={48} className="stat-icon stat-icon-primary" />
           <div>
             <h3>{stats.ocorrenciasAbertas}</h3>
             <p>Ocorrências Abertas</p>
@@ -81,8 +84,8 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Atendimentos Hoje – azul */}
-        <div className="stat-card stat-blue">
-          <CheckCircle size={48} className="stat-icon" color="#1565c0" />
+        <div className="stat-card stat-secondary">
+          <CheckCircle size={48} className="stat-icon stat-icon-secondary" />
           <div>
             <h3>{stats.atendimentosHoje}</h3>
             <p>Atendimentos Hoje</p>
@@ -90,8 +93,8 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Ambulâncias Disponíveis – vermelho */}
-        <div className="stat-card stat-red">
-          <Ambulance size={48} className="stat-icon" color="#d32f2f" />
+        <div className="stat-card stat-primary">
+          <Ambulance size={48} className="stat-icon stat-icon-primary" />
           <div>
             <h3>{stats.ambulanciasDisponiveis}</h3>
             <p>Ambulâncias Disponíveis</p>
@@ -99,8 +102,8 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Tempo Médio – azul */}
-        <div className="stat-card stat-blue">
-          <Timer size={48} className="stat-icon" color="#1565c0" />
+        <div className="stat-card stat-secondary">
+          <Timer size={48} className="stat-icon stat-icon-secondary" />
           <div>
             <h3>{stats.tempoMedioResposta} min</h3>
             <p>Tempo Médio de Resposta</p>

@@ -17,7 +17,7 @@ public interface EquipeRepository extends JpaRepository<Equipe, Integer> {
     @Query("SELECT e FROM Equipe e JOIN e.profissionais p WHERE p = :profissional AND e.turno = :turno")
     List<Equipe> findByProfissionalAndTurno(@Param("profissional") Profissional profissional, @Param("turno") Turno turno);
 
-    java.util.Optional<Equipe> findByAmbulancia(Ambulancia ambulancia);
+    List<Equipe> findByAmbulancia(Ambulancia ambulancia);
 
     boolean existsByProfissionaisContaining(Profissional profissional);
 }

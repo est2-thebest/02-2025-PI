@@ -18,6 +18,7 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
     gravidade: 'MEDIA',
     status: 'ABERTA',
     observacao: '',
+    dataHoraAbertura: new Date().toISOString()
   });
   const [bairros, setBairros] = useState<Bairro[]>([]);
   const [salvando, setSalvando] = useState<boolean>(false);
@@ -35,6 +36,7 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
         gravidade: ocorrencia.gravidade || 'MEDIA',
         status: ocorrencia.status || 'ABERTA',
         observacao: ocorrencia.observacao || '',
+        dataHoraAbertura: ocorrencia.dataHoraAbertura || new Date().toISOString()
       });
     } else {
       setFormData({
@@ -43,6 +45,7 @@ const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onS
         gravidade: 'MEDIA',
         status: 'ABERTA',
         observacao: '',
+        dataHoraAbertura: new Date().toISOString()
       });
     }
   }, [ocorrencia, isOpen]);

@@ -89,7 +89,7 @@ class DispatchTest {
         Equipe equipe = new Equipe();
         equipe.setProfissionais(Arrays.asList(motorista, enfermeiro));
 
-        when(equipeRepository.findByAmbulancia(any(Ambulancia.class))).thenReturn(java.util.Optional.of(equipe));
+        when(equipeRepository.findByAmbulancia(any(Ambulancia.class))).thenReturn(java.util.Collections.singletonList(equipe));
 
         // Mock Dijkstra
         // Amb1 is 10km away

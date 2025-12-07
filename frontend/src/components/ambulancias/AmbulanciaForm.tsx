@@ -194,7 +194,7 @@ const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({
               onChange={handleChange}
               className="form-control"
             >
-              <option value="DISPONIVEL">Disponível</option>
+              {/* <option value="DISPONIVEL">Disponível</option> */}
               <option value="INATIVA">Inativa</option>
               <option value="MANUTENCAO">Manutenção</option>
             </select>

@@ -190,7 +190,8 @@
   background-color: var(--secondary);
 }
 
-.badge-condutor {
+.badge-condutor,
+.badge-motorista {
   background-color: var(--warning);
 }
 
