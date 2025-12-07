@@ -174,51 +174,6 @@ const Relatorios: React.FC = () => {
             )}
           </div>
         </div>
-
-        {/* HISTÓRICO */}
-        <div className="card" style={{ gridColumn: '1 / -1' }}>
-          <div className="card-header">
-            <h2>Histórico de Ocorrências</h2>
-          </div>
-
-          <div className="card-body">
-            <div className="table-container">
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Bairro</th>
-                    <th>Gravidade</th>
-                    <th>Status</th>
-                    <th>Data Abertura</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {dados.historico.slice(0, 10).map((item) => (
-                    <tr key={item.id}>
-                      <td>#{item.id}</td>
-                      <td>{item.bairro?.nome || 'N/A'}</td>
-                      <td>{item.gravidade}</td>
-                      <td>
-                        <span className={`badge ${item.status}`}>
-                          {item.status}
-                        </span>
-                      </td>
-                      <td>{new Date(item.dataHoraAbertura).toLocaleString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {dados.historico.length > 10 && (
-                <div className="text-center mt-2">
-                  <small>Exibindo as 10 mais recentes...</small>
-                </div>
-              )}
-            </div>
-          </div>
-
-        </div>
       </div>
     </div>
   );

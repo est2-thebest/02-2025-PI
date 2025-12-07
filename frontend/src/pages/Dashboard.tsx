@@ -1,30 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import ocorrenciaService, { Ocorrencia } from '../services/ocorrencia';
-import ambulanciaService from '../services/ambulancia';
+import dashboardService, { DashboardStats } from '../services/dashboard';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import Banner from '../components/common/Banner';
-import { getCorGravidade, getCorStatus } from '../utils/helpers';
-
-import { Siren, Ambulance, CheckCircle, Timer } from 'lucide-react';
+import { Ambulance, CheckCircle, Timer, Users, UserCheck } from 'lucide-react';
 
 import './Dashboard.css';
 
-interface Stats {
-  ocorrenciasAbertas: number;
-  ambulanciasDisponiveis: number;
-  atendimentosHoje: number;
-  tempoMedioResposta: number;
-}
-
 const Dashboard: React.FC = () => {
-  const [stats, setStats] = useState<Stats>({
+  const [stats, setStats] = useState<DashboardStats>({
     ocorrenciasAbertas: 0,
     ambulanciasDisponiveis: 0,
+    ambulanciasTotal: 0,
     atendimentosHoje: 0,
     tempoMedioResposta: 0,
+    equipesAtivas: 0,
+    profissionaisCadastrados: 0,
   });
 
-  const [ocorrenciasRecentes, setOcorrenciasRecentes] = useState<Ocorrencia[]>([]);
+  const [historicoOcorrencias, setHistoricoOcorrencias] = useState<Ocorrencia[]>([]);
   const [carregando, setCarregando] = useState<boolean>(true);
 
   useEffect(() => {
@@ -35,22 +29,14 @@ const Dashboard: React.FC = () => {
 
   const carregarDados = async (): Promise<void> => {
     try {
-      // Don't set loading to true on subsequent polls to avoid flickering
-      // setCarregando(true); 
-
-      const [ocorrencias, ambulancias] = await Promise.all([
-        ocorrenciaService.listarAbertas(),
-        ambulanciaService.listarDisponiveis(),
+      const [statsData, ocorrenciasData] = await Promise.all([
+        dashboardService.getStats(),
+        ocorrenciaService.listarTodas(), // Fetch all for history
       ]);
 
-      setStats({
-        ocorrenciasAbertas: ocorrencias.length,
-        ambulanciasDisponiveis: ambulancias.length,
-        atendimentosHoje: 0, // Backend doesn't provide this yet, keeping 0 or could fetch from history
-        tempoMedioResposta: 0, // Backend doesn't provide this yet
-      });
-
-      setOcorrenciasRecentes(ocorrencias.slice(0, 5));
+      setStats(statsData);
+      // Sort by ID descending for history
+      setHistoricoOcorrencias(ocorrenciasData.sort((a, b) => (b.id || 0) - (a.id || 0)));
     } catch (error) {
       console.error('Erro ao carregar dashboard:', error);
     } finally {
@@ -66,6 +52,11 @@ const Dashboard: React.FC = () => {
     );
   }
 
+  // Calculate percentage for progress bar
+  const frotaPercent = stats.ambulanciasTotal > 0
+    ? (stats.ambulanciasDisponiveis / stats.ambulanciasTotal) * 100
+    : 0;
+
   return (
     <div className="page-container">
       <Banner
@@ -74,16 +65,16 @@ const Dashboard: React.FC = () => {
       />
 
       <div className="stats-grid">
-        {/* Ocorrências Abertas – vermelho */}
+        {/* Profissionais Cadastrados – primário */}
         <div className="stat-card stat-primary">
-          <Siren size={48} className="stat-icon stat-icon-primary" />
+          <UserCheck size={48} className="stat-icon stat-icon-primary" />
           <div>
-            <h3>{stats.ocorrenciasAbertas}</h3>
-            <p>Ocorrências Abertas</p>
+            <h3>{stats.profissionaisCadastrados}</h3>
+            <p>Profissionais Cadastrados</p>
           </div>
         </div>
 
-        {/* Atendimentos Hoje – azul */}
+        {/* Atendimentos Hoje – secundário */}
         <div className="stat-card stat-secondary">
           <CheckCircle size={48} className="stat-icon stat-icon-secondary" />
           <div>
@@ -92,21 +83,33 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Ambulâncias Disponíveis – vermelho */}
-        <div className="stat-card stat-primary">
-          <Ambulance size={48} className="stat-icon stat-icon-primary" />
-          <div>
-            <h3>{stats.ambulanciasDisponiveis}</h3>
-            <p>Ambulâncias Disponíveis</p>
+        {/* Ambulâncias Disponíveis – com barra de progresso */}
+        <div className="stat-card stat-primary" style={{ display: 'block' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+            <Ambulance size={48} className="stat-icon stat-icon-primary" />
+            <div>
+              <h3>{stats.ambulanciasDisponiveis} <span style={{ fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 'normal' }}>/ {stats.ambulanciasTotal}</span></h3>
+              <p>Ambulâncias Disponíveis</p>
+            </div>
+          </div>
+          <div style={{ width: '100%', height: '8px', background: 'var(--border)', borderRadius: '4px', overflow: 'hidden' }}>
+            <div
+              style={{
+                width: `${frotaPercent}%`,
+                height: '100%',
+                background: frotaPercent < 20 ? 'var(--danger)' : 'var(--success)',
+                transition: 'width 0.5s ease'
+              }}
+            />
           </div>
         </div>
 
-        {/* Tempo Médio – azul */}
+        {/* Equipes Ativas */}
         <div className="stat-card stat-secondary">
-          <Timer size={48} className="stat-icon stat-icon-secondary" />
+          <Users size={48} className="stat-icon stat-icon-secondary" />
           <div>
-            <h3>{stats.tempoMedioResposta} min</h3>
-            <p>Tempo Médio de Resposta</p>
+            <h3>{stats.equipesAtivas}</h3>
+            <p>Equipes Cadastradas</p>
           </div>
         </div>
       </div>
@@ -116,28 +119,45 @@ const Dashboard: React.FC = () => {
           <h2>Ocorrências Recentes</h2>
         </div>
         <div className="card-body">
-          {ocorrenciasRecentes.length === 0 ? (
-            <p className="text-center">Nenhuma ocorrência aberta</p>
+          {historicoOcorrencias.length === 0 ? (
+            <p className="text-center">Nenhuma ocorrência registrada</p>
           ) : (
-            <div className="ocorrencias-table">
-              {ocorrenciasRecentes.map((oc) => (
-                <div key={oc.id} className="ocorrencia-row">
-                  <span className="col-id">#{oc.id}</span>
-                  <span className="col-local">{oc.bairro?.nome || 'Local não informado'}</span>
-                  <span
-                    className="col-gravidade"
-                    style={{ color: getCorGravidade(oc.gravidade) }}
-                  >
-                    {oc.gravidade}
-                  </span>
-                  <span
-                    className="col-status"
-                    style={{ color: getCorStatus(oc.status) }}
-                  >
-                    {oc.status}
-                  </span>
+            <div className="table-container">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Bairro</th>
+                    <th>Gravidade</th>
+                    <th>Status</th>
+                    <th>Data Abertura</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {historicoOcorrencias.slice(0, 10).map((oc) => (
+                    <tr key={oc.id}>
+                      <td>#{oc.id}</td>
+                      <td>{oc.bairro?.nome || 'N/A'}</td>
+                      <td>
+                        <span className={`badge ${oc.gravidade}`}>
+                          {oc.gravidade}
+                        </span>
+                      </td>
+                      <td>
+                        <span className={`badge ${oc.status}`}>
+                          {oc.status}
+                        </span>
+                      </td>
+                      <td>{new Date(oc.dataHoraAbertura).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {historicoOcorrencias.length > 10 && (
+                <div className="text-center mt-2">
+                  <small>Exibindo as 10 mais recentes...</small>
                 </div>
-              ))}
+              )}
             </div>
           )}
         </div>
