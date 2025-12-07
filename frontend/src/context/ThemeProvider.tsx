@@ -5,6 +5,10 @@ interface ThemeProviderProps {
   children: ReactNode;
 }
 
+/**
+ * Provedor de tema global.
+ * Gerencia a preferência de cor (claro/escuro) e persistência.
+ */
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState<ThemeType>(() => {
     // Recuperar tema salvo no localStorage

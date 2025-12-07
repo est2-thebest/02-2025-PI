@@ -9,14 +9,19 @@ import sosrota.backend.repository.BairroRepository;
 
 import java.util.*;
 
+/**
+ * Serviço responsável pelo cálculo de rotas e caminhos mínimos.
+ * Implementa o algoritmo de Dijkstra em um grafo ponderado representando o mapa da cidade.
+ * [Estrutura de Dados II] Implementação de Algoritmo de Caminho Único (Dijkstra).
+ * [RF04] O sistema deve calcular o caminho mínimo.
+ */
 @Service
-// [Estrutura de Dados II - Implementacao de Algoritmo de Caminho unico (Dijsktra)]
-// [Requisitos Especificos - RF04] O sistema deve calcular o caminho minimo (Dijkstra)
 public class DijsktraService {
 
   private final BairroRepository bairroRepository;
   private final ArestaRepository arestaRepository;
 
+  // [Estrutura de Dados II] Representação do Grafo (Lista de Adjacência)
   private final Map<Integer, Node> nodes = new HashMap<>();
   private final Map<Integer, List<Edge>> adj = new HashMap<>();
 
@@ -25,13 +30,22 @@ public class DijsktraService {
     this.arestaRepository = arestaRepository;
   }
 
+  /**
+   * Inicializa o grafo carregando nós (bairros) e arestas (ruas) do banco de dados.
+   * Executado automaticamente após a injeção de dependências.
+   */
   @PostConstruct
   public void init() {
     loadNodes();
     loadEdges();
   }
 
-  // Public API: find shortest path from sourceId to targetId
+  /**
+   * Retorna o nome de um nó (bairro) dado seu ID.
+   *
+   * @param id Identificador do nó
+   * @return Nome do bairro ou "Unknown"
+   */
   public String getNodeName(int id) {
       if (nodes.containsKey(id)) {
           return nodes.get(id).name;
@@ -39,23 +53,32 @@ public class DijsktraService {
       return "Unknown (" + id + ")";
   }
 
-  // [Estrutura de Dados II - Implementacao de Algoritmo de Caminho unico (Dijsktra)]
-  // [Teoria da Computacao - Contextualizacao Pratica] Calculo de rota otima em grafo ponderado
+  /**
+   * Encontra o caminho mais curto entre dois pontos usando o algoritmo de Dijkstra.
+   *
+   * @param sourceId ID do nó de origem (Bairro da Ambulância)
+   * @param targetId ID do nó de destino (Bairro da Ocorrência)
+   * @return Objeto PathResult contendo a rota e a distância total
+   * [Estrutura de Dados II] Algoritmo de Dijkstra (Fila de Prioridade + Relaxamento).
+   * [Teoria da Computação - Contextualização Prática] Cálculo de rota ótima em grafo ponderado.
+   * [RF04] Cálculo de rota para despacho.
+   */
   public PathResult findShortestPath(int sourceId, int targetId) {
     if (!nodes.containsKey(sourceId) || !nodes.containsKey(targetId)) {
       return new PathResult(Collections.emptyList(), Collections.emptyList(), Double.NaN);
     }
 
-    // Dijkstra
+    // Inicialização das estruturas de dados
     Map<Integer, Double> dist = new HashMap<>();
-    Map<Integer, Integer> prev = new HashMap<>(); // previous node
-    Map<Integer, Edge> prevEdge = new HashMap<>(); // edge used to reach node
+    Map<Integer, Integer> prev = new HashMap<>(); // nó anterior no caminho ótimo
+    Map<Integer, Edge> prevEdge = new HashMap<>(); // aresta usada para chegar ao nó
 
     for (Integer id : nodes.keySet()) {
       dist.put(id, Double.POSITIVE_INFINITY);
     }
     dist.put(sourceId, 0.0);
 
+    // [Estrutura de Dados II] Fila de Prioridade (Min-Heap) para seleção gulosa
     PriorityQueue<NodeDistance> pq = new PriorityQueue<>(Comparator.comparingDouble(nd -> nd.distance));
     pq.add(new NodeDistance(sourceId, 0.0));
 
@@ -76,6 +99,7 @@ public class DijsktraService {
       for (Edge e : neighbors) {
         int v = e.to;
         double alt = dist.get(u) + e.distance;
+        // Passo de Relaxamento
         if (alt < dist.get(v)) {
           dist.put(v, alt);
           prev.put(v, u);
@@ -89,7 +113,7 @@ public class DijsktraService {
       return new PathResult(Collections.emptyList(), Collections.emptyList(), Double.NaN);
     }
 
-    // Reconstruct path
+    // Reconstrução do caminho
     LinkedList<Integer> nodePath = new LinkedList<>();
     LinkedList<Edge> edgePath = new LinkedList<>();
     int cur = targetId;
@@ -113,7 +137,10 @@ public class DijsktraService {
     adj.computeIfAbsent(e.from, k -> new ArrayList<>()).add(e);
   }
 
-  // [Contexto - 3] Cadastro de Mapa (Grafo) - Bairros como vertices
+  /**
+   * Carrega os vértices do grafo a partir da tabela de bairros.
+   * [RF04] Mapeamento de Bairros como nós.
+   */
   private void loadNodes() {
     List<Bairro> bairros = bairroRepository.findAll();
     for (Bairro b : bairros) {
@@ -121,11 +148,14 @@ public class DijsktraService {
     }
   }
 
-  // [Contexto - 3] Cadastro de Mapa (Grafo) - Ruas como arestas ponderadas
+  /**
+   * Carrega as arestas do grafo a partir da tabela de conexões (ruas).
+   * [RF04] Mapeamento de Ruas como arestas ponderadas pela distância.
+   */
   private void loadEdges() {
     List<Aresta> arestas = arestaRepository.findAll();
     for (Aresta a : arestas) {
-      // Add as undirected graph (both directions)
+      // Grafo não-direcionado (mão dupla)
       addUndirected(a.getId(), a.getOrigem().getId(), a.getDestino().getId(), a.getDistanciaKm());
     }
   }
@@ -137,7 +167,7 @@ public class DijsktraService {
     addEdge(e2);
   }
 
-  // Simple data classes
+  // Classes auxiliares para representação do grafo
   public static class Node {
     public final int id;
     public final String name;

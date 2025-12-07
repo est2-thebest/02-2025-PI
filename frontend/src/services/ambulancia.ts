@@ -11,8 +11,11 @@ export interface Ambulancia {
   bairro?: Bairro;
 }
 
+/**
+ * Serviço de gerenciamento de ambulâncias.
+ */
 const ambulanciaService = {
-  // [Requisitos Especificos - RF02] Listar todas as ambulancias
+  // Listar todas as ambulâncias
   async listar(): Promise<Ambulancia[]> {
     const response: AxiosResponse<Ambulancia[]> = await api.get('/ambulancias');
     return response.data;
@@ -28,17 +31,19 @@ const ambulanciaService = {
     return response.data;
   },
 
-  // [Requisitos Especificos - RF02] Cadastrar nova ambulancia
+  // Cadastrar nova ambulância
   async criar(ambulancia: Ambulancia): Promise<Ambulancia> {
     const response: AxiosResponse<Ambulancia> = await api.post('/ambulancias', ambulancia);
     return response.data;
   },
 
+  // Atualizar dados da ambulância
   async atualizar(id: number, ambulancia: Ambulancia): Promise<Ambulancia> {
     const response: AxiosResponse<Ambulancia> = await api.put(`/ambulancias/${id}`, ambulancia);
     return response.data;
   },
 
+  // Exclusão 
   async excluir(id: number): Promise<void> {
     await api.delete(`/ambulancias/${id}`);
   },

@@ -1,6 +1,10 @@
 // frontend/src/context/AuthContext.ts
 import { createContext } from 'react';
 
+/**
+ * Definição do contexto de autenticação.
+ * Controle de Acesso.
+ */
 export interface AuthContextType {
   signed: boolean;
   user: any | null;

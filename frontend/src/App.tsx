@@ -20,7 +20,9 @@ interface MainLayoutProps {
   children: React.ReactNode;
 }
 
-// Layout principal com Header e Sidebar
+/**
+ * Layout base da aplicação - Sidebar e conteúdo.
+ */
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 
@@ -36,7 +38,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   );
 };
 
-// Componente PrivateRoute
+/**
+ * Componente de proteção de rotas.
+ * Redireciona para login se não houver sessão ativa.
+ */
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const { signed } = useAuth();
 
@@ -47,7 +52,9 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-// Lembrar de envolver rotas privadas com <PrivateRoute>
+/**
+ * Definição das rotas da aplicação.
+ */
 function AppRoutes(): React.ReactElement {
   return (
     <Routes>
@@ -115,6 +122,10 @@ function AppRoutes(): React.ReactElement {
   );
 }
 
+/**
+ * Componente raiz da aplicação.
+ * Configura provedores de contexto (Tema, Auth, Router).
+ */
 function App(): React.ReactElement {
   return (
     <BrowserRouter>

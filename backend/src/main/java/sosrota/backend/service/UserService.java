@@ -9,6 +9,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Serviço de gerenciamento de usuários.
+ * Implementa UserDetailsService para integração com Spring Security.
+ * [RF08] Gestão de Usuários.
+ */
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
@@ -16,12 +21,30 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Carrega usuário pelo nome de usuário (login).
+     *
+     * @param username Nome de usuário
+     * @return UserDetails para autenticação
+     * @throws UsernameNotFoundException Se não encontrado
+     * [RF08] Autenticação.
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 
+    /**
+     * Cria um novo usuário no sistema.
+     *
+     * @param username Nome de usuário
+     * @param email Email
+     * @param password Senha (será criptografada)
+     * @return Usuário criado
+     * [RF08] Cadastro de usuário.
+     * [RNF01] Criptografia de senha.
+     */
     public User createUser(String username, String email, String password) {
         if (userRepository.existsByUsername(username)) {
             throw new RuntimeException("Username already exists");

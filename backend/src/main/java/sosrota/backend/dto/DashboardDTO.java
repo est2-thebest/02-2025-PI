@@ -1,5 +1,11 @@
 package sosrota.backend.dto;
 
+/**
+ * Objeto de Transferência de Dados (DTO) para o Dashboard.
+ * Agrega indicadores de desempenho e status do sistema.
+ * [RF07] Visualização de Dashboard.
+ * [Interface de Comunicação] Dados para o Frontend.
+ */
 public class DashboardDTO {
     private int ocorrenciasAbertas;
     private int atendimentosHoje;

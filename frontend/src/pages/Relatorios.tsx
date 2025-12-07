@@ -14,6 +14,11 @@ interface Dados {
   historico: Ocorrencia[];
 }
 
+/**
+ * Tela de relatórios e análises operacionais.
+ * Apresenta estatísticas consolidadas e gráficos de desempenho.
+ * [RF07] Relatórios Gerenciais.
+ */
 const Relatorios: React.FC = () => {
   const [carregando, setCarregando] = useState<boolean>(true);
 
@@ -29,6 +34,7 @@ const Relatorios: React.FC = () => {
     carregarDados();
   }, []);
 
+  // Carrega e agrega dados de múltiplas fontes
   const carregarDados = async (): Promise<void> => {
     try {
       setCarregando(true);
@@ -43,8 +49,6 @@ const Relatorios: React.FC = () => {
       const totalTempo = tempoData.reduce((acc, curr) => acc + curr.tempoMedioMinutos, 0);
       const mediaGeral = tempoData.length > 0 ? totalTempo / tempoData.length : 0;
 
-      // Filtrar apenas ocorrências concluídas ou em atendimento para o histórico "relevante"
-      // ou mostrar todas. Vamos mostrar todas ordenadas por ID decrescente.
       const historicoOrdenado = [...ocorrenciasData].sort((a, b) => (b.id || 0) - (a.id || 0));
 
       setDados({

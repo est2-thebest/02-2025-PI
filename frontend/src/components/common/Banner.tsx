@@ -6,6 +6,9 @@ interface BannerProps {
   subtitle?: string;
 }
 
+/**
+ * Componente de cabeçalho de página (Banner).
+ */
 const Banner: React.FC<BannerProps> = ({ title, subtitle }) => {
   return (
     <div className="banner">

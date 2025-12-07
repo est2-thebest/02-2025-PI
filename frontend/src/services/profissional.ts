@@ -11,12 +11,17 @@ export interface Profissional {
   turno?: 'MATUTINO' | 'VESPERTINO' | 'NOTURNO';
 }
 
+/**
+ * Serviço de gerenciamento de profissionais.
+ */
 const profissionalService = {
+  // Listagem de profissionais cadastrados
   listar: async (): Promise<Profissional[]> => {
     const resp: AxiosResponse<Profissional[]> = await api.get('/profissionais');
     return resp.data;
   },
 
+  // Cadastro de novo profissional
   criar: async (dados: Profissional): Promise<Profissional> => {
     const resp: AxiosResponse<Profissional> = await api.post('/profissionais', dados);
     return resp.data;
@@ -27,6 +32,7 @@ const profissionalService = {
     return resp.data;
   },
 
+  // Exclusão de profissional
   excluir: async (id: number): Promise<void> => {
     await api.delete(`/profissionais/${id}`);
   },

@@ -7,9 +7,13 @@ import org.springframework.web.bind.annotation.RestController;
 import sosrota.backend.dto.DashboardDTO;
 import sosrota.backend.service.DashboardService;
 
+/**
+ * Controlador para fornecimento de dados consolidados ao Dashboard.
+ * [RF07] Visualização de Dashboard.
+ * [Interface de Comunicação] API REST (BFF).
+ */
 @RestController
 @RequestMapping("/api/dashboard")
-// [Interface de Comunicacao] API REST para Agregacao de Dados (BFF - Backend For Frontend)
 public class DashboardController {
 
     private final DashboardService dashboardService;
@@ -18,8 +22,12 @@ public class DashboardController {
         this.dashboardService = dashboardService;
     }
 
-    // [Requisitos Especificos - RF07] Dados consolidados para o Dashboard
-    // [Frontend] Cards de Estatisticas da Home
+    /**
+     * Retorna estatísticas gerais do sistema.
+     *
+     * @return DTO com contadores
+     * [RF07] Dados para cards.
+     */
     @GetMapping("/stats")
     public ResponseEntity<DashboardDTO> getStats() {
         return ResponseEntity.ok(dashboardService.getDashboardStats());

@@ -7,6 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entidade que representa um bairro (localidade).
+ * [RF04] Mapa e Rotas.
+ * [Estrutura de Dados II] Nó (Vértice) de um Grafo.
+ */
 @Entity
 @Table(name = "bairro")
 @Data

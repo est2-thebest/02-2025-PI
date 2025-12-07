@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entidade que registra o atendimento de uma ocorrência por uma ambulância.
+ * [RF01] Gestão de Ocorrências.
+ * [RF07] Dados para Relatórios e SLA.
+ */
 @Entity
 @Table(name = "atendimento")
 @Data
@@ -40,6 +45,7 @@ public class Atendimento {
     @Column(name = "rota", columnDefinition = "TEXT")
     private String rota;
 
+    // [Regra de Negócio] Indicadores de SLA (Service Level Agreement)
     @Column(name = "fora_do_sla")
     private Boolean foraDoSla;
 

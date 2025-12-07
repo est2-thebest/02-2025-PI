@@ -3,6 +3,10 @@ import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 const API_BASE: string = import.meta.env.VITE_API_BASE || 'http://localhost:8081/api';
 
+/**
+ * Configuração central do cliente HTTP (Axios).
+ * Gerencia a comunicação com o backend e interceptação de requisições.
+ */
 const api: AxiosInstance = axios.create({
   baseURL: API_BASE,
   headers: {

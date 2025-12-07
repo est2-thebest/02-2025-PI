@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entidade que registra o histórico de mudanças de status de uma ocorrência.
+ * [RF01] Rastreabilidade de Ocorrências.
+ */
 @Entity
 @Table(name = "ocorrencia_historico")
 @Data

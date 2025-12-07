@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+/**
+ * DTO para requisição de registro de novo usuário.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

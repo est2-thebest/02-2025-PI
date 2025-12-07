@@ -11,6 +11,11 @@ import ConfirmDialog from '../components/common/ConfirmDialog';
 import AlertDialog from '../components/common/AlertDialog';
 import './Profissionais.css';
 
+/**
+ * Tela de gestão de recursos humanos (Profissionais e Equipes).
+ * Permite o cadastro e organização das equipes de atendimento.
+ * [RF03] Gestão de Recursos.
+ */
 const Profissionais: React.FC = () => {
   // Estado Geral
   const [activeTab, setActiveTab] = useState<'profissionais' | 'equipes'>(() => {
@@ -116,6 +121,8 @@ const Profissionais: React.FC = () => {
     setMostrarFormProfissional(true);
   };
 
+  // Salva profissional (criação ou edição)
+  // [RF03] Validação de dados do profissional
   const handleSalvarProfissional = async (profissional: Profissional) => {
     try {
       if (profissional.id) {
@@ -152,6 +159,8 @@ const Profissionais: React.FC = () => {
     setProfissionalParaExcluir(id);
   };
 
+  // Exclusão de profissional
+  // [Regra de Negócio] Impede exclusão se vinculado a equipe ativa
   const handleExcluirProfissional = async () => {
     if (profissionalParaExcluir) {
       try {
@@ -188,6 +197,8 @@ const Profissionais: React.FC = () => {
     setMostrarFormEquipe(true);
   };
 
+  // Salva equipe (montagem)
+  // [RF03] Associação de profissionais e ambulância
   const handleSalvarEquipe = async (equipe: Equipe) => {
     try {
       if (equipe.id) {
@@ -224,6 +235,8 @@ const Profissionais: React.FC = () => {
     setEquipeParaExcluir(id);
   };
 
+  // Desmontagem de equipe
+  // [RF03] Libera profissionais e ambulância
   const handleExcluirEquipe = async () => {
     if (equipeParaExcluir) {
       try {

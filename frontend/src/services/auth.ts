@@ -11,7 +11,13 @@ interface LoginResponse {
 	message?: string;
 }
 
-// [Regras de Negocio - 1] Autenticacao de usuario
+/**
+ * Serviço de autenticação e gestão de sessão.
+ * [RF08] Controle de Acesso e Segurança.
+ */
+
+// Realiza login e armazena token
+// [RF08] Autenticação de usuário
 async function login(username: string, password: string): Promise<LoginResponse> {
 	try {
 		const resp = await api.post('/auth/login', { username, password });
@@ -48,6 +54,7 @@ async function login(username: string, password: string): Promise<LoginResponse>
 	}
 }
 
+// Registra novo usuário
 async function register(username: string, email: string, password: string): Promise<LoginResponse> {
 	try {
 		const resp = await api.post('/auth/register', { username, email, password });

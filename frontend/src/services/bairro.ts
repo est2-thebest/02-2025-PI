@@ -6,7 +6,11 @@ export interface Bairro {
   nome: string;
 }
 
+/**
+ * Serviço de consulta de bairros (mapa).
+ */
 const bairroService = {
+  // Listagem de localidades atendidas
   listar: async (): Promise<Bairro[]> => {
     const resp: AxiosResponse<Bairro[]> = await api.get('/bairros');
     return resp.data;

@@ -6,6 +6,10 @@ interface LoadingSpinnerProps {
   message?: string;
 }
 
+/**
+ * Indicador de carregamento (Spinner).
+ * Feedback de processamento.
+ */
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ size = 'medium', message = 'Carregando...' }) => {
   return (
     <div className="loading-container">

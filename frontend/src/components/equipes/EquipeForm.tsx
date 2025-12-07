@@ -14,6 +14,9 @@ interface EquipeFormProps {
   onCancelar: () => void;
 }
 
+/**
+ * Formulário para montagem de equipes.
+ */
 const EquipeForm: React.FC<EquipeFormProps> = ({ isOpen, equipe, onSalvar, onCancelar }) => {
   const [formData, setFormData] = useState<Equipe>({
     descricao: '',

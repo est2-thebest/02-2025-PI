@@ -18,6 +18,14 @@ import sosrota.backend.dto.OcorrenciaDetalhesDTO;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Serviço central de gerenciamento de ocorrências e despacho.
+ * Responsável por orquestrar a lógica de SLA, seleção de ambulâncias e cálculo de rotas.
+ * [RF01] Cadastro e Gestão de Ocorrências.
+ * [RF05] Sugestão de Ambulâncias Aptas.
+ * [RF06] Despacho e Registro.
+ * [Estruturas de Dados II] Uso de Grafos e Dijkstra para roteamento.
+ */
 @Service
 public class OcorrenciaService {
 
@@ -46,7 +54,12 @@ public class OcorrenciaService {
         this.ocorrenciaHistoricoRepository = ocorrenciaHistoricoRepository;
     }
 
-    // [Requisitos Especificos - RF01] O sistema deve permitir a consulta de ocorrencias
+    /**
+     * Lista todas as ocorrências.
+     *
+     * @return Lista de ocorrências
+     * [RF01] Listagem geral.
+     */
     public List<Ocorrencia> findAll() {
         return ocorrenciaRepository.findAll();
     }
@@ -55,7 +68,13 @@ public class OcorrenciaService {
         return ocorrenciaRepository.findById(id).orElse(null);
     }
 
-    // [Requisitos Especificos - RF07] O sistema deve permitir consultas de historico de atendimentos
+    /**
+     * Busca histórico de uma ocorrência.
+     *
+     * @param id Identificador da ocorrência
+     * @return Lista de histórico ordenado por data
+     * [RF07] Rastreabilidade de eventos.
+     */
     public List<OcorrenciaHistorico> findHistoricoByOcorrenciaId(Integer id) {
         Ocorrencia ocorrencia = findById(id);
         if (ocorrencia == null) {
@@ -64,6 +83,13 @@ public class OcorrenciaService {
         return ocorrenciaHistoricoRepository.findByOcorrenciaOrderByDataHoraDesc(ocorrencia);
     }
 
+    /**
+     * Obtém detalhes completos (DTO) para visualização.
+     *
+     * @param id Identificador da ocorrência
+     * @return DTO com ocorrência, atendimento, equipe e histórico
+     * [Banco de Dados II] Agregação de dados de múltiplas tabelas.
+     */
     public sosrota.backend.dto.OcorrenciaDetalhesDTO getOcorrenciaDetalhes(Integer id) {
         Ocorrencia ocorrencia = findById(id);
         if (ocorrencia == null) {
@@ -87,8 +113,15 @@ public class OcorrenciaService {
         return dto;
     }
 
+    /**
+     * Cria uma nova ocorrência e executa o algoritmo de despacho.
+     *
+     * @param ocorrencia Dados da ocorrência
+     * @return Ocorrência salva
+     * [RF01] Persistência inicial.
+     * [RF05] Acionamento automático do despacho.
+     */
     @Transactional
-    // [Requisitos Especificos - RF01] O sistema deve permitir o cadastro de ocorrencias
     public Ocorrencia createOcorrencia(Ocorrencia ocorrencia) {
         ocorrencia.setDataHoraAbertura(LocalDateTime.now());
         ocorrencia.setStatus("ABERTA");
@@ -111,8 +144,15 @@ public class OcorrenciaService {
         ocorrenciaHistoricoRepository.save(historico);
     }
 
-    // [Requisitos Especificos - RF05] O sistema deve sugerir ambulancias aptas para uma ocorrencia
-    // [Regras de Negocio - 4] Despacho e Atendimento (Logica Central)
+    /**
+     * Algoritmo principal de despacho de ambulâncias.
+     * Seleciona a melhor ambulância baseada em SLA, Tipo e Distância.
+     *
+     * @param ocorrencia Ocorrência a ser atendida
+     * [RF05] Sugestão de Ambulâncias Aptas.
+     * [Estruturas de Dados II - Dijkstra] Cálculo de menor caminho no grafo.
+     * [Regra de Domínio - SLA] Verificação de tempo limite por gravidade.
+     */
     private void dispatchAmbulance(Ocorrencia ocorrencia) {
         List<Ambulancia> allAmbulances = ambulanciaRepository.findAll();
         logger.info("Total de ambulâncias no banco: {}", allAmbulances.size());
@@ -127,27 +167,23 @@ public class OcorrenciaService {
         Ambulancia closestAmbulanciaOverall = null;
         double minDistanceOverall = Double.MAX_VALUE;
 
-        // SLA Rules (in minutes/km)
-        // [Regras de Negocio - 2] Cadastro de Ocorrencias - Gravidade define SLA
+        // [Regra de Domínio - RD01] SLA definido pela gravidade
         double slaLimit = getSlaLimit(ocorrencia.getGravidade());
         
         logger.info("Iniciando despacho para Ocorrencia {}. Gravidade: {}, Bairro: {}", ocorrencia.getId(), ocorrencia.getGravidade(), ocorrencia.getBairro().getId());
         for (Ambulancia ambulancia : availableAmbulances) {
             
-            // 1. Valida Tipo da Ambulância
-            // [Regras de Negocio - 4] O tipo da ambulancia deve ser compativel com o tipo requerido
+            // [Regra de Negócio] Valida compatibilidade de tipo (UTI/Básica)
             if (!isTypeCompatible(ambulancia.getTipo(), ocorrencia.getGravidade())) {
                 continue;
             }
 
-            // 2. Valida Composicao da Equipe
-            // [Regras de Negocio - 3] Uma ambulancia so pode estar disponivel se possuir equipe completa
+            // [Regra de Domínio - RD02] Valida se equipe está completa
             if (!validateTeamComposition(ambulancia)) {
                 continue;
             }
 
-            // 3. Calcula Distancia (Dijkstra)
-            // [Requisitos Especificos - RF04] O sistema deve calcular o caminho minimo (Dijkstra)
+            // [Estruturas de Dados II] Execução do Dijkstra para calcular distância real no grafo
             if (ambulancia.getBairro() != null) {
                 DijsktraService.PathResult result = dijsktraService.findShortestPath(
                         ambulancia.getBairro().getId(),
@@ -155,16 +191,14 @@ public class OcorrenciaService {
 
                 if (!Double.isNaN(result.totalDistance)) {
                     
-                    // Track closest overall (fallback)
                     if (result.totalDistance < minDistanceOverall) {
                         minDistanceOverall = result.totalDistance;
                         closestAmbulanciaOverall = ambulancia;
                     }
 
-                    // 3. Valida SLA
-                    // [Regras de Negocio - 4] A distancia calculada deve ser menor ou igual ao SLA
+                    // [Regra de Negócio] Verifica se atende ao SLA
                     if (result.totalDistance <= slaLimit) {
-                        // 4. Encontra a mais proxima entre as que atendem ao SLA
+                        // Encontra a mais proxima entre as que atendem ao SLA
                         if (result.totalDistance < minDistance) {
                             minDistance = result.totalDistance;
                             bestAmbulancia = ambulancia;
@@ -176,7 +210,7 @@ public class OcorrenciaService {
 
         boolean foraDoSla = false;
         
-        // If no ambulance found within SLA, use the closest one overall
+        // Se nenhuma atender ao SLA, usa a mais próxima (Fallback)
         if (bestAmbulancia == null && closestAmbulanciaOverall != null) {
             logger.warn("Nenhuma ambulância dentro do SLA ({} km) para Ocorrencia {}. Usando a mais próxima ({} km).", slaLimit, ocorrencia.getId(), minDistanceOverall);
             bestAmbulancia = closestAmbulanciaOverall;
@@ -185,7 +219,7 @@ public class OcorrenciaService {
         }
 
         if (bestAmbulancia != null) {
-            // 5. Cria Atendimento
+            // [RF06] Registro do despacho e atualização de status
             Atendimento atendimento = new Atendimento();
             atendimento.setOcorrencia(ocorrencia);
             atendimento.setAmbulancia(bestAmbulancia);
@@ -197,11 +231,11 @@ public class OcorrenciaService {
             atendimento.setSlaReal(minDistance);
             atendimento.setForaDoSla(foraDoSla);
             
-            // 6. Calcula Tempo Estimado (Tempo = Distancia / Velocidade * 60)
+            // Tempo = Distancia / Velocidade * 60
             double estimatedTimeMinutes = (minDistance / AVERAGE_SPEED_KMH) * 60;
             atendimento.setTempoEstimado(estimatedTimeMinutes);
             
-            // 7. Constroi String de Rota
+            // [Estruturas de Dados II] Recuperação do caminho (sequência de vértices)
             if (dijsktraService.findShortestPath(bestAmbulancia.getBairro().getId(), ocorrencia.getBairro().getId()) != null) {
                 DijsktraService.PathResult path = dijsktraService.findShortestPath(bestAmbulancia.getBairro().getId(), ocorrencia.getBairro().getId());
                 if (path.nodes != null && !path.nodes.isEmpty()) {
@@ -218,12 +252,11 @@ public class OcorrenciaService {
             
             atendimentoRepository.save(atendimento);
 
-            // 8. Atualiza Status da Ambulancia
+            // Atualiza Status da Ambulancia
             bestAmbulancia.setStatus("EM_ATENDIMENTO");
             ambulanciaRepository.save(bestAmbulancia);
 
-            // 9. Atualiza Status da Ocorrencia
-            // [Requisitos Especificos - RF06] O sistema deve registrar o despacho e atualizar status
+            // Atualiza Status da Ocorrencia
             String oldStatus = ocorrencia.getStatus();
             ocorrencia.setStatus("DESPACHADA");
             ocorrenciaRepository.save(ocorrencia);
@@ -240,7 +273,13 @@ public class OcorrenciaService {
         }
     }
 
-    // [Regras de Negocio - 2] Cadastro de Ocorrencias - Definicao de SLA por gravidade
+    /**
+     * Define o limite de SLA (em minutos/km) baseado na gravidade.
+     *
+     * @param gravidade Nível de gravidade (ALTA, MEDIA, BAIXA)
+     * @return Limite em minutos (assumindo 1km = 1min)
+     * [Regra de Domínio - RD01] Tabela de SLA.
+     */
     private double getSlaLimit(String gravidade) {
         if (gravidade == null) return 30.0;
         switch (gravidade.toUpperCase()) {
@@ -251,9 +290,14 @@ public class OcorrenciaService {
         }
     }
 
-    // [Regras de Negocio - 2] Cadastro de Ocorrencias - Tipo de ambulancia requerido
-    // [Teoria da Computacao - Teoria Aplicada] Logica de Predicados para validacao de compatibilidade
-    // Predicado: P(tipo, gravidade) = (gravidade == ALTA -> tipo \in {USA, UTI}) AND (gravidade != ALTA -> True)
+    /**
+     * Verifica compatibilidade entre tipo de ambulância e gravidade.
+     *
+     * @param ambulanciaTipo Tipo da ambulância (USA, USB)
+     * @param gravidade Gravidade da ocorrência
+     * @return true se compatível
+     * [Teoria da Computação] Lógica de Predicados: P(tipo, gravidade).
+     */
     private boolean isTypeCompatible(String ambulanciaTipo, String gravidade) {
         if (ambulanciaTipo == null || gravidade == null) return false;
         
@@ -268,7 +312,13 @@ public class OcorrenciaService {
         }
     }
 
-    // [Regras de Negocio - 3] Cadastro de Ambulancias e Equipes - Equipe minima
+    /**
+     * Valida se a ambulância possui equipe completa ativa.
+     *
+     * @param ambulancia Ambulância a ser verificada
+     * @return true se equipe válida
+     * [Regra de Domínio - RD02] Critério de Disponibilidade.
+     */
     private boolean validateTeamComposition(Ambulancia ambulancia) {
         List<Equipe> equipes = equipeRepository.findByAmbulancia(ambulancia);
         return equipes.stream().anyMatch(equipe -> {
@@ -290,7 +340,12 @@ public class OcorrenciaService {
         });
     }
     
-    // [Regras de Negocio - 6] Restricoes e Validacoes Globais - Nao excluir ocorrencia com despacho
+    /**
+     * Exclui ocorrência, garantindo integridade.
+     *
+     * @param id Identificador da ocorrência
+     * [Regra de Negócio] Não permite excluir se já houve despacho.
+     */
     public void delete(Integer id) {
         Ocorrencia ocorrencia = findById(id);
         if (ocorrencia != null && !"ABERTA".equals(ocorrencia.getStatus())) {
@@ -299,7 +354,12 @@ public class OcorrenciaService {
         ocorrenciaRepository.deleteById(id);
     }
 
-    // [Regras de Negocio - 6] Restricoes e Validacoes Globais - Confirmar saida
+    /**
+     * Confirma saída da ambulância.
+     *
+     * @param id Identificador da ocorrência
+     * [RF06] Atualização de status operacional.
+     */
     @Transactional
     public void confirmDeparture(Integer id) {
         logger.info("Tentando confirmar saída para Ocorrencia {}", id);
@@ -325,7 +385,12 @@ public class OcorrenciaService {
         }
     }
 
-    // [Regras de Negocio - 6] Restricoes e Validacoes Globais - Concluir atendimento
+    /**
+     * Finaliza a ocorrência e libera a ambulância.
+     *
+     * @param id Identificador da ocorrência
+     * [RF06] Conclusão de ciclo de vida.
+     */
     @Transactional
     public void finishOccurrence(Integer id) {
         logger.info("Tentando concluir Ocorrencia {}", id);
@@ -347,7 +412,13 @@ public class OcorrenciaService {
         }
     }
 
-    // [Requisitos Especificos - RF01] O sistema deve permitir o cancelamento de ocorrencias
+    /**
+     * Cancela uma ocorrência.
+     *
+     * @param id Identificador da ocorrência
+     * @param justificativa Motivo do cancelamento
+     * [Regra de Negócio] Validação de estados permitidos para cancelamento.
+     */
     @Transactional
     public void cancelOccurrence(Integer id, String justificativa) {
         logger.info("Tentando cancelar Ocorrencia {}", id);
@@ -385,6 +456,12 @@ public class OcorrenciaService {
         cancelOccurrence(id, "Cancelamento solicitado sem justificativa.");
     }
 
+    /**
+     * Libera a ambulância vinculada a uma ocorrência (torna DISPONIVEL).
+     *
+     * @param ocorrencia Ocorrência finalizada/cancelada
+     * [Regra de Negócio] Retorno de recurso ao pool de disponibilidade.
+     */
     private void freeAmbulance(Ocorrencia ocorrencia) {
         Atendimento atendimento = atendimentoRepository.findFirstByOcorrenciaOrderByIdDesc(ocorrencia);
         if (atendimento != null) {
@@ -404,7 +481,12 @@ public class OcorrenciaService {
         }
     }
 
-    // [Regras de Negocio - 4] Despacho - Processamento de fila
+    /**
+     * Processa fila de ocorrências pendentes (ABERTA) quando um recurso é liberado.
+     *
+     * @param none
+     * [Regra de Negócio] Fila de espera e reprocessamento.
+     */
     private void processPendingOccurrences() {
         List<Ocorrencia> pendingOccurrences = ocorrenciaRepository.findByStatus("ABERTA");
         if (!pendingOccurrences.isEmpty()) {

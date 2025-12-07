@@ -7,6 +7,11 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import logo from '../assets/logo-ss.svg';
 import './AuthPages.css';
 
+/**
+ * Tela de cadastro de novos usuários.
+ * Permite o registro de operadores.
+ * [RF08] Cadastro de Usuários.
+ */
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
     username: '',
@@ -36,6 +41,8 @@ const Register: React.FC = () => {
     }));
   };
 
+  // Processa o cadastro de novo usuário
+  // [RF08] Criação de conta com validação
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     clearAllErrors();

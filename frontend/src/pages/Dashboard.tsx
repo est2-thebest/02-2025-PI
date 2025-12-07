@@ -6,6 +6,11 @@ import Banner from '../components/common/Banner';
 import { Ambulance, CheckCircle, Users, UserCheck } from 'lucide-react';
 import './Dashboard.css';
 
+/**
+ * Tela principal do sistema (Dashboard).
+ * Apresenta indicadores de desempenho e monitoramento em tempo real.
+ * [RF07] Visualização de Dashboard.
+ */
 const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats>({
     ocorrenciasAbertas: 0,
@@ -19,21 +24,23 @@ const Dashboard: React.FC = () => {
   const [historicoOcorrencias, setHistoricoOcorrencias] = useState<Ocorrencia[]>([]);
   const [carregando, setCarregando] = useState<boolean>(true);
 
+  // Polling de dados para atualização em tempo real (5s)
   useEffect(() => {
     carregarDados();
-    const interval = setInterval(carregarDados, 5000); // Poll every 5 seconds
+    const interval = setInterval(carregarDados, 5000);
     return () => clearInterval(interval);
   }, []);
 
+  // Carrega estatísticas e histórico de ocorrências
   const carregarDados = async (): Promise<void> => {
     try {
       const [statsData, ocorrenciasData] = await Promise.all([
         dashboardService.getStats(),
-        ocorrenciaService.listarTodas(), // Fetch all for history
+        ocorrenciaService.listarTodas(),
       ]);
 
       setStats(statsData);
-      // Sort by ID descending for history
+      // Ordena por ID decrescente (mais recentes primeiro)
       setHistoricoOcorrencias(ocorrenciasData.sort((a, b) => (b.id || 0) - (a.id || 0)));
     } catch (error) {
       console.error('Erro ao carregar dashboard:', error);
@@ -50,7 +57,7 @@ const Dashboard: React.FC = () => {
     );
   }
 
-  // Calculate percentage for progress bar
+  // Calcula porcentagem de ambulâncias disponíveis para exibição na barra de progresso
   const frotaPercent = stats.ambulanciasTotal > 0
     ? (stats.ambulanciasDisponiveis / stats.ambulanciasTotal) * 100
     : 0;
@@ -63,8 +70,7 @@ const Dashboard: React.FC = () => {
       />
 
       <div className="stats-grid">
-        {/* [Requisitos Especificos - RF07] Exibicao de consultas de histórico de atendimentos */}
-        {/* Profissionais Cadastrados – primário */}
+        {/* Profissionais Cadastrados */}
         <div className="stat-card stat-primary">
           <UserCheck size={48} className="stat-icon stat-icon-primary" />
           <div>
@@ -73,7 +79,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Atendimentos Hoje – secundário */}
+        {/* Atendimentos Hoje */}
         <div className="stat-card stat-secondary">
           <CheckCircle size={48} className="stat-icon stat-icon-secondary" />
           <div>

@@ -9,6 +9,10 @@ export interface DashboardStats {
   profissionaisCadastrados: number;
 }
 
+/**
+ * Serviço de dados do Dashboard.
+ * Visualização de Indicadores.
+ */
 const getStats = async (): Promise<DashboardStats> => {
   const response = await api.get<DashboardStats>('/dashboard/stats');
   return response.data;

@@ -6,6 +6,12 @@ import sosrota.backend.repository.EquipeRepository;
 
 import java.util.List;
 
+/**
+ * Serviço de gerenciamento de equipes.
+ * Responsável pela alocação de profissionais em ambulâncias e validação de conflitos de turno.
+ * [RF03] Cadastro de Equipes.
+ * [Regra de Negócio] Gestão de escalas e turnos.
+ */
 @Service
 public class EquipeService {
 
@@ -17,6 +23,12 @@ public class EquipeService {
         this.ambulanciaRepository = ambulanciaRepository;
     }
 
+    /**
+     * Lista todas as equipes cadastradas.
+     *
+     * @return Lista de equipes
+     * [RF03] Listagem de equipes.
+     */
     public List<Equipe> findAll() {
         return equipeRepository.findAll();
     }
@@ -25,6 +37,15 @@ public class EquipeService {
         return equipeRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Salva uma nova equipe, validando conflitos de alocação.
+     * Garante que ambulância e profissionais não estejam em outra equipe no mesmo turno.
+     *
+     * @param equipe Dados da equipe
+     * @return Equipe salva
+     * [RF03] Criação de equipe.
+     * [Regra de Negócio] Validação de disponibilidade de recursos por turno.
+     */
     public Equipe save(Equipe equipe) {
         // Validação de Ambulância
         if (equipe.getAmbulancia() != null) {
@@ -50,7 +71,7 @@ public class EquipeService {
 
         Equipe savedEquipe = equipeRepository.save(equipe);
 
-        // Update Ambulance Status to DISPONIVEL if it was SEM_EQUIPE
+        // [Regra de Negócio] Atualização automática de status da ambulância
         if (savedEquipe.getAmbulancia() != null) {
             sosrota.backend.entity.Ambulancia amb = savedEquipe.getAmbulancia();
             if ("SEM_EQUIPE".equals(amb.getStatus())) {
@@ -62,13 +83,19 @@ public class EquipeService {
         return savedEquipe;
     }
 
+    /**
+     * Exclui uma equipe e atualiza o status da ambulância vinculada, se necessário.
+     *
+     * @param id Identificador da equipe
+     * [RF03] Dissolução de equipe.
+     */
     public void delete(Integer id) {
         Equipe equipe = findById(id);
         if (equipe != null && equipe.getAmbulancia() != null) {
             sosrota.backend.entity.Ambulancia amb = equipe.getAmbulancia();
             equipeRepository.deleteById(id);
             
-            // Check if ambulance has other teams
+            // [Regra de Negócio] Se ambulância ficar sem equipes, volta para SEM_EQUIPE
             List<Equipe> remainingTeams = equipeRepository.findByAmbulancia(amb);
             if (remainingTeams.isEmpty()) {
                 if ("DISPONIVEL".equals(amb.getStatus())) {

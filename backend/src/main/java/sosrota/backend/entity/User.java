@@ -13,6 +13,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Entidade que representa um usuário do sistema.
+ * Implementa UserDetails para integração com Spring Security.
+ * [RF08] Gestão de Usuários.
+ * [RNF01] Segurança e Autenticação.
+ */
 @Entity
 @Table(name = "usuario")
 @Data

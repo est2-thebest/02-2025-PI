@@ -16,6 +16,11 @@ import sosrota.backend.service.JwtService;
 
 import java.io.IOException;
 
+/**
+ * Filtro de autenticação JWT executado em cada requisição.
+ * Intercepta requisições HTTP para validar o token Bearer.
+ * [RF08] Autenticação.
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -23,6 +28,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final JwtService jwtService;
   private final UserDetailsService userDetailsService;
 
+  /**
+   * Lógica de filtragem e validação do token.
+   *
+   * @param request Requisição HTTP
+   * @param response Resposta HTTP
+   * @param filterChain Cadeia de filtros
+   * @throws ServletException
+   * @throws IOException
+   * [RNF01] Validação de Token.
+   */
   @Override
   protected void doFilterInternal(HttpServletRequest request,
       HttpServletResponse response,

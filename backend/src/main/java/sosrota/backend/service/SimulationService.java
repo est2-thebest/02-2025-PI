@@ -13,6 +13,10 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Serviço de simulação de deslocamento e atendimento.
+ * Responsável por atualizar o status das ocorrências.
+ */
 @Service
 public class SimulationService {
 
@@ -34,12 +38,18 @@ public class SimulationService {
         this.ocorrenciaService = ocorrenciaService;
     }
 
-    @Scheduled(fixedRate = 2000) // Run every 2 seconds
+
+    // Executa o ciclo de simulação periodicamente.
+    @Scheduled(fixedRate = 2000) // Executa a cada 2 segundos
     public void runSimulation() {
         simulateTravel();
-        // simulateService(); // Disabled to allow manual conclusion
+        // simulateService(); // Desabilitado para permitir conclusão manual
     }
 
+    /**
+     * Simula o deslocamento da ambulância até o local.
+     * Atualiza o status para EM_ATENDIMENTO ao "chegar".
+     */
     private void simulateTravel() {
         List<Ocorrencia> despachadas = ocorrenciaRepository.findByStatus("DESPACHADA");
         for (Ocorrencia ocorrencia : despachadas) {
@@ -48,7 +58,7 @@ public class SimulationService {
                 double distance = atendimento.getDistanciaKm();
                 long simulatedTravelTimeSeconds = (long) (distance * SECONDS_PER_KM);
                 
-                // Minimum 2 seconds to avoid instant arrival
+                // Espera no mínimo 2 segundos para simular a chegada
                 if (simulatedTravelTimeSeconds < 2) simulatedTravelTimeSeconds = 2;
 
                 LocalDateTime arrivalTime = atendimento.getDataHoraDespacho().plusSeconds(simulatedTravelTimeSeconds);
@@ -66,12 +76,18 @@ public class SimulationService {
         }
     }
 
+    /**
+     * Simula o atendimento da ocorrência.
+     * Atualiza o status para CONCLUIDA ao "concluir".
+     * Comentado para permitir conclusão manual.
+     */
+
     // private void simulateService() {
     //     List<Ocorrencia> emAtendimento = ocorrenciaRepository.findByStatus("EM_ATENDIMENTO");
     //     for (Ocorrencia ocorrencia : emAtendimento) {
     //         Atendimento atendimento = atendimentoRepository.findFirstByOcorrenciaOrderByIdDesc(ocorrencia);
     //         if (atendimento != null) {
-                 
+    //              
     //              if (atendimento.getDataHoraChegada() != null) {
     //                  LocalDateTime finishTime = atendimento.getDataHoraChegada().plusSeconds(SERVICE_DURATION_SECONDS);
     //                  if (LocalDateTime.now().isAfter(finishTime)) {

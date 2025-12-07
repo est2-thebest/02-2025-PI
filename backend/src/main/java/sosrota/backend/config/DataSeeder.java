@@ -12,7 +12,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-// [Contexto - 3] Problema - Carga de dados de arquivos CSV fornecidos (Bairros e Arestas)
+/**
+ * Componente responsável pela carga inicial de dados (Seeding).
+ * Carrega bairros e arestas (ruas) a partir de arquivos CSV.
+ * [RF04] Cadastro de Mapa e Rotas.
+ * [Banco de Dados II] Carga de dados em massa.
+ */
 @Component
 public class DataSeeder implements CommandLineRunner {
 
@@ -24,12 +29,22 @@ public class DataSeeder implements CommandLineRunner {
         this.arestaRepository = arestaRepository;
     }
 
+    /**
+     * Executa a carga de dados ao iniciar a aplicação.
+     *
+     * @param args Argumentos de linha de comando
+     * @throws Exception
+     */
     @Override
     public void run(String... args) throws Exception {
         seedBairros();
         seedArestas();
     }
 
+    /**
+     * Popula a tabela de bairros a partir de 'bairros.csv'.
+     * [RF04] Importação de nós do grafo.
+     */
     private void seedBairros() {
         if (bairroRepository.count() > 0) {
             return; // Já populado
@@ -55,6 +70,10 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
+    /**
+     * Popula a tabela de arestas a partir de 'ruas_conexoes.csv'.
+     * [RF04] Importação de arestas do grafo.
+     */
     private void seedArestas() {
         if (arestaRepository.count() > 0) {
             return; // Já populado

@@ -10,6 +10,9 @@ interface ProfissionalFormProps {
   onCancelar: () => void;
 }
 
+/**
+ * Formulário para cadastro e edição de profissionais.
+ */
 const ProfissionalForm: React.FC<ProfissionalFormProps> = ({ isOpen, profissional, onSalvar, onCancelar }) => {
   const [formData, setFormData] = React.useState<Profissional>({
     nome: '',

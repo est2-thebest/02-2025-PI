@@ -15,6 +15,9 @@ interface InputDialogProps {
   required?: boolean;
 }
 
+/**
+ * Modal com campo de entrada de texto.
+ */
 const InputDialog: React.FC<InputDialogProps> = ({
   isOpen,
   title,

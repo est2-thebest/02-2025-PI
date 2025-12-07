@@ -25,6 +25,10 @@ interface SidebarProps {
   onToggle: (isOpen: boolean) => void;
 }
 
+/**
+ * Barra lateral de navegação.
+ * Menu principal e controle de tema.
+ */
 const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const { theme, toggleTheme } = useTheme();

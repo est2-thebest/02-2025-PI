@@ -10,6 +10,9 @@ interface ModalProps {
   footer?: ReactNode;
 }
 
+/**
+ * Componente base para janelas modais.
+ */
 const Modal: React.FC<ModalProps> = ({
   isOpen,
   title,

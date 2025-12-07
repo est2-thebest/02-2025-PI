@@ -14,6 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Serviço utilitário para manipulação de tokens JWT (JSON Web Token).
+ * Responsável pela geração, extração de claims e validação de tokens.
+ * [RNF01] Segurança
+ */
 @Service
 public class JwtService {
     
@@ -23,6 +28,12 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long jwtExpiration;
 
+    /**
+     * Extrai o nome de usuário (subject) do token.
+     *
+     * @param token Token JWT
+     * @return Username
+     */
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -36,6 +47,13 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
+    /**
+     * Gera um novo token JWT assinado.
+     *
+     * @param extraClaims Claims adicionais
+     * @param userDetails Detalhes do usuário
+     * @return Token assinado
+     */
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
                 .claims(extraClaims)

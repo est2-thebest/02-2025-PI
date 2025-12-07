@@ -7,17 +7,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Database configuration that ensures Flyway migrations run before JPA
- * initialization.
- * This is critical to ensure database tables exist before Hibernate tries to
- * use them.
+ * Configuração de banco de dados e migrações.
+ * Garante que o Flyway execute antes da inicialização do JPA.
  */
 @Configuration
 public class DatabaseConfig {
 
   /**
-   * Explicitly configure Flyway to run migrations.
-   * This bean ensures migrations execute at application startup.
+   * Configura e executa as migrações do Flyway.
+   *
+   * @param dataSource Fonte de dados
+   * @return Instância do Flyway
    */
   @Bean(initMethod = "migrate")
   public Flyway flyway(DataSource dataSource) {

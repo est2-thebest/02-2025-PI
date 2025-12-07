@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * DTO para resposta de dados do usuário (Perfil).
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

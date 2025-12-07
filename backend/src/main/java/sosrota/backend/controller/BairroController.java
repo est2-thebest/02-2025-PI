@@ -7,6 +7,11 @@ import sosrota.backend.service.BairroService;
 
 import java.util.List;
 
+/**
+ * Controlador para consulta de bairros (mapa).
+ * [RF04] Cadastro de Mapa e Rotas.
+ * [Interface de Comunicação] API REST.
+ */
 @RestController
 @RequestMapping("/api/bairros")
 public class BairroController {
@@ -17,18 +22,30 @@ public class BairroController {
         this.bairroService = bairroService;
     }
 
+    /**
+     * Lista todos os bairros.
+     *
+     * @return Lista de bairros
+     * [RF04] Consulta de locais.
+     */
     @GetMapping
     public List<Bairro> findAll() {
         return bairroService.findAll();
     }
 
+    /**
+     * Busca bairro por ID.
+     *
+     * @param id Identificador
+     * @return Bairro
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Bairro> findById(@PathVariable Integer id) {
         Bairro bairro = bairroService.findById(id);
         return bairro != null ? ResponseEntity.ok(bairro) : ResponseEntity.notFound().build();
     }
 
-    // Read-only controller for Bairros as per business rule (CSV source only)
+    // Como os bairros são carregados a partir de arquivos CSV, os métodos abaixo não são implementados.
     
     /* 
     @PostMapping

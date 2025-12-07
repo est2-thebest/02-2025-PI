@@ -12,12 +12,17 @@ export interface Equipe {
   turno: 'MATUTINO' | 'VESPERTINO' | 'NOTURNO';
 }
 
+/**
+ * Serviço de gerenciamento de equipes.
+ */
 const equipeService = {
+  // Listar equipes e suas composições
   listar: async (): Promise<Equipe[]> => {
     const resp: AxiosResponse<Equipe[]> = await api.get('/equipes');
     return resp.data;
   },
 
+  // Montagem de nova equipe
   criar: async (dados: Equipe): Promise<Equipe> => {
     const resp: AxiosResponse<Equipe> = await api.post('/equipes', dados);
     return resp.data;
@@ -28,6 +33,7 @@ const equipeService = {
     return resp.data;
   },
 
+  // Desfaz equipe (libera profissionais)
   excluir: async (id: number): Promise<void> => {
     await api.delete(`/equipes/${id}`);
   },

@@ -13,6 +13,10 @@ interface AmbulanciaListProps {
   viewMode: 'grid' | 'list';
 }
 
+/**
+ * Lista de ambulâncias cadastradas.
+ * Exibe a frota disponível e permite ações de edição/exclusão.
+ */
 const AmbulanciaList: React.FC<AmbulanciaListProps> = ({ ambulancias, onEdit, onReativar, viewMode }) => {
   const [ambulanciaParaExcluir, setAmbulanciaParaExcluir] = useState<number | null>(null);
   const [alertInfo, setAlertInfo] = useState<{ isOpen: boolean; title: string; message: string; type: 'error' | 'success' | 'info' }>({

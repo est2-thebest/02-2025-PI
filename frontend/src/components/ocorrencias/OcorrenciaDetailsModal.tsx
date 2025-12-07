@@ -10,6 +10,10 @@ interface OcorrenciaDetailsModalProps {
   onUpdate: () => void;
 }
 
+/**
+ * Modal de detalhes da ocorrência.
+ * Exibe informações completas, histórico e permite ações de conclusão/cancelamento.
+ */
 const OcorrenciaDetailsModal: React.FC<OcorrenciaDetailsModalProps> = ({ ocorrenciaId, onClose, onUpdate }) => {
   const [detalhes, setDetalhes] = useState<OcorrenciaDetalhes | null>(null);
   const [loading, setLoading] = useState(true);

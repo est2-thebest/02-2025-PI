@@ -7,6 +7,11 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import logo from '../assets/logo-ss.svg';
 import './AuthPages.css';
 
+/**
+ * Tela de login do sistema.
+ * Realiza autenticação de usuários via JWT.
+ * [RF08] Autenticação e Controle de Acesso.
+ */
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
     username: '',
@@ -32,6 +37,7 @@ const Login: React.FC = () => {
     }));
   };
 
+  // Processa o login do usuário
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     clearAllErrors();
@@ -77,7 +83,7 @@ const Login: React.FC = () => {
         <div className="login-logo">
           <img src={logo} alt="Vitalis Tech" />
         </div>
-        
+
         <div className="login-header">
           <h1>Login</h1>
           <p>Para continuar, insira seus dados</p>

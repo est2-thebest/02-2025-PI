@@ -10,6 +10,9 @@ interface EquipeListProps {
   viewMode: 'grid' | 'list';
 }
 
+/**
+ * Lista de equipes montadas.
+ */
 const EquipeList: React.FC<EquipeListProps> = ({ equipes, onEdit, onDelete, viewMode }) => {
   const [equipeParaExcluir, setEquipeParaExcluir] = useState<number | null>(null);
 

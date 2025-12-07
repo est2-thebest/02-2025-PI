@@ -5,6 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entidade que representa uma conexão (rua) entre dois bairros.
+ * [RF04] Mapa e Rotas.
+ * [Estrutura de Dados II] Aresta de um Grafo Ponderado.
+ */
 @Entity
 @Table(name = "aresta")
 @Data
@@ -22,6 +27,7 @@ public class Aresta {
     @JoinColumn(name = "destino_id")
     private Bairro destino;
 
+    // [Teoria da Computação] Peso da aresta para cálculo de caminho mínimo
     @Column(name = "distancia_km")
     private Double distanciaKm;
 }

@@ -13,6 +13,10 @@ interface AlertDialogProps {
   buttonText?: string;
 }
 
+/**
+ * Componente de alerta simples (feedback).
+ * Notificações modais.
+ */
 const AlertDialog: React.FC<AlertDialogProps> = ({
   isOpen,
   title,

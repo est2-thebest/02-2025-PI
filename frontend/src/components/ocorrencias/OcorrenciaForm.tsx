@@ -11,6 +11,9 @@ interface OcorrenciaFormProps {
   onCancelar: () => void;
 }
 
+/**
+ * Formulário para abertura de ocorrências.
+ */
 const OcorrenciaForm: React.FC<OcorrenciaFormProps> = ({ isOpen, ocorrencia, onSalvar, onCancelar }) => {
   const [formData, setFormData] = useState<Ocorrencia>({
     bairro: null,

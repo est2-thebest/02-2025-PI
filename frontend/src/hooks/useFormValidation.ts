@@ -14,8 +14,8 @@ export interface FormErrors {
 }
 
 /**
- * Hook customizado para validação de formulários
- * Usa a classe FormValidator para as regras
+ * Hook customizado para validação de formulários.
+ * Usa a classe FormValidator para as regras.
  */
 export const useFormValidation = () => {
   const [errors, setErrors] = useState<FormErrors>({});

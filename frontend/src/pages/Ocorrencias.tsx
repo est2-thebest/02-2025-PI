@@ -16,6 +16,12 @@ interface Filtros {
   busca: string;
 }
 
+/**
+ * Tela de gerenciamento de ocorrências.
+ * Permite visualizar, criar, despachar e cancelar chamados.
+ * [RF01] Gestão de Ocorrências.
+ * [RF05] Despacho de Ambulâncias.
+ */
 const Ocorrencias: React.FC = () => {
   const [ocorrencias, setOcorrencias] = useState<Ocorrencia[]>([]);
   const [carregando, setCarregando] = useState<boolean>(true);
@@ -32,7 +38,7 @@ const Ocorrencias: React.FC = () => {
   useEffect(() => {
     carregarOcorrencias();
 
-    // Poll every 5 seconds to update status from simulation
+    // Polling para atualização de status (simulação em andamento)
     const interval = setInterval(() => {
       carregarOcorrencias(true);
     }, 5000);
@@ -40,6 +46,8 @@ const Ocorrencias: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Busca lista de ocorrências
+  // [RF01] Listagem com filtros
   const carregarOcorrencias = async (silent = false): Promise<void> => {
     try {
       if (!silent) setCarregando(true);
@@ -70,8 +78,8 @@ const Ocorrencias: React.FC = () => {
     setMostrarDetalhes(true);
   };
 
-
-
+  // Exclusão de ocorrência
+  // Permitido apenas se não houver atendimentos vinculados (validado no backend)
   const handleExcluir = async () => {
     if (ocorrenciaParaExcluir) {
       try {
@@ -87,12 +95,12 @@ const Ocorrencias: React.FC = () => {
 
   const [ocorrenciaParaCancelar, setOcorrenciaParaCancelar] = useState<number | null>(null);
 
-  // ... (existing useEffect and other handlers)
-
   const handleCancelarList = (id: number) => {
     setOcorrenciaParaCancelar(id);
   };
 
+  // Cancelamento lógico de ocorrência
+  // Exige justificativa para cancelamento
   const confirmarCancelamento = async (justificativa: string) => {
     if (ocorrenciaParaCancelar) {
       try {
@@ -106,8 +114,6 @@ const Ocorrencias: React.FC = () => {
       }
     }
   };
-
-  // ... (rest of component)
 
   const ocorrenciasFiltradas = ocorrencias.filter((ocorrencia) => {
     const matchStatus = !filtros.status || ocorrencia.status === filtros.status;

@@ -8,10 +8,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Controlador para verificação de saúde e informações da API.
+ * [RNF] Monitoramento e Disponibilidade.
+ */
 @RestController
 @RequestMapping("/api")
 public class HealthController {
 
+    /**
+     * Endpoint de Health Check (Liveness Probe).
+     *
+     * @return Status UP
+     */
     @GetMapping("/health")
     public ResponseEntity<Map<String, String>> health() {
         Map<String, String> response = new HashMap<>();
@@ -20,6 +29,11 @@ public class HealthController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Informações básicas sobre a API.
+     *
+     * @return Metadados da aplicação
+     */
     @GetMapping("/info")
     public ResponseEntity<Map<String, String>> info() {
         Map<String, String> response = new HashMap<>();

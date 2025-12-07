@@ -18,10 +18,26 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Configuração de segurança do Spring Security.
+ * Define regras de autenticação, autorização e filtros JWT.
+ * [RF08] Autenticação e Controle de Acesso.
+ * [RNF01] Segurança e Criptografia.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    /**
+     * Define a cadeia de filtros de segurança.
+     * Configura CORS, CSRF, permissões de rota e sessão stateless.
+     *
+     * @param http HttpSecurity
+     * @param jwtAuthFilter Filtro de autenticação JWT
+     * @return SecurityFilterChain
+     * @throws Exception
+     * [RNF01] Proteção contra ataques e gestão de sessão.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthFilter)
             throws Exception {
@@ -30,7 +46,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/api/health", "/api/info").permitAll()
-                        .anyRequest().authenticated()) // Mudei para authenticated para endpoints protegidos
+                        .anyRequest().authenticated()) // Authenticated para endpoints protegidos
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -38,6 +54,13 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Configuração de CORS (Cross-Origin Resource Sharing).
+     * Permite comunicação segura com o Frontend.
+     *
+     * @return Fonte de configuração CORS
+     * [RNF] Integração Frontend-Backend.
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -64,6 +87,13 @@ public class SecurityConfig {
         return source;
     }
 
+    /**
+     * Bean para codificação de senhas.
+     * Utiliza BCrypt para hash seguro.
+     *
+     * @return PasswordEncoder
+     * [RNF01] Criptografia de senhas.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

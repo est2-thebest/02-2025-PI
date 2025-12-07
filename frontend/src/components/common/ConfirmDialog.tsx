@@ -16,6 +16,9 @@ interface ConfirmDialogProps {
   isDangerous?: boolean; // Para ações destrutivas (delete, etc)
 }
 
+/**
+ * Modal de confirmação para ações críticas.
+ */
 const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   isOpen,
   title,

@@ -7,19 +7,24 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entidade que representa uma ocorrência de emergência.
+ * [RF01] Cadastro de Ocorrências.
+ * [Regra de Negócio] Ciclo de vida: ABERTA -> DESPACHADA -> EM_ANDAMENTO -> CONCLUIDA.
+ */
 @Entity
 @Table(name = "ocorrencia")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-// [Requisitos Especificos - RF01] O sistema deve permitir o cadastro de ocorrencias
-// [Problema - 4] Registro e Triagem de Ocorrencias
 public class Ocorrencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String tipo;
+    
+    // [Regra de Negócio] Gravidade define prioridade e SLA
     private String gravidade; // ALTA, MEDIA, BAIXA
 
     @ManyToOne

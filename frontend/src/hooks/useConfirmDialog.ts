@@ -20,6 +20,10 @@ interface ConfirmState {
   isDangerous: boolean;
 }
 
+/**
+ * Hook para gerenciamento de diálogos de confirmação.
+ * Feedback e confirmação de ações críticas.
+ */
 export const useConfirmDialog = () => {
   const [state, setState] = useState<ConfirmState>({
     isOpen: false,

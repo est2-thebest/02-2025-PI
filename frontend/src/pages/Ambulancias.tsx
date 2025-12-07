@@ -7,6 +7,11 @@ import AmbulanciaForm from '../components/ambulancias/AmbulanciaForm';
 import { LayoutGrid, List as ListIcon } from 'lucide-react';
 import ConfirmDialog from '../components/common/ConfirmDialog';
 
+/**
+ * Tela de gerenciamento de ambulâncias.
+ * Apresenta a lista completa de veículos cadastrados e permite ações CRUD.
+ * [RF02] Cadastro de Ambulâncias.
+ */
 const Ambulancias: React.FC = () => {
   const [ambulancias, setAmbulancias] = useState<Ambulancia[]>([]);
   const [carregando, setCarregando] = useState<boolean>(true);
@@ -26,6 +31,7 @@ const Ambulancias: React.FC = () => {
     carregarAmbulancias();
   }, []);
 
+  // Busca lista atualizada de ambulâncias do backend
   const carregarAmbulancias = async () => {
     try {
       setCarregando(true);
@@ -48,6 +54,8 @@ const Ambulancias: React.FC = () => {
     setMostrarForm(true);
   };
 
+  // Salva (cria ou atualiza) uma ambulância
+  // [RF02] Validação de dados no formulário
   const handleSalvar = async (dados: Ambulancia) => {
     try {
       if (ambulanciaEdit && ambulanciaEdit.id) {
@@ -67,6 +75,8 @@ const Ambulancias: React.FC = () => {
     setAmbulanciaParaInativar(ambulancia);
   };
 
+  // Inativação lógica da ambulância
+  // [Regra de Negócio] Não permite inativar se estiver em atendimento
   const confirmarInativacao = async () => {
     if (ambulanciaParaInativar && ambulanciaParaInativar.id) {
       try {
@@ -86,6 +96,8 @@ const Ambulancias: React.FC = () => {
     setAmbulanciaParaReativar(ambulancia);
   };
 
+  // Reativa ambulância com status inicial
+  // [Regra de Negócio] Retorna como SEM_EQUIPE
   const confirmarReativacao = async () => {
     if (ambulanciaParaReativar && ambulanciaParaReativar.id) {
       try {

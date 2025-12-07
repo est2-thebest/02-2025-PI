@@ -7,13 +7,16 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Entidade que representa uma equipe de atendimento.
+ * [RF03] Cadastro de Equipes.
+ * [Banco de Dados II] Relacionamento com Profissionais.
+ */
 @Entity
 @Table(name = "equipe")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-// [Requisitos Especificos - RF03] O sistema deve permitir o cadastro de profissionais e montagem de equipes
-// [Problema - 2] Cadastro de Profissionais e Montagem de Equipes
 public class Equipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

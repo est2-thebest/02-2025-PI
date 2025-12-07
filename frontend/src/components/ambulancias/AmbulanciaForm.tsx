@@ -11,6 +11,9 @@ interface AmbulanciaFormProps {
   onCancelar: () => void;
 }
 
+/**
+ * Formulário para cadastro e edição de ambulâncias.
+ */
 const AmbulanciaForm: React.FC<AmbulanciaFormProps> = ({
   isOpen,
   ambulancia,
