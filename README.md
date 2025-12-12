@@ -38,14 +38,13 @@ docker compose up --build
 
 ### Execucao Manual
 
-Caso prefira rodar localmente sem Docker para os servicos de aplicacao:
+Caso prefira rodar localmente sem Docker para os servicos de aplicação:
 
 **Backend:**
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
-*Nota: Certifique-se de ter um PostgreSQL rodando na porta 5432 com banco `sosrota_db` ou ajuste o `application.properties`.*
 
 **Frontend:**
 ```bash
